@@ -1,13 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /dashboard
-Disallow: /chat
-Disallow: /integrations
-Disallow: /autonomy
-Disallow: /activity
-Disallow: /negotiations
-Disallow: /admin
-Disallow: /workflows
-Disallow: /api/
 
 Sitemap: https://www.parry-io.com/sitemap.xml
