@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 export default function CursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -13,20 +14,37 @@ export default function CursorGlow() {
     const glow = glowRef.current;
     if (!glow) return;
 
-    let x = 0, y = 0, targetX = 0, targetY = 0;
-    const onMouse = (e: MouseEvent) => { targetX = e.clientX; targetY = e.clientY; };
-    const animate = () => {
-      x += (targetX - x) * 0.08;
-      y += (targetY - y) * 0.08;
-      glow.style.left = `${x}px`;
-      glow.style.top = `${y}px`;
-      requestAnimationFrame(animate);
+    let x = 0, y = 0, targetX = 0, targetY = 0, raf = 0;
+    const onMouse = (e: MouseEvent) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      if (!visible) setVisible(true);
     };
-    window.addEventListener("mousemove", onMouse);
-    requestAnimationFrame(animate);
-    return () => window.removeEventListener("mousemove", onMouse);
-  }, [mounted]);
+    const animate = () => {
+      x += (targetX - x) * 0.12;
+      y += (targetY - y) * 0.12;
+      glow.style.transform = `translate3d(${x - 280}px, ${y - 280}px, 0)`;
+      raf = requestAnimationFrame(animate);
+    };
+    window.addEventListener("mousemove", onMouse, { passive: true });
+    raf = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onMouse);
+    };
+  }, [mounted, visible]);
 
   if (!mounted) return null;
-  return <div ref={glowRef} className="cursor-glow hidden md:block" />;
+  return (
+    <div
+      ref={glowRef}
+      className="cursor-glow hidden md:block"
+      style={{
+        left: 0,
+        top: 0,
+        opacity: visible ? 1 : 0,
+        transform: "translate3d(-9999px, -9999px, 0)",
+      }}
+    />
+  );
 }

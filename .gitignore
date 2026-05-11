@@ -3,3 +3,12 @@ node_modules
 out
 .env
 .env.local
+
+# Firebase
+.firebase/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Claude worktree config
+.claude/

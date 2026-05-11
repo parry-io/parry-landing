@@ -1,75 +1,96 @@
 "use client";
 
-import React from "react";
-import { motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
+
+/* ───────── Closing · sticky-scroll stage ─────────
+ *  Phases:
+ *   0–0.20  Headline appears
+ *   0.18–0.45 Subhead fades
+ *   0.40–0.70 CTA scales in
+ *   0.70–1.0  Contact line settles
+ * ─────────────────────────────────────────────── */
 
 export default function ClosingSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+  const sp = useSpring(scrollYProgress, { stiffness: 110, damping: 26, restDelta: 0.001 });
+
+  // Phased reveal — visible enough at sp=0 to never be blank, polished progression
+  const headOpacity = useTransform(sp, [0, 0.15], [0.65, 1]);
+  const headY = useTransform(sp, [0, 0.25], [18, 0]);
+  const headScale = useTransform(sp, [0, 0.5], [0.97, 1]);
+
+  const subOpacity = useTransform(sp, [0.15, 0.40], [0, 1]);
+  const subY = useTransform(sp, [0.15, 0.40], [14, 0]);
+
+  const ctaOpacity = useTransform(sp, [0.30, 0.55], [0, 1]);
+  const ctaScale = useTransform(sp, [0.30, 0.65], [0.92, 1]);
+  const ctaY = useTransform(sp, [0.30, 0.55], [10, 0]);
+
+  const contactOpacity = useTransform(sp, [0.55, 0.75], [0, 1]);
+  const contactY = useTransform(sp, [0.55, 0.75], [6, 0]);
+
+  // Aurora drift with scroll
+  const auroraY = useTransform(sp, [0, 1], ["10%", "-10%"]);
+
   return (
-    <section className="relative py-32 md:py-44 px-6">
-      <div className="max-w-4xl mx-auto">
-        {/* CTA */}
-        <div className="text-center">
+    <section ref={sectionRef} className="relative h-[120vh]">
+      <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-[var(--ink)]">
+        <motion.div aria-hidden style={{ y: auroraY }} className="absolute inset-0 pointer-events-none">
+          <div className="aurora" />
+        </motion.div>
+        <div aria-hidden className="absolute inset-0 bg-graph opacity-25" />
+
+        <div className="relative z-10 w-full max-w-[1100px] mx-auto text-center">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight mb-4"
+            style={{ opacity: headOpacity, y: headY, scale: headScale }}
+            className="text-[clamp(2.6rem,6vw,5.2rem)] leading-[1.04] tracking-tight font-medium text-[var(--fg)] max-w-[920px] mx-auto"
           >
-            See what you&apos;re{" "}
-            <span className="shimmer-text">missing.</span>
+            Bring your supplier base{" "}
+            <span
+              className="italic-display text-transparent bg-clip-text"
+              style={{
+                backgroundImage:
+                  "linear-gradient(96deg, #f5f5f7 0%, #88a8f8 50%, #d4a373 100%)",
+                backgroundSize: "200% auto",
+                animation: "gradient-pan 12s linear infinite",
+              }}
+            >
+              into focus.
+            </span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 }}
-            className="text-lg text-[var(--landing-text-secondary)] mb-10"
+            style={{ opacity: subOpacity, y: subY }}
+            className="mt-6 text-[1.15rem] md:text-[1.3rem] text-[var(--fg-2)] max-w-[580px] mx-auto leading-[1.55]"
           >
-            From benchmarking to billing — we cover what others can&apos;t. Let us show you.
+            A 30-minute walkthrough on your contracts, your invoices, your leakage.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+            style={{ opacity: ctaOpacity, scale: ctaScale, y: ctaY }}
+            className="mt-10 flex items-center justify-center gap-3"
           >
-            <a
-              href="mailto:yehonatan@parry-io.com"
-              className="group relative inline-flex items-center gap-3 px-12 py-6 rounded-full text-white font-bold text-lg transition-all active:scale-[0.97] overflow-hidden"
-              style={{ background: "linear-gradient(135deg, #3b82f6, #6366f1, #8b5cf6)" }}
-            >
-              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <span className="absolute inset-0 rounded-full glow-blue" />
-              <span className="relative z-10 flex items-center gap-3">
-                Book a Demo
-                <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform duration-300" />
-              </span>
+            <a href="mailto:yehonatan@parry-io.com" className="btn-primary !text-[1rem] !py-3 !px-6">
+              Request a working session
+              <ArrowUpRight size={18} strokeWidth={2.2} />
             </a>
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="text-sm text-[var(--landing-text-tertiary)] mt-6"
+            style={{ opacity: contactOpacity, y: contactY }}
+            className="mt-7 text-[0.82rem] text-[var(--fg-3)]"
           >
-            <a href="mailto:yehonatan@parry-io.com" className="text-[var(--landing-accent)] hover:text-[var(--landing-accent-bright)] transition-colors">
+            <a href="mailto:yehonatan@parry-io.com" className="hover:text-[var(--fg)] transition-colors">
               yehonatan@parry-io.com
             </a>
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.7 }}
-            className="text-xs text-[var(--landing-text-tertiary)] mt-10"
-          >
-            Currently partnering with select Fortune 500 enterprises.
+            <span className="mx-3 text-[var(--fg-4)]">·</span>
+            <span className="font-mono uppercase tracking-[0.16em]">Tel Aviv</span>
           </motion.p>
         </div>
       </div>

@@ -1,35 +1,56 @@
 import React from "react";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const sans = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
+
+const display = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-display",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
 
 export const metadata = {
-  title: "Parry — AI Procurement Intelligence | Stop Negotiating Blind",
-  description: "Parry is the AI reasoning layer for enterprise procurement. From vendor benchmarking to billing verification — multiple AI agents manage your entire procurement value chain autonomously.",
-  keywords: "AI procurement, vendor management, procurement AI, vendor intelligence, procurement automation, enterprise AI, billing verification, spend management, vendor benchmarking, procurement back office",
+  title: "Parry — The Execution Layer for Enterprise Procurement",
+  description:
+    "Parry is the AI execution and control layer above the procurement stack. We unify contracts, pricing, invoices, and supplier history into one coherent view — and turn every supplier interaction into protected commercial value.",
+  keywords:
+    "AI procurement, supplier intelligence, billing assurance, vendor management, procurement AI, contract intelligence, tail spend automation, autonomous deal execution, commercial control layer, procurement execution",
   authors: [{ name: "Parry" }],
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.parry-io.com" },
   openGraph: {
     type: "website",
     url: "https://www.parry-io.com",
-    title: "Parry — Stop Negotiating Blind",
-    description: "The AI reasoning layer for the entire procurement value chain — from vendor benchmarking to billing verification.",
+    title: "Parry — The Execution Layer for Enterprise Procurement",
+    description:
+      "One layer connecting contracts, pricing, invoices, and supplier history. From tail spend to billing assurance — every supplier interaction, under control.",
     siteName: "Parry",
     images: [{ url: "https://www.parry-io.com/Parry_Logo.png" }],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Parry — Stop Negotiating Blind",
-    description: "AI procurement intelligence that sees what everyone else misses.",
+    title: "Parry — The Execution Layer for Enterprise Procurement",
+    description:
+      "Doing for spend what systems of record did for revenue.",
     images: ["https://www.parry-io.com/Parry_Logo.png"],
   },
   icons: { icon: "/Parry_Logo.png", apple: "/Parry_Logo.png" },
 };
 
-// JSON-LD structured data for Google + LLM discovery
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -38,12 +59,9 @@ const jsonLd = {
       name: "Parry",
       url: "https://www.parry-io.com",
       logo: "https://www.parry-io.com/Parry_Logo.png",
-      description: "Parry is the AI reasoning layer for enterprise procurement. Multiple autonomous AI agents manage the entire vendor value chain — from benchmarking and negotiation through billing verification.",
+      description:
+        "Parry is the AI execution and control layer above enterprise procurement. We unify contracts, pricing, invoices, and supplier history — turning every supplier interaction into protected commercial value.",
       foundingDate: "2024",
-      founders: [
-        { "@type": "Person", name: "Yehonatan Blobstein", jobTitle: "CEO & Co-Founder" },
-        { "@type": "Person", name: "Tomer Bar", jobTitle: "CTO & Co-Founder" },
-      ],
       address: { "@type": "PostalAddress", addressLocality: "Tel Aviv", addressCountry: "IL" },
       contactPoint: { "@type": "ContactPoint", email: "yehonatan@parry-io.com", contactType: "sales" },
     },
@@ -52,15 +70,20 @@ const jsonLd = {
       name: "Parry",
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      description: "AI-powered procurement intelligence platform. Autonomous agents manage the full vendor lifecycle — from sourcing and benchmarking through billing verification and collections.",
-      offers: { "@type": "Offer", category: "Enterprise", availability: "https://schema.org/LimitedAvailability" },
+      description:
+        "The AI execution layer for enterprise procurement — unified commercial intelligence across contracts, pricing, invoices, and supplier history. From tail spend through live negotiation to billing assurance.",
+      offers: {
+        "@type": "Offer",
+        category: "Enterprise",
+        availability: "https://schema.org/LimitedAvailability",
+      },
       featureList: [
-        "Autonomous vendor management",
-        "Multi-agent AI reasoning",
-        "Vendor benchmarking",
-        "Billing verification",
-        "Back-office automation",
-        "Real-time procurement intelligence",
+        "Unified commercial intelligence",
+        "Live supplier negotiation support",
+        "Billing assurance & drift detection",
+        "Tail spend automation",
+        "Renewal leverage timing",
+        "Autonomous deal execution",
       ],
     },
   ],
@@ -68,14 +91,14 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.className} font-sans`}>{children}</body>
+      <body className="font-sans-tight">{children}</body>
     </html>
   );
 }

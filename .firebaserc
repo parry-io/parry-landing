@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "rising-ocean-484208-i7"
+  },
+  "targets": {
+    "rising-ocean-484208-i7": {
+      "hosting": {
+        "dev": [
+          "rising-ocean-484208-i7"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
