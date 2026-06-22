@@ -10,6 +10,7 @@ import LiveDemoSection from "../components/landing/LiveDemoSection";
 import FlywheelSection from "../components/landing/FlywheelSection";
 import PositioningSection from "../components/landing/PositioningSection";
 import IntegrationSection from "../components/landing/IntegrationSection";
+import GoogleDataUseSection from "../components/landing/GoogleDataUseSection";
 import ClosingSection from "../components/landing/ClosingSection";
 
 export default function LandingPage() {
@@ -26,6 +27,7 @@ export default function LandingPage() {
         <FlywheelSection />
         <PositioningSection />
         <IntegrationSection />
+        <GoogleDataUseSection />
         <ClosingSection />
       </main>
 

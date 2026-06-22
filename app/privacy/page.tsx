@@ -176,7 +176,6 @@ export default function PrivacyPage() {
                   <SubRow a="Google Vertex AI" b="LLM inference (Google Gemini family and supported third-party models)" c="EU regions where available" />
                   <SubRow a="Amazon Web Services — AWS Bedrock" b="LLM inference (Anthropic Claude family)" c="EU regions" />
                   <SubRow a="Anthropic" b="LLM inference (direct API, secondary path; also a sub-processor of AWS for Bedrock-hosted models)" c="US/EU per provider" />
-                  <SubRow a="OpenAI" b="LLM inference (failover for parry-core; primary for parry-realtime advice generation)" c="US/EU per provider" />
                   <SubRow a="Voyage AI" b="Text embeddings (parry-core only)" c="US" />
                   <SubRow a="Deepgram" b="Speech-to-text transcription (parry-realtime only)" c="US/EU" />
                   <SubRow a="Google Workspace" b="Corporate productivity (Parry-internal; not customer scoped data unless explicitly shared)" c="EU" />
@@ -220,7 +219,6 @@ export default function PrivacyPage() {
             <H3>9.2 No training on customer data</H3>
             <P>Customer-scoped data is <strong>not</strong> used to train Parry&rsquo;s own AI models or any third-party LLM provider&rsquo;s models. This commitment is enforced contractually with each LLM provider:</P>
             <Ul>
-              <li><strong>OpenAI</strong> — API data is not used to train OpenAI models (per OpenAI API terms).</li>
               <li><strong>Anthropic</strong> — commercial customer data is not used to train Anthropic models (per Anthropic Commercial Terms).</li>
               <li><strong>AWS Bedrock</strong> — provider-side training on customer prompts is contractually disallowed; inference is stateless by design.</li>
               <li><strong>Google Vertex AI</strong> — customer prompts and outputs are not used to train Google&rsquo;s foundation models (per Vertex AI generative AI data governance).</li>
@@ -235,6 +233,22 @@ export default function PrivacyPage() {
               <li>Use of that data is <strong>limited to providing or improving user-facing features</strong> that are prominent in the extension&rsquo;s user experience.</li>
               <li>We do <strong>not</strong> transfer that data for advertising, credit-worthiness, or for any purpose unrelated to providing the user-facing features.</li>
               <li>We do <strong>not</strong> allow humans to read that data, except (a) with the user&rsquo;s affirmative consent, (b) for security investigations, (c) to comply with applicable law, or (d) where the data has been aggregated and used for internal operations in accordance with the Chrome Web Store policies.</li>
+            </Ul>
+
+            <H3>9.5 Google API Services &mdash; Limited Use (Gmail &amp; Drive)</H3>
+            <P>When you connect a Google account, Parry requests the following OAuth scopes solely to provide its contract-negotiation and deal-management features:</P>
+            <Ul>
+              <li><strong>Gmail read (gmail.readonly)</strong> &mdash; to detect active contract and supplier email threads, read their content, and extract deal terms, pricing, and negotiation context.</li>
+              <li><strong>Gmail send (gmail.send)</strong> &mdash; to send the negotiation replies and follow-ups that you review and approve, on your behalf.</li>
+              <li><strong>Google Drive read-only (drive.readonly)</strong> &mdash; to read the specific contract documents you choose to analyze.</li>
+            </Ul>
+            <P>Parry&rsquo;s use of information received from Google APIs adheres to the{" "}
+              <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--fg)] transition-colors">Google API Services User Data Policy</a>, including the Limited Use requirements. Specifically:</P>
+            <Ul>
+              <li>We use Google user data <strong>only</strong> to provide and improve the user-facing features described above.</li>
+              <li>We do <strong>not</strong> sell Google user data, and we do <strong>not</strong> transfer or use it for advertising or credit-worthiness purposes.</li>
+              <li>We do <strong>not</strong> allow humans to read Google user data, except (a) with your affirmative consent, (b) for security investigations or to comply with applicable law, or (c) where the data has been aggregated and anonymized.</li>
+              <li>We do <strong>not</strong> use Google user data to develop, improve, or train generalized AI or ML models.</li>
             </Ul>
           </Section>
 
