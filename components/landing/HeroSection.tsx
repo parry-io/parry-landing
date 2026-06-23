@@ -79,7 +79,7 @@ export default function HeroSection() {
             style={{ opacity: subheadOpacity }}
             className="mt-8 text-center max-w-[600px] mx-auto text-[1.15rem] md:text-[1.3rem] text-[var(--fg-2)] leading-[1.5]"
           >
-            Unify contracts, pricing, invoices, and supplier history into one commercial control layer.
+            Parry is an AI assistant for procurement and sales teams. It reads your contract and supplier emails, analyzes the terms and risks, and drafts the negotiation replies your team reviews and sends.
           </motion.p>
 
           <motion.div

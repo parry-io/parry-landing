@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
 
 /* ───────── What Parry does · Google data use ─────────
  * Plain-language explanation of the app's purpose and how it uses
@@ -33,12 +32,7 @@ export default function GoogleDataUseSection() {
       className="relative py-24 md:py-28 px-6 bg-[var(--ink)] overflow-hidden"
     >
       <div className="max-w-[820px] mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div>
           <span className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[var(--fg-3)]">
             What Parry does
           </span>
@@ -90,7 +84,7 @@ export default function GoogleDataUseSection() {
             </a>
             .
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
