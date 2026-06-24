@@ -1,15 +1,23 @@
 import React from "react";
+import { cookies } from "next/headers";
 import { getSession } from "@/lib/dataroom/session";
 import { getDocs, docExists } from "@/lib/dataroom/docs";
+import { FIRM_COOKIE, firmDisplayName } from "@/lib/dataroom/firm";
 import LoginForm from "@/components/dataroom/LoginForm";
 import Header from "@/components/dataroom/Header";
 import DocCard from "@/components/dataroom/DocCard";
 
 export const dynamic = "force-dynamic";
 
-export default async function DataRoomPage() {
-  const session = await getSession();
-  if (!session) return <LoginScreen />;
+export default async function DataRoomPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ firm?: string }>;
+}) {
+  const [session, sp, store] = await Promise.all([getSession(), searchParams, cookies()]);
+  const firm = firmDisplayName(sp.firm ?? store.get(FIRM_COOKIE)?.value);
+
+  if (!session) return <LoginScreen firm={firm} />;
 
   const docs = getDocs().map((d) => ({ doc: d, available: docExists(d) }));
 
@@ -21,7 +29,15 @@ export default async function DataRoomPage() {
         <div className="relative max-w-[1100px] mx-auto px-6 pt-16 pb-24">
           <span className="section-eyebrow">Investor Data Room</span>
           <h1 className="font-display text-[2.75rem] md:text-[3.5rem] leading-[1.05] text-[var(--fg)] mt-4">
-            Parry <span className="italic-display text-[var(--fg-2)]">for</span> Viola
+            {firm ? (
+              <>
+                Parry <span className="italic-display text-[var(--fg-2)]">for</span> {firm}
+              </>
+            ) : (
+              <>
+                Investor <span className="italic-display text-[var(--fg-2)]">Data Room</span>
+              </>
+            )}
           </h1>
           <p className="text-[var(--fg-2)] text-[1.05rem] mt-4 max-w-xl leading-relaxed">
             Welcome, {session.name}. Below are the confidential materials for our round.
@@ -37,7 +53,7 @@ export default async function DataRoomPage() {
           </div>
 
           <p className="mt-16 text-[0.78rem] text-[var(--fg-4)] font-mono">
-            Confidential — prepared for Viola. Please do not distribute.
+            Confidential{firm ? ` — prepared for ${firm}` : ""}. Please do not distribute.
           </p>
         </div>
       </main>
@@ -45,7 +61,7 @@ export default async function DataRoomPage() {
   );
 }
 
-function LoginScreen() {
+function LoginScreen({ firm }: { firm: string | null }) {
   return (
     <main className="relative min-h-screen flex items-center justify-center px-6 bg-graph overflow-hidden">
       <div className="aurora" aria-hidden />
@@ -53,21 +69,22 @@ function LoginScreen() {
         <div className="flex flex-col items-center text-center mb-8">
           <img src="/Parry_Logo.png" alt="Parry" className="h-10 w-auto mb-5" />
           <span className="section-eyebrow">Investor Data Room</span>
-          <h1 className="font-display text-[2.4rem] leading-tight text-[var(--fg)] mt-3">
-            Welcome
-          </h1>
+          <h1 className="font-display text-[2.4rem] leading-tight text-[var(--fg)] mt-3">Welcome</h1>
           <p className="text-[var(--fg-3)] text-[0.95rem] mt-2 max-w-xs">
-            Confidential materials prepared for <span className="text-[var(--fg-2)]">Viola</span>. Please sign in.
+            {firm ? (
+              <>
+                Confidential materials prepared for{" "}
+                <span className="text-[var(--fg-2)]">{firm}</span>. Please sign in.
+              </>
+            ) : (
+              <>Confidential investor materials. Please sign in.</>
+            )}
           </p>
         </div>
 
         <div className="card-elevated p-7">
           <LoginForm />
         </div>
-
-        <p className="text-center text-[0.74rem] text-[var(--fg-4)] font-mono mt-6">
-          Access is monitored. For the intended recipient only.
-        </p>
       </div>
     </main>
   );
