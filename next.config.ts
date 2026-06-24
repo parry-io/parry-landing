@@ -9,18 +9,24 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
+// The investor data room runs as its own service on Cloud Run (project
+// rising-ocean-484208-i7, europe-west1). We proxy /data-room/* to it so it's
+// served under parry-io.com/data-room with no subdomain. basePath on that
+// service keeps its assets under /data-room/_next, which this rewrite covers.
+const DATA_ROOM_ORIGIN = "https://parry-dataroom-534595816078.europe-west1.run.app";
+
 const nextConfig: NextConfig = {
-  // NOTE: previously `output: "export"` (pure static). Dropped so the
-  // /data-room routes (auth, file serving, email) can run as serverless
-  // functions on Vercel. Marketing pages still pre-render (SSG) — no visible
-  // change — and the security headers below now actually take effect.
+  // NOTE: previously `output: "export"` (pure static). Dropped so rewrites work;
+  // marketing pages still pre-render (SSG) and the security headers now apply.
   images: {
     unoptimized: true,
   },
-  // Ensure the private /documents folder is bundled with the file-serving route.
-  outputFileTracingIncludes: {
-    "/data-room/api/doc/[id]": ["./documents/**/*"],
-  },
+  rewrites: async () => ({
+    beforeFiles: [
+      { source: "/data-room", destination: `${DATA_ROOM_ORIGIN}/data-room` },
+      { source: "/data-room/:path*", destination: `${DATA_ROOM_ORIGIN}/data-room/:path*` },
+    ],
+  }),
   headers: async () => [
     {
       source: "/(.*)",
