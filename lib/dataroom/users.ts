@@ -16,8 +16,9 @@ export interface DataRoomUser {
 // ── Real viewers (used in every environment, including production). ──────────
 // Fill via `npm run dataroom:add-user`. Emails are matched case-insensitively.
 const PRODUCTION_USERS: DataRoomUser[] = [
-  // Example (replace with real Viola people):
-  // { email: "partner@viola.vc", name: "Viola Partner", passwordHash: "$2b$10$..." },
+  { email: "tomerbar44@gmail.com", name: "Tomer Bar", passwordHash: "$2b$10$NzBP4lil0tMFC05CWlBY8OGq.VkqCrhQfMF4JbnDkm1hlmw0T6WgG" },
+  { email: "omryb@viola.vc", name: "Omry", passwordHash: "$2b$10$72eZMh7SvNTd8dfaRP.1xe7YFvBcl7BrIsSqFGUZ2SOQjwPvIF9Ya" },
+  { email: "tala@viola.vc", name: "Tala", passwordHash: "$2b$10$SYgsmYw1O2EShrJaOyz13u1IlP3LagANbFgMMSjfLKcRXJvksMM7O" },
 ];
 
 // ── Demo account for local dev + Vercel Preview only. Excluded from real
