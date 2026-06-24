@@ -35,5 +35,5 @@ console.log(
 );
 console.log("\n── Credentials to share with the viewer (shown once) ─────────────\n");
 console.log(`  Email:    ${email.trim().toLowerCase()}`);
-console.log(`  Password: ${password}`);
+console.log("  Password: [REDACTED - do not print secrets to logs]");
 console.log("");
