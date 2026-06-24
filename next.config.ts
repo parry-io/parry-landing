@@ -10,9 +10,16 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // NOTE: previously `output: "export"` (pure static). Dropped so the
+  // /data-room routes (auth, file serving, email) can run as serverless
+  // functions on Vercel. Marketing pages still pre-render (SSG) — no visible
+  // change — and the security headers below now actually take effect.
   images: {
     unoptimized: true,
+  },
+  // Ensure the private /documents folder is bundled with the file-serving route.
+  outputFileTracingIncludes: {
+    "/data-room/api/doc/[id]": ["./documents/**/*"],
   },
   headers: async () => [
     {
