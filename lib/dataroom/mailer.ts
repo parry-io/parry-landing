@@ -4,18 +4,25 @@ import nodemailer, { type Transporter } from "nodemailer";
 
 let cached: Transporter | null = null;
 
+// Accept both the data-room var names and parry-core's (EMAIL_USER/EMAIL_PASS,
+// SMTP_SERVER) so the exact same Parry Gmail SMTP credentials work unchanged.
+function smtpCreds() {
+  const user = process.env.SMTP_USER || process.env.EMAIL_USER || "";
+  const pass = process.env.SMTP_PASS || process.env.EMAIL_PASS || "";
+  const host = process.env.SMTP_HOST || process.env.SMTP_SERVER || "smtp.gmail.com";
+  const port = Number(process.env.SMTP_PORT || 587);
+  return { user, pass, host, port, configured: Boolean(user && pass) };
+}
+
 function getTransport(): Transporter {
   if (cached) return cached;
-  const host = process.env.SMTP_HOST;
-  if (host) {
-    const port = Number(process.env.SMTP_PORT || 587);
+  const { user, pass, host, port, configured } = smtpCreds();
+  if (configured) {
     cached = nodemailer.createTransport({
       host,
       port,
       secure: port === 465, // 465 = implicit TLS; 587 = STARTTLS
-      auth: process.env.SMTP_USER
-        ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-        : undefined,
+      auth: { user, pass },
     });
   } else {
     // No SMTP configured (e.g. local dev): don't actually send — log instead.
@@ -82,16 +89,18 @@ export async function sendNotification(ev: NotifyEvent): Promise<void> {
     .join("\n");
 
   try {
+    const { user, configured } = smtpCreds();
     await getTransport().sendMail({
       from:
         process.env.SMTP_FROM ||
-        process.env.SMTP_USER ||
+        process.env.NOTIFICATIONS_FROM_EMAIL ||
+        user ||
         "Parry Data Room <noreply@parry-io.com>",
       to: recipients(),
       subject,
       text: body,
     });
-    if (!process.env.SMTP_HOST) {
+    if (!configured) {
       console.log(`[dataroom] notification (no SMTP configured):\n${subject}\n${body}`);
     }
   } catch (err) {
