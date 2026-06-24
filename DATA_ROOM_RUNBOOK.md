@@ -16,7 +16,8 @@ email alert on every login and every document view. No database.
 npm install
 npm run dev          # http://localhost:3000/data-room
 ```
-Dev demo login (works only when NOT in production): `demo@viola.vc` / `viola-demo-2026`.
+Demo login (local dev + Vercel Preview only — excluded from real production):
+`demo@viola.vc` / `viola-demo-2026`.
 Without SMTP env set, notification emails are printed to the server console.
 
 ## Add / remove a viewer
@@ -46,5 +47,5 @@ Pushing the branch triggers a **Vercel Preview** deployment automatically.
 ## Security notes
 - PDFs are never under `/public`; only signed-in viewers can fetch them.
 - Passwords stored as bcrypt hashes only. Login is rate-limited per IP.
-- The `demo@viola.vc` account is compiled out of production builds.
+- The `demo@viola.vc` account is compiled out of real production (VERCEL_ENV=production); it stays available on Preview deployments for testing.
 - The data-room pages are `noindex` (kept out of search engines).

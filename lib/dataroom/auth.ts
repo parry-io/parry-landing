@@ -14,11 +14,11 @@ export interface SessionUser {
 function secretKey(): Uint8Array | null {
   const s = process.env.DATAROOM_SESSION_SECRET;
   if (s && s.length >= 16) return new TextEncoder().encode(s);
-  // Dev fallback so the room runs locally without configuration.
-  if (process.env.NODE_ENV !== "production") {
+  // Dev + Vercel Preview fallback so non-production deployments run without
+  // configuration. Real production (VERCEL_ENV === "production") fails closed.
+  if (process.env.VERCEL_ENV !== "production") {
     return new TextEncoder().encode("dev-insecure-dataroom-secret-change-me");
   }
-  // Fail closed in production if the secret is missing.
   return null;
 }
 

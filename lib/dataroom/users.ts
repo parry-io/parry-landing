@@ -20,10 +20,11 @@ const PRODUCTION_USERS: DataRoomUser[] = [
   // { email: "partner@viola.vc", name: "Viola Partner", passwordHash: "$2b$10$..." },
 ];
 
-// ── Dev-only demo account. Excluded from production builds entirely so these
-//    credentials can never be used against the live room. ─────────────────────
-const DEV_USERS: DataRoomUser[] =
-  process.env.NODE_ENV === "production"
+// ── Demo account for local dev + Vercel Preview only. Excluded from real
+//    production (VERCEL_ENV === "production") so these credentials can never be
+//    used against the live room. ──────────────────────────────────────────────
+const DEMO_USERS: DataRoomUser[] =
+  process.env.VERCEL_ENV === "production"
     ? []
     : [
         {
@@ -34,7 +35,7 @@ const DEV_USERS: DataRoomUser[] =
       ];
 
 export function getUsers(): DataRoomUser[] {
-  return [...PRODUCTION_USERS, ...DEV_USERS];
+  return [...PRODUCTION_USERS, ...DEMO_USERS];
 }
 
 export function findUser(email: string): DataRoomUser | undefined {
