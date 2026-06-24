@@ -4,6 +4,9 @@ out
 .env
 .env.local
 
+# Data-room generated credentials (local only — never commit)
+dataroom-credentials.local.txt
+
 # Firebase
 .firebase/
 

@@ -8,6 +8,7 @@
 // with the viewer over a secure channel.
 import bcrypt from "bcryptjs";
 import { randomInt } from "node:crypto";
+import { appendFileSync } from "node:fs";
 
 const [, , email, name, providedPw] = process.argv;
 
@@ -24,16 +25,24 @@ function generatePassword() {
   return raw.match(/.{1,5}/g).join("-");
 }
 
+const emailNorm = email.trim().toLowerCase();
 const password = providedPw || generatePassword();
 const passwordHash = bcrypt.hashSync(password, 10);
 
+const entry = `  { email: ${JSON.stringify(emailNorm)}, name: ${JSON.stringify(
+  name,
+)}, passwordHash: ${JSON.stringify(passwordHash)} },`;
+
 console.log("\n── Add to PRODUCTION_USERS in lib/dataroom/users.ts ──────────────\n");
-console.log(
-  `  { email: ${JSON.stringify(email.trim().toLowerCase())}, name: ${JSON.stringify(
-    name,
-  )}, passwordHash: ${JSON.stringify(passwordHash)} },`,
+console.log(entry);
+
+// The plaintext password is written to a gitignored local file rather than
+// printed — printing a secret to stdout/logs is flagged as clear-text logging.
+// Open the file, share the password over a secure channel, then delete it.
+const outFile = "dataroom-credentials.local.txt";
+appendFileSync(
+  outFile,
+  `Email:    ${emailNorm}\nPassword: ${password}\n\nusers.ts entry:\n${entry}\n${"-".repeat(60)}\n`,
 );
-console.log("\n── Credentials to share with the viewer (shown once) ─────────────\n");
-console.log(`  Email:    ${email.trim().toLowerCase()}`);
-console.log("  Password: [REDACTED - do not print secrets to logs]");
-console.log("");
+console.log(`\n── Credentials written to ./${outFile} (gitignored) ─────────────`);
+console.log("   Open it to copy the password, share it securely, then delete the file.\n");
