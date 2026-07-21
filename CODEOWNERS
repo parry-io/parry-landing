@@ -1,0 +1,12 @@
+# CODEOWNERS — parry-landing SOC2 change-management control.
+# Single-founder org: @tomerbar is the sole owner. Segregation of duties is a
+# documented single-person exception with compensating controls — see the
+# parry-core doc docs/soc2/SEGREGATION_OF_DUTIES_EXCEPTION.md. Replace with a
+# real team handle on the first engineering hire.
+
+*                       @tomerbar
+/.github/               @tomerbar
+/.github/workflows/     @tomerbar
+/Dockerfile             @tomerbar
+/next.config.ts         @tomerbar
+/nginx.conf             @tomerbar
