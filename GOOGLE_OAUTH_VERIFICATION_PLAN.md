@@ -137,9 +137,13 @@ verification. Get these right once.
 
 ## 3. Scope justifications — paste-ready
 
-These go in the verification submission where Google asks why each scope is needed. Google wants a
-specific user-facing feature per scope, not a general product description. Drafted below; edit only
-if a feature description stops being true.
+> 🔒 **Gated on §2.** These go in **Data access → "Prepare for verification"**, which stays
+> **locked until brand verification passes**. You cannot submit scope justifications, or start CASA,
+> in parallel with branding — branding is strictly first. This is the single biggest driver of the
+> end-to-end timeline, which is why §2 should go out the day this PR deploys.
+
+Google wants a specific user-facing feature per scope, not a general product description. Drafted
+below; edit only if a feature description stops being true.
 
 ### 3.1 `drive.readonly`
 
@@ -265,11 +269,18 @@ same letter.
 
 The long pole is Google's queue, not the lab. Sequencing that minimises wall-clock time:
 
+The steps are **serial, not parallel** — branding gates Data access, which gates the CASA
+notification, which gates the lab. Nothing downstream can be pulled forward, so the only lever you
+have is not losing days at each handoff.
+
 1. Merge + deploy this PR **today**.
-2. Submit brand verification (§2) and the scope justifications (§3) immediately.
-3. Record the demo video (§5) in parallel — it is required for the same submission.
-4. The moment the CASA notification email arrives, request quotes from all three labs the same day.
-5. Run the deprecated self-scan while waiting, purely to find and fix failures before the lab sees
+2. Submit brand verification (§2) the same day. **Everything else is blocked behind this.**
+3. Record the demo video (§5) **now, while branding is in review** — this is the one genuinely
+   parallelisable task, and having it ready means §3 goes out the hour branding clears.
+4. On branding approval: publish within the 7-day window (§2.5), then immediately open
+   **Data access → Prepare for verification** and paste the §3 justifications.
+5. The moment the CASA notification email arrives, request quotes from all three labs the same day.
+6. Run the deprecated self-scan while waiting, purely to find and fix failures before the lab sees
    them. A clean first submission is what turns 8 weeks into 3.
 
 ---
