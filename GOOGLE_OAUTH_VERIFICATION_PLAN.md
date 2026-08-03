@@ -109,9 +109,22 @@ radius 58.7 px against a 60 px crop radius).
 | Application terms of service link | `https://www.parry-io.com/terms` |
 | Developer contact information | `tomer@parry-io.com` |
 
-⚠️ The privacy policy URL here **must be character-identical** to the one linked on the homepage.
-Google checks this. Use `https://www.parry-io.com/privacy` in both — with the `www.`, no trailing
-slash.
+⚠️ **Always use the `www.` form. Never the apex.** Verified live 2026-08-03:
+
+| URL | Response |
+|---|---|
+| `https://www.parry-io.com/` | **200** — serves directly |
+| `https://parry-io.com/` | **307 →** `https://www.parry-io.com/` |
+
+"Homepage URL redirects to a different domain" is one of Google's listed rejection reasons, so
+entering the apex URL in the console hands them a redirect and risks a second rejection over
+something cosmetic. Every URL field above uses `www.`.
+
+(This does **not** apply to §2.4 — *Authorized domains* takes the registrable domain,
+`parry-io.com`, with no `www.` and no scheme. Different field, different format.)
+
+⚠️ The privacy policy URL must also be **character-identical** to the one linked on the homepage.
+Google checks this. `https://www.parry-io.com/privacy` in both — with the `www.`, no trailing slash.
 
 ### 2.4 Authorized domains
 
