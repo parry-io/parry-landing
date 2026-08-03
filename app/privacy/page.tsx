@@ -384,6 +384,7 @@ export default function PrivacyPage() {
           <div className="flex items-center gap-5 text-xs text-[var(--landing-text-tertiary)]">
             <span>Tel Aviv</span>
             <a href="/privacy" className="hover:text-[var(--landing-text-secondary)] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[var(--landing-text-secondary)] transition-colors">Terms</a>
           </div>
         </div>
       </footer>

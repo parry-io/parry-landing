@@ -10,6 +10,7 @@ import LiveDemoSection from "../components/landing/LiveDemoSection";
 import FlywheelSection from "../components/landing/FlywheelSection";
 import PositioningSection from "../components/landing/PositioningSection";
 import IntegrationSection from "../components/landing/IntegrationSection";
+import GoogleDataSection from "../components/landing/GoogleDataSection";
 import ClosingSection from "../components/landing/ClosingSection";
 
 export default function LandingPage() {
@@ -26,6 +27,7 @@ export default function LandingPage() {
         <FlywheelSection />
         <PositioningSection />
         <IntegrationSection />
+        <GoogleDataSection />
         <ClosingSection />
       </main>
 
@@ -43,7 +45,9 @@ export default function LandingPage() {
             <a href="mailto:yehonatan@parry-io.com" className="hover:text-[var(--fg)] transition-colors">
               yehonatan@parry-io.com
             </a>
+            <a href="#google-data" className="hover:text-[var(--fg)] transition-colors">Google data</a>
             <a href="/privacy" className="hover:text-[var(--fg)] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[var(--fg)] transition-colors">Terms</a>
           </div>
         </div>
       </footer>
