@@ -34,7 +34,7 @@ const SCOPES: { scope: string; label: string; use: string }[] = [
   {
     scope: "gmail.send",
     label: "Gmail — send",
-    use: "Sends supplier replies and follow-ups from your address — only messages you have reviewed and approved. Parry does not send mail on your behalf without that approval.",
+    use: "Sends supplier replies and follow-ups from your address, to the supplier addresses already on the deal. By default Parry drafts and a person approves before anything goes out; an administrator can raise the workspace's autonomy setting to let approved workflows send without per-message review. Parry never emails anyone outside the deal's suppliers.",
   },
   {
     scope: "userinfo.email",

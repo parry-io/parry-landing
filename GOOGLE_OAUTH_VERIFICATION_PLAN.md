@@ -192,9 +192,14 @@ below; edit only if a feature description stops being true.
 > the supplier is already reading, rather than arriving from an unfamiliar third-party address that
 > would break the negotiation thread and be likely to be filtered.
 >
-> Every message is reviewed and approved by the user before it is sent. `gmail.send` is the
-> narrowest scope that permits sending: it grants no ability to read, modify, or delete existing
-> messages. We deliberately do not request `gmail.compose` or `gmail.modify`.
+> Messages are addressed only to the supplier contacts already associated with the deal; Parry does
+> not email anyone outside them. By default the workspace operates in a draft-and-approve mode in
+> which a user reviews every message before it is sent. A customer administrator may raise their
+> workspace's autonomy setting so that approved negotiation workflows send without per-message
+> review; this is off by default and is configured by the customer, not by Parry.
+>
+> `gmail.send` is the narrowest scope that permits sending: it grants no ability to read, modify, or
+> delete existing messages. We deliberately do not request `gmail.compose` or `gmail.modify`.
 
 ### 3.4 `userinfo.email`
 
