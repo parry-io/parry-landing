@@ -150,10 +150,23 @@ verification. Get these right once.
 
 ## 3. Scope justifications — paste-ready
 
-> 🔒 **Gated on §2.** These go in **Data access → "Prepare for verification"**, which stays
-> **locked until brand verification passes**. You cannot submit scope justifications, or start CASA,
-> in parallel with branding — branding is strictly first. This is the single biggest driver of the
-> end-to-end timeline, which is why §2 should go out the day this PR deploys.
+> ✅ **CORRECTION (verified live in the console 2026-08-04).** An earlier version of this plan said
+> Data access was locked until brand verification passed. **That is not true in the current Google
+> Auth Platform console** — `Data access` is editable right now, and three of the four scopes are
+> already registered with justifications saved. Branding and scope justifications can be worked in
+> parallel. The old claim came from a June-2026 note about the previous console UI.
+
+**Live state of `parry-prod-396a` → Data access:**
+
+| Scope | Class | Justification |
+|---|---|---|
+| `userinfo.email` | non-sensitive | n/a |
+| `gmail.send` | sensitive | ✅ 924/1000 — written 2026-08-04 |
+| `drive.readonly` | restricted | ✅ 727/1000 — pre-existing, accurate, keep |
+| `gmail.readonly` | restricted | ⚠️ 791/1000 — pre-existing, **contains an inaccuracy, see §3.2** |
+
+Also still unset: **"What features will you use?"** on both restricted scopes, and the **YouTube
+demo-video link**.
 
 Google wants a specific user-facing feature per scope, not a general product description. Drafted
 below; edit only if a feature description stops being true.
@@ -180,6 +193,14 @@ below; edit only if a feature description stops being true.
 > is the specific friction the integration removes.
 
 ### 3.2 `gmail.readonly`
+
+> ⚠️ **The justification currently saved in the console is inaccurate and needs replacing.** It says
+> Parry "sends user-drafted, **individually-approved** vendor emails" and is "never bulk,
+> **automated**, or marketing mail". Both are untrue at autonomy L3/L4 — `backend/agents/autonomy/
+> nodes.py:197` documents a `send_email` **AUTO_APPROVE** path. Same overclaim that was fixed on the
+> website; the console copy must match or the submission contradicts the homepage Google is
+> reviewing. Paste the replacement below over it. (I filled `gmail.send` but was blocked from
+> overwriting this one — see §7.4.)
 
 > Supplier negotiation happens over email. The current price a supplier has offered, the terms
 > they have conceded, and the deadline they have set exist only in an email thread — not in any
@@ -389,7 +410,17 @@ an already-expired token reconnect once, and then stop having to.
 
 ## 7. Decisions needed from Tomer
 
-### 7.1 `drive.file` vs `drive.readonly`
+### 7.1 `drive.file` vs `drive.readonly` — ✅ RESOLVED, no decision needed
+
+Checked against `origin/main`: `backend/services/oauth_google.py:171` `list_files_in_folder()`
+queries `'<folder_id>' in parents` and `backend/agents/tools/google_drive_tools.py:221` filters
+`modifiedTime > '<modified_after>'`. Parry genuinely lists a user-selected folder and incrementally
+picks up newly added contracts. **`drive.file` cannot list folder contents or detect new files**, so
+it would break auto-import. `drive.readonly` is correct and the justification already saved in the
+console argues exactly this. Nothing to change; the §3.5 placeholder is answered.
+
+<details>
+<summary>Original open question (kept for context)</summary>
 
 Google will likely ask why Parry does not use `drive.file`, which grants access only to files the
 user picks through Google's own file picker and is **not** a restricted scope.
@@ -406,10 +437,28 @@ would stop working.
 worth it. If anything scans a folder on a schedule, it is not viable. Either way, §3.5 needs the
 placeholder replaced with the real answer before submission.
 
+</details>
+
 ### 7.2 Who owns the CASA remediation work
 
 The lab will return findings. Someone has to fix them and re-scan. Given the SOC 2 work already
 done, most controls likely pass — but budget engineering time for the tail.
+
+### 7.4 Three console actions that need your hands — do these before submitting
+
+Everything else in the console is already done. These three could not be automated:
+
+1. **Upload the logo** (~30 seconds). Branding → *Change logo* → Browse →
+   `parry-landing/public/parry-oauth-logo-120.png`, then **Save**.
+   The logo currently stored is **410×512** — not square, so the consent screen squashes or crops
+   it. **Do this before submitting reverification**: changing a logo on an already-verified app
+   re-triggers verification, so swapping it afterwards costs a whole extra cycle.
+2. **Replace the `gmail.readonly` justification** with the text in §3.2 (paste over the existing
+   791-character version). It currently contains a false claim.
+3. **Set "What features will you use?"** on both `drive.readonly` and `gmail.readonly` — both are
+   unset, and they are required fields.
+
+Then, and only then: Branding → **View issues → "I have fixed the issues" → Proceed**.
 
 ### 7.3 Brief Fiverr on the interstitial
 
