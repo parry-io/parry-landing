@@ -40,9 +40,9 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[var(--landing-text-tertiary)]">
-              <span><strong className="text-[var(--landing-text-secondary)]">Last Updated:</strong> May 29, 2026</span>
-              <span><strong className="text-[var(--landing-text-secondary)]">Effective Date:</strong> May 29, 2026</span>
-              <span><strong className="text-[var(--landing-text-secondary)]">Version:</strong> 1.0</span>
+              <span><strong className="text-[var(--landing-text-secondary)]">Last Updated:</strong> August 3, 2026</span>
+              <span><strong className="text-[var(--landing-text-secondary)]">Effective Date:</strong> August 3, 2026</span>
+              <span><strong className="text-[var(--landing-text-secondary)]">Version:</strong> 1.1</span>
             </div>
           </header>
 
@@ -239,7 +239,7 @@ export default function PrivacyPage() {
             <P>When you connect a Google account, Parry requests the following OAuth scopes solely to provide its contract-negotiation and deal-management features:</P>
             <Ul>
               <li><strong>Gmail read (gmail.readonly)</strong> &mdash; to detect active contract and supplier email threads, read their content, and extract deal terms, pricing, and negotiation context.</li>
-              <li><strong>Gmail send (gmail.send)</strong> &mdash; to send the negotiation replies and follow-ups that you review and approve, on your behalf.</li>
+              <li><strong>Gmail send (gmail.send)</strong> &mdash; to send negotiation replies and follow-ups on your behalf, addressed to the suppliers already on the deal. By default Parry prepares a draft and a user approves it before it is sent; a customer administrator may raise the workspace&rsquo;s autonomy setting so that approved workflows send without per-message review.</li>
               <li><strong>Google Drive read-only (drive.readonly)</strong> &mdash; to read the specific contract documents you choose to analyze.</li>
             </Ul>
             <P>Parry&rsquo;s use of information received from Google APIs adheres to the{" "}
@@ -368,7 +368,7 @@ export default function PrivacyPage() {
           </Section>
 
           <p className="mt-16 pt-8 border-t border-[var(--landing-border)]/50 text-center text-xs text-[var(--landing-text-tertiary)] italic">
-            Parry.io Ltd. — Privacy Policy v1.0 — Last Updated May 29, 2026
+            Parry.io Ltd. — Privacy Policy v1.1 — Last Updated August 3, 2026
           </p>
         </article>
       </main>
@@ -384,6 +384,7 @@ export default function PrivacyPage() {
           <div className="flex items-center gap-5 text-xs text-[var(--landing-text-tertiary)]">
             <span>Tel Aviv</span>
             <a href="/privacy" className="hover:text-[var(--landing-text-secondary)] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[var(--landing-text-secondary)] transition-colors">Terms</a>
           </div>
         </div>
       </footer>
