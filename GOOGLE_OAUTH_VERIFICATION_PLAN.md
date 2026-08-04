@@ -150,23 +150,34 @@ verification. Get these right once.
 
 ## 3. Scope justifications — paste-ready
 
-> ✅ **CORRECTION (verified live in the console 2026-08-04).** An earlier version of this plan said
-> Data access was locked until brand verification passed. **That is not true in the current Google
-> Auth Platform console** — `Data access` is editable right now, and three of the four scopes are
-> already registered with justifications saved. Branding and scope justifications can be worked in
-> parallel. The old claim came from a June-2026 note about the previous console UI.
+> 🔒 **Two different things, and an earlier draft of this doc conflated them. The precise rule,
+> read off the live Verification centre 2026-08-04:**
+>
+> - **Editing** scope justifications — **open now.** The Data access page is fully editable; you can
+>   write and save justifications and feature selections at any time.
+> - **Submitting** data access for review — **blocked on branding.** The *Prepare for verification*
+>   button is greyed out, with: *"You need to verify and publish your branding before you can
+>   request verification."*
+>
+> So: write the justifications now (done — see below), but the CASA notification and everything
+> downstream of it still wait on branding passing. The original June-2026 note was right about the
+> gate; a mid-session correction of mine briefly claimed there was no gate at all, which was wrong.
+> Net effect on the timeline is unchanged: **branding is still the critical path.**
 
-**Live state of `parry-prod-396a` → Data access:**
+**Live state of `parry-prod-396a` → Data access (all saved and verified after reload):**
 
-| Scope | Class | Justification |
-|---|---|---|
-| `userinfo.email` | non-sensitive | n/a |
-| `gmail.send` | sensitive | ✅ 924/1000 — written 2026-08-04 |
-| `drive.readonly` | restricted | ✅ 727/1000 — pre-existing, accurate, keep |
-| `gmail.readonly` | restricted | ⚠️ 791/1000 — pre-existing, **contains an inaccuracy, see §3.2** |
+| Scope | Class | Justification | Feature |
+|---|---|---|---|
+| `userinfo.email` | non-sensitive | n/a | n/a |
+| `gmail.send` | sensitive | ✅ 924/1000 — written 2026-08-04 | n/a |
+| `drive.readonly` | restricted | ✅ 727/1000 — pre-existing, accurate, kept | ✅ Drive productivity |
+| `gmail.readonly` | restricted | ✅ 755/1000 — **rewritten 2026-08-04**, see §3.2 | ✅ Email productivity |
 
-Also still unset: **"What features will you use?"** on both restricted scopes, and the **YouTube
-demo-video link**.
+Still unset: the **YouTube demo-video link** (§5) — needs a recording, so it stays with Tomer.
+
+**Branding reverification was submitted 2026-08-04** ("I have fixed the issues" → Proceed;
+confirmed by the console notification *"Verify branding information"*). Status text on the Branding
+page still shows the old issue and updates asynchronously — that is expected while review is queued.
 
 Google wants a specific user-facing feature per scope, not a general product description. Drafted
 below; edit only if a feature description stops being true.
@@ -194,13 +205,12 @@ below; edit only if a feature description stops being true.
 
 ### 3.2 `gmail.readonly`
 
-> ⚠️ **The justification currently saved in the console is inaccurate and needs replacing.** It says
-> Parry "sends user-drafted, **individually-approved** vendor emails" and is "never bulk,
-> **automated**, or marketing mail". Both are untrue at autonomy L3/L4 — `backend/agents/autonomy/
-> nodes.py:197` documents a `send_email` **AUTO_APPROVE** path. Same overclaim that was fixed on the
-> website; the console copy must match or the submission contradicts the homepage Google is
-> reviewing. Paste the replacement below over it. (I filled `gmail.send` but was blocked from
-> overwriting this one — see §7.4.)
+> ✅ **Replaced in the console 2026-08-04** (755/1000, verified after reload). The previous saved
+> text said Parry "sends user-drafted, **individually-approved** vendor emails" and is "never bulk,
+> **automated**, or marketing mail" — both untrue at autonomy L3/L4, where
+> `backend/agents/autonomy/nodes.py:197` documents a `send_email` **AUTO_APPROVE** path. That was
+> the same overclaim fixed on the website; leaving it would have had the submission contradict the
+> homepage Google is reviewing. The text below is what is now live.
 
 > Supplier negotiation happens over email. The current price a supplier has offered, the terms
 > they have conceded, and the deadline they have set exist only in an email thread — not in any
@@ -444,21 +454,22 @@ placeholder replaced with the real answer before submission.
 The lab will return findings. Someone has to fix them and re-scan. Given the SOC 2 work already
 done, most controls likely pass — but budget engineering time for the tail.
 
-### 7.4 Three console actions that need your hands — do these before submitting
+### 7.4 What is left in the console
 
-Everything else in the console is already done. These three could not be automated:
+Done 2026-08-04: Terms URL, all three scope justifications, both feature selections, and **branding
+reverification submitted**. Two items remain, both needing a human:
 
-1. **Upload the logo** (~30 seconds). Branding → *Change logo* → Browse →
-   `parry-landing/public/parry-oauth-logo-120.png`, then **Save**.
-   The logo currently stored is **410×512** — not square, so the consent screen squashes or crops
-   it. **Do this before submitting reverification**: changing a logo on an already-verified app
-   re-triggers verification, so swapping it afterwards costs a whole extra cycle.
-2. **Replace the `gmail.readonly` justification** with the text in §3.2 (paste over the existing
-   791-character version). It currently contains a false claim.
-3. **Set "What features will you use?"** on both `drive.readonly` and `gmail.readonly` — both are
-   unset, and they are required fields.
-
-Then, and only then: Branding → **View issues → "I have fixed the issues" → Proceed**.
+1. **The logo — optional, with a real tradeoff.** The stored logo is **410×512, not square**, so the
+   consent screen squashes it; `public/parry-oauth-logo-120.png` is the correct asset.
+   But Google's rejection listed **only** the homepage — the logo was never flagged, and "square
+   120×120" is worded as *"for the best display results"*, a recommendation, not a rule.
+   **Branding reverification is already in flight.** Changing the logo now modifies branding
+   mid-review and re-triggers verification, costing a cycle. So either leave it, or swap it
+   deliberately *after* branding passes and accept one re-verify. **Do not swap it while review is
+   pending.**
+2. **Record the demo video and paste the YouTube link** (§5). Unavoidably manual — a screen
+   recording of the real flow. Google asks that you record against staging or a separate project
+   rather than production traffic.
 
 ### 7.3 Brief Fiverr on the interstitial
 
