@@ -41,9 +41,11 @@ export default function LandingNav() {
           </a>
 
           <div className="hidden md:flex items-center gap-7 text-[0.82rem] text-[var(--fg-3)]">
+            <a href="#what-parry-does" className="hover:text-[var(--fg)] transition-colors">What it does</a>
             <a href="#asymmetry" className="hover:text-[var(--fg)] transition-colors">Problem</a>
             <a href="#system" className="hover:text-[var(--fg)] transition-colors">Product</a>
             <a href="#positioning" className="hover:text-[var(--fg)] transition-colors">Above the stack</a>
+            <a href="#google-data" className="hover:text-[var(--fg)] transition-colors">Google data</a>
           </div>
 
           <a
