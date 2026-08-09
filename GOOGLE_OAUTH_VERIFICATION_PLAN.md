@@ -175,9 +175,34 @@ verification. Get these right once.
 
 Still unset: the **YouTube demo-video link** (§5) — needs a recording, so it stays with Tomer.
 
-**Branding reverification was submitted 2026-08-04** ("I have fixed the issues" → Proceed;
-confirmed by the console notification *"Verify branding information"*). Status text on the Branding
-page still shows the old issue and updates asynchronously — that is expected while review is queued.
+### Review history — read this before submitting again
+
+| Date | Event |
+|---|---|
+| 2026-08-04 | Submitted after PR #9 (homepage `#google-data` section) |
+| 2026-08-09 | **REJECTED.** Two issues, one new — see below |
+| 2026-08-09 | Resubmitted after PR #13 |
+
+**Turnaround is ~5 days.** Confirm a submission landed via the console **notification feed**
+("Verify branding information"), *not* the Branding status banner — that banner stays stale and
+tells you nothing either way.
+
+**The 2026-08-09 rejection, verbatim:**
+1. *"Your homepage does not explain the purpose of your app."* — unchanged from the first rejection
+2. *"The app name 'Parry' configured for your OAuth consent screen does not match the app name on
+   your homepage."* — new
+
+**Why PR #9 didn't fix it.** The homepage led with positioning copy — `h1` "The execution layer for
+enterprise procurement", subhead about a "commercial control layer" — and never said *"Parry is X
+and it does Y"*. The name appeared only in a 0.98rem nav chip and the footer, never in a heading
+(→ issue 2). And `#google-data`, which does explain the product, sat **~5,700px down behind five
+full-viewport sticky stages**, where a reviewer never reached it (→ issue 1).
+
+> **The lesson, for anyone editing this homepage:** making the section static was not enough.
+> **Google reads the first viewport.** The product name and a plain description of what the software
+> does have to be visible without scrolling. If you restructure the landing page, keep
+> `WhatParryDoesSection` directly after the hero and keep the name in a heading — moving either one
+> down the page recreates this exact rejection and costs ~5 days per cycle.
 
 Google wants a specific user-facing feature per scope, not a general product description. Drafted
 below; edit only if a feature description stops being true.
