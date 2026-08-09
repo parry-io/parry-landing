@@ -5,6 +5,7 @@ import LandingNav from "../components/landing/LandingNav";
 import CursorGlow from "../components/landing/CursorGlow";
 import SmoothScroll from "../components/landing/SmoothScroll";
 import HeroSection from "../components/landing/HeroSection";
+import WhatParryDoesSection from "../components/landing/WhatParryDoesSection";
 import AsymmetrySection from "../components/landing/AsymmetrySection";
 import LiveDemoSection from "../components/landing/LiveDemoSection";
 import FlywheelSection from "../components/landing/FlywheelSection";
@@ -22,6 +23,7 @@ export default function LandingPage() {
 
       <main className="relative">
         <HeroSection />
+        <WhatParryDoesSection />
         <AsymmetrySection />
         <LiveDemoSection />
         <FlywheelSection />

@@ -79,7 +79,9 @@ export default function HeroSection() {
             style={{ opacity: subheadOpacity }}
             className="mt-8 text-center max-w-[600px] mx-auto text-[1.15rem] md:text-[1.3rem] text-[var(--fg-2)] leading-[1.5]"
           >
-            Unify contracts, pricing, invoices, and supplier history into one commercial control layer.
+            <strong className="font-medium text-[var(--fg)]">Parry</strong> is an AI procurement
+            platform. It reads your contracts, invoices, and supplier email threads, extracts the
+            commercial terms, and catches overbilling and renewals before they cost you.
           </motion.p>
 
           <motion.div
