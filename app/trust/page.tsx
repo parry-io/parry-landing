@@ -96,11 +96,16 @@ export default function TrustPage() {
         <H3>A precise note on AI inference</H3>
         <P>
           Parry uses large language models to read and reason about documents. Model inference is
-          the one part of the pipeline that may leave the EU: our model provider serves the models
-          we use from a global endpoint rather than an EU-pinned one. Customers who require
-          strictly EU-resident inference can have residency enforcement enabled on their tenant,
-          in which case Parry <strong>refuses to process</strong> rather than routing outside the
-          EU — the system fails closed, never open.
+          the one part of the pipeline that leaves the EU. The models we use are served from their
+          provider&rsquo;s <strong>global endpoint</strong>; they are not available on an EU-pinned
+          one, so document text sent for inference is processed outside the EU.
+        </P>
+        <P>
+          Parry implements a residency control that, when enabled, filters out every non-EU
+          inference provider and <strong>refuses to process</strong> rather than routing outside
+          the EU — it fails closed, never open. If your organisation has a strict EU-residency
+          requirement, tell us before you sign: we will confirm in writing what we can and cannot
+          guarantee for your deployment rather than have you discover it later.
         </P>
         <P>
           Document text sent for inference is transient. It is not retained by the model provider
