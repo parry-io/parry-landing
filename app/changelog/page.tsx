@@ -110,8 +110,8 @@ export default function ChangelogPage() {
           line with our customer notification policy.
         </P>
         <P>
-          Availability incidents are not recorded here — those are posted on the status page and
-          covered by our{" "}
+          Availability incidents are not recorded here — those are notified by email to each
+          customer&rsquo;s administrative contact and covered by our{" "}
           <a className="text-[var(--landing-accent-bright)] hover:underline" href="/sla">
             Service Level Agreement
           </a>

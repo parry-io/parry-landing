@@ -114,15 +114,14 @@ export default function SlaPage() {
 
       <Section n="4" title="Incident communication">
         <P>
-          When an incident affects availability, we communicate on our status page and, for
-          Severity 1 and 2 incidents, by email to the customer&rsquo;s designated administrative
-          contact.
+          When an incident affects availability, we notify each customer&rsquo;s designated
+          administrative contact <strong>by email</strong>. Email is the committed channel.
         </P>
         <Ul>
-          <li>Incidents are posted within 30 minutes of confirmation.</li>
+          <li>Severity 1 and 2 incidents are notified within 30 minutes of confirmation.</li>
           <li>Updates follow the cadence in section 3 until the incident is resolved.</li>
           <li>
-            A root cause analysis is published for every Severity 1 incident within five business
+            A root cause analysis is provided for every Severity 1 incident within five business
             days of resolution.
           </li>
         </Ul>
