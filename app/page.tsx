@@ -48,6 +48,10 @@ export default function LandingPage() {
               yehonatan@parry-io.com
             </a>
             <a href="#google-data" className="hover:text-[var(--fg)] transition-colors">Google data</a>
+            <a href="/trust" className="hover:text-[var(--fg)] transition-colors">Trust</a>
+            <a href="/sla" className="hover:text-[var(--fg)] transition-colors">SLA</a>
+            <a href="/changelog" className="hover:text-[var(--fg)] transition-colors">Changelog</a>
+            <a href="/careers" className="hover:text-[var(--fg)] transition-colors">Careers</a>
             <a href="/privacy" className="hover:text-[var(--fg)] transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-[var(--fg)] transition-colors">Terms</a>
           </div>
