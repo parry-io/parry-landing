@@ -95,17 +95,37 @@ export default function TrustPage() {
         </P>
         <H3>A precise note on AI inference</H3>
         <P>
-          Parry uses large language models to read and reason about documents. Model inference is
-          the one part of the pipeline that leaves the EU. The models we use are served from their
-          provider&rsquo;s <strong>global endpoint</strong>; they are not available on an EU-pinned
-          one, so document text sent for inference is processed outside the EU.
+          Parry uses large language models to read and reason about documents. Inference is the one
+          part of the pipeline whose location is not automatically the same as storage, so we run
+          it in one of two modes, agreed with each customer in the contract.
+        </P>
+        <Table head={["Mode", "Where inference runs", "What happens if an EU provider is unavailable"]}>
+          <tr>
+            <TdKey>Standard</TdKey>
+            <Td>
+              The model provider&rsquo;s global endpoint. Document text is processed outside the EU.
+            </Td>
+            <Td>Not applicable — no residency restriction is applied.</Td>
+          </tr>
+          <tr>
+            <TdKey>EU residency</TdKey>
+            <Td>EU-resident inference providers only.</Td>
+            <Td>
+              Parry <strong>refuses to process</strong> rather than routing outside the EU. The
+              control fails closed, never open.
+            </Td>
+          </tr>
+        </Table>
+        <P>
+          The residency control is enforced in code, not by configuration convention: when it is
+          on, every non-EU provider is filtered out of the routing chain before a request is made,
+          and a request with no remaining eligible provider raises an error instead of falling
+          back.
         </P>
         <P>
-          Parry implements a residency control that, when enabled, filters out every non-EU
-          inference provider and <strong>refuses to process</strong> rather than routing outside
-          the EU — it fails closed, never open. If your organisation has a strict EU-residency
-          requirement, tell us before you sign: we will confirm in writing what we can and cannot
-          guarantee for your deployment rather than have you discover it later.
+          <strong>If your organisation has a strict EU-residency requirement, raise it before you
+          sign.</strong> We will state in writing which mode your deployment runs in and what we
+          can and cannot guarantee, rather than have you discover it later.
         </P>
         <P>
           Document text sent for inference is transient. It is not retained by the model provider
