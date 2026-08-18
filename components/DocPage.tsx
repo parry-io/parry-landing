@@ -1,8 +1,8 @@
 import React from "react";
 
 /**
- * Shared shell for the standing document pages (/trust, /sla, /changelog,
- * /careers). The nav, footer and prose helpers were duplicated verbatim in
+ * Shared shell for the standing document pages (/trust, /sla, /status,
+ * /changelog, /careers). The nav, footer and prose helpers were duplicated verbatim in
  * app/privacy/page.tsx and app/terms/page.tsx; four more copies would have made
  * five places to fix a footer link. Those two pages are left untouched here —
  * folding them in is a separate change with its own review surface.
@@ -70,6 +70,7 @@ export function DocFooter() {
         </span>
         <div className="flex flex-wrap items-center justify-center gap-5 text-xs text-[var(--landing-text-tertiary)]">
           <span>Tel Aviv</span>
+          <a href="/status" className="hover:text-[var(--landing-text-secondary)] transition-colors">Status</a>
           <a href="/trust" className="hover:text-[var(--landing-text-secondary)] transition-colors">Trust</a>
           <a href="/sla" className="hover:text-[var(--landing-text-secondary)] transition-colors">SLA</a>
           <a href="/changelog" className="hover:text-[var(--landing-text-secondary)] transition-colors">Changelog</a>
