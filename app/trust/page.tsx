@@ -93,39 +93,43 @@ export default function TrustPage() {
           application, its databases, its workers and its object storage run in Google Cloud&rsquo;s{" "}
           <strong>europe-west3 (Frankfurt)</strong> region. Backups remain in the same region.
         </P>
-        <H3>A precise note on AI inference</H3>
+        <H3>Where inference runs</H3>
         <P>
-          Parry uses large language models to read and reason about documents. Inference is the one
-          part of the pipeline whose location is not automatically the same as storage, so we run
-          it in one of two modes, agreed with each customer in the contract.
+          Parry uses large language models to read and reason about documents. Inference is the
+          one part of the pipeline whose location is not automatically the same as storage, so it
+          is worth stating precisely rather than folding into the sentence above.
         </P>
-        <Table head={["Mode", "Where inference runs", "What happens if an EU provider is unavailable"]}>
-          <tr>
-            <TdKey>Standard</TdKey>
-            <Td>
-              The model provider&rsquo;s global endpoint. Document text is processed outside the EU.
-            </Td>
-            <Td>Not applicable — no residency restriction is applied.</Td>
-          </tr>
+        <P>
+          <strong>Inference runs in the European Union.</strong> Model calls are routed to the
+          provider&rsquo;s EU multi-region endpoint, in the same jurisdiction as the data at rest.
+        </P>
+        <Table head={["Mode", "Where inference runs", "If no EU provider is available"]}>
           <tr>
             <TdKey>EU residency</TdKey>
-            <Td>EU-resident inference providers only.</Td>
+            <Td>EU-resident inference endpoints only.</Td>
             <Td>
-              Parry <strong>refuses to process</strong> rather than routing outside the EU. The
+              Parry <strong>refuses to process</strong> rather than routing outside the EU — the
               control fails closed, never open.
             </Td>
           </tr>
+          <tr>
+            <TdKey>Standard</TdKey>
+            <Td>
+              The provider&rsquo;s global endpoint, which carries no residency guarantee.
+            </Td>
+            <Td>Not applicable — no residency restriction is applied.</Td>
+          </tr>
         </Table>
         <P>
-          The residency control is enforced in code, not by configuration convention: when it is
-          on, every non-EU provider is filtered out of the routing chain before a request is made,
-          and a request with no remaining eligible provider raises an error instead of falling
-          back.
+          The residency control is enforced in code rather than by configuration convention: when
+          it is on, every non-EU provider is filtered out of the routing chain before a request is
+          made, and a request left with no eligible provider raises an error instead of falling
+          back to one outside the EU.
         </P>
         <P>
-          <strong>If your organisation has a strict EU-residency requirement, raise it before you
-          sign.</strong> We will state in writing which mode your deployment runs in and what we
-          can and cannot guarantee, rather than have you discover it later.
+          <strong>If your organisation requires contractually guaranteed EU-only processing, raise
+          it before you sign.</strong> We will state in writing which mode your deployment runs in
+          and what we can and cannot guarantee, rather than have you discover it later.
         </P>
         <P>
           Document text sent for inference is transient. It is not retained by the model provider
@@ -208,8 +212,8 @@ export default function TrustPage() {
         </P>
         <Table head={["Provider", "Purpose", "Region"]}>
           <tr><TdKey>Google Cloud</TdKey><Td>Hosting, database, storage, logging</Td><Td>EU (europe-west3)</Td></tr>
-          <tr><TdKey>Anthropic</TdKey><Td>Language-model inference over document text</Td><Td>Global endpoint</Td></tr>
-          <tr><TdKey>Google Vertex AI</TdKey><Td>Language-model inference (primary route)</Td><Td>Global endpoint</Td></tr>
+          <tr><TdKey>Anthropic (via Google Vertex AI)</TdKey><Td>Language-model inference over document text</Td><Td>EU (Vertex EU multi-region)</Td></tr>
+          <tr><TdKey>Google Vertex AI</TdKey><Td>Language-model inference (primary and only route)</Td><Td>EU (Vertex EU multi-region)</Td></tr>
           <tr><TdKey>WorkOS</TdKey><Td>Authentication, single sign-on, multi-factor</Td><Td>United States</Td></tr>
           <tr><TdKey>Voyage AI</TdKey><Td>Text embeddings for retrieval</Td><Td>United States</Td></tr>
           <tr><TdKey>Neo4j Aura</TdKey><Td>Managed graph database for supplier relationships</Td><Td>EU</Td></tr>
