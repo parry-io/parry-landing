@@ -14,7 +14,7 @@ There are **two separate Google gates**, and they are often confused. They fix d
 
 | Gate | What it fixes | What it costs | How long |
 |---|---|---|---|
-| **Brand verification** | Logo appears on the consent screen; app name/domain shown as yours | Free | Days — this is the one previously **rejected** |
+| **Brand verification** | Logo appears on the consent screen; app name/domain shown as yours | Free | ✅ **PASSED 2026-08-27** — the check itself is automated and took ~2 minutes |
 | **Full app verification** (incl. **CASA Tier 2**) | Removes the "unverified app" interstitial; lifts the 100-user cap | ~$500–$1,000/yr to a lab | **Weeks** — 2–8 weeks total |
 
 **The consequence for the Fiverr timeline:** brand verification alone gets the Parry logo onto the
@@ -26,6 +26,42 @@ validation from an authorized lab.
 > Plan for it: either start CASA immediately (§4) and accept the wait, or brief Fiverr that they
 > will click through "Advanced → Go to Parry (unsafe)" during the pilot. Under the 100-user cap an
 > unverified production app still works — the warning is cosmetic, not a block.
+
+---
+
+### Status, measured live 2026-08-27
+
+Not read off a banner — the two consent screens were driven in a browser and looked at.
+
+| Gate | State | Evidence |
+|---|---|---|
+| **Brand verification** | ✅ **VERIFIED and PUBLISHED** | Console: *"Your branding has been verified and is being shown to users."* |
+| **Data access verification** | ❌ not verified | Console: *"Missing the following fields for one or more requested scopes: demo video."* |
+
+**What publishing the branding actually changed — the login screen.** The Google screen at sign-in
+used to name `workos.com`. It now reads:
+
+> [Parry logo] **Choose an account** — *to continue to* **Parry**
+> *Before using this app, you can review Parry's Privacy Policy and Terms of Service.*
+
+This works because `parry-prod` (`828596526097-s0ru…`) is **our own** OAuth client, and WorkOS is
+configured to use it — its redirect URI is
+`https://auth.workos.com/sso/oauth/google/iEH2zMkDX7mqgJNkJUFtPuOUI/callback`. So Parry's verified
+branding is what Google renders, even though the callback lands on `auth.workos.com`. Nothing about
+the WorkOS setup needed to change.
+
+**What it did NOT change — the Drive/Gmail warning.** Still present for restricted scopes:
+
+> ⚠️ **Google hasn't verified this app** — *The app is requesting access to sensitive info in your
+> Google Account. Until the developer (tomer@parry-io.com) verifies this app with Google, you
+> shouldn't use it.* [Advanced] [BACK TO SAFETY]
+
+⚠️ **The measurement trap, and it nearly produced a wrong answer here.** Driving the same Drive
+consent URL as `tomer@parry-io.com` showed a clean, branded consent screen with **no** warning —
+because that account is one of the **2 users / 100 cap** that had already granted, and Google skips
+the interstitial for a prior grantee. The warning only appeared when the flow was driven as an
+account that had never granted. **Never test a consent screen with an account that already
+consented** — it reports the state you want to see rather than the state a new user gets.
 
 ---
 
@@ -184,6 +220,8 @@ Still unset: the **YouTube demo-video link** (§5) — needs a recording, so it 
 | 2026-08-09 | Resubmitted after PR #13 |
 | 2026-08-26 | **Still unverified, 17 days on.** Console read live: branding shows the SAME two issues, and `Data access` cannot even be requested — the button is disabled with *"You need to verify and publish your branding before you can request verification."* |
 | 2026-08-26 | **Issue 2 was never actually fixed.** See below. |
+| 2026-08-27 | PR #19 merged and deployed — the `h1` names the product. Branding resubmitted from the console (*View issues → I have fixed the issues → Proceed*). |
+| 2026-08-27 | ✅ **BRANDING PASSED**, ~2 minutes after submission — this gate is automated, not a human queue. **Published immediately** (7-day window). Console now reads *"Your branding has been verified and is being shown to users."* |
 
 **What PR #13 missed, found 2026-08-26.** This document's own diagnosis of issue 2 was right —
 *"the name appeared only in a 0.98rem nav chip and the footer, never in a heading"* — and PR #13
@@ -202,7 +240,11 @@ So the 2026-08-09 resubmission went in with issue 2 unaddressed, which is the mo
 **Before submitting again, check the `h1` — not the paragraph.** A `<strong>` inside body copy is
 not a heading, and that distinction has now cost two review cycles.
 
-**Turnaround is ~5 days.** Confirm a submission landed via the console **notification feed**
+**Turnaround, measured 2026-08-27: ~2 minutes, not 5 days.** The branding check is automated — the
+console showed *"Verification in progress… this could take up to 5 minutes"* and came back verified
+within one page reload. The 17 days of silence were never a queue; they were **issue 2 sitting
+unfixed** (see below). If a resubmission does not resolve within minutes, assume something is wrong
+with the submission rather than waiting on Google. Confirm a submission landed via the console **notification feed**
 ("Verify branding information"), *not* the Branding status banner — that banner stays stale and
 tells you nothing either way.
 
@@ -410,6 +452,18 @@ flows.
 ⚠️ Shots 6–8 must show features that **actually work in prod today**. Verify each path end-to-end
 before recording; a video showing a feature that errors is a rejection.
 
+⚠️ **Shot 8 cannot be filmed against production as it stands, and this is measured, not assumed.**
+Production has **never sent a vendor email** — the two `gmail` rows in `integrations` have been
+`status=disconnected` with no tokens since ~2026-08-10, and every `scan_all_gmail_accounts` run in
+the log-retention window returns `{'status': 'ok', 'scanned': 0}`. Shots 7 and 8 need a live Gmail
+connection, so the order is: **reconnect Gmail → prove one send end-to-end → then record.** Filming
+before that produces exactly the "feature that errors" rejection this section warns about.
+
+⚠️ **The 100-user cap is a consumable.** It sits at **2 / 100** and *"applies over the entire
+lifetime of the project, and it cannot be reset or changed."* Every distinct account that grants
+consent while the app is unverified burns one permanently. Record with an account already counted,
+not a fresh one per take.
+
 ---
 
 ## 6. Recommendation — publish the DEV app to production
@@ -500,20 +554,27 @@ done, most controls likely pass — but budget engineering time for the tail.
 
 ### 7.4 What is left in the console
 
-Done 2026-08-04: Terms URL, all three scope justifications, both feature selections, and **branding
-reverification submitted**. Two items remain, both needing a human:
+Branding is **done** (verified + published 2026-08-27). Everything below is what remains, and the
+list is now short.
 
-1. **The logo — optional, with a real tradeoff.** The stored logo is **410×512, not square**, so the
-   consent screen squashes it; `public/parry-oauth-logo-120.png` is the correct asset.
-   But Google's rejection listed **only** the homepage — the logo was never flagged, and "square
-   120×120" is worded as *"for the best display results"*, a recommendation, not a rule.
-   **Branding reverification is already in flight.** Changing the logo now modifies branding
-   mid-review and re-triggers verification, costing a cycle. So either leave it, or swap it
-   deliberately *after* branding passes and accept one re-verify. **Do not swap it while review is
-   pending.**
-2. **Record the demo video and paste the YouTube link** (§5). Unavoidably manual — a screen
-   recording of the real flow. Google asks that you record against staging or a separate project
-   rather than production traffic.
+**Blocking data-access verification — exactly one field.** The *Prepare for verification* form is
+otherwise complete: branding summary, all four scopes, all three justifications, both feature
+selections. It refuses to submit with:
+
+> *Missing the following fields for one or more requested scopes: demo video.* — **Video link: Not provided**
+
+So: record §5, upload to YouTube (unlisted is fine — **not** private, Google's reviewer must be able
+to open it without signing in), paste the link, then *Confirm*. That is the whole submission.
+
+**The logo swap is now unblocked, and is optional.** The stored logo renders correctly on both
+consent screens as they stand today. `public/parry-oauth-logo-120.png` is still the spec-correct
+asset (square, 120×120, 6.9 KB). If you swap it, know that **changing branding re-triggers branding
+verification** — which is now a ~2-minute automated round trip, so the cost is small, but do it
+*before* submitting data access rather than in the middle of that review.
+
+**Not a problem, contrary to an earlier reading of this doc:** `workos.com` appearing under
+*Authorised domains*. It is there because WorkOS hosts the OAuth callback, it did not block branding
+verification, and the user-visible screen says *"to continue to Parry"*. Leave it.
 
 ### 7.3 Brief Fiverr on the interstitial
 
