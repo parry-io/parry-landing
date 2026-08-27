@@ -182,6 +182,25 @@ Still unset: the **YouTube demo-video link** (§5) — needs a recording, so it 
 | 2026-08-04 | Submitted after PR #9 (homepage `#google-data` section) |
 | 2026-08-09 | **REJECTED.** Two issues, one new — see below |
 | 2026-08-09 | Resubmitted after PR #13 |
+| 2026-08-26 | **Still unverified, 17 days on.** Console read live: branding shows the SAME two issues, and `Data access` cannot even be requested — the button is disabled with *"You need to verify and publish your branding before you can request verification."* |
+| 2026-08-26 | **Issue 2 was never actually fixed.** See below. |
+
+**What PR #13 missed, found 2026-08-26.** This document's own diagnosis of issue 2 was right —
+*"the name appeared only in a 0.98rem nav chip and the footer, never in a heading"* — and PR #13
+did not change that. It added the plain description as a PARAGRAPH and bolded `Parry` inside it.
+The `h1` still read *"The execution layer for enterprise procurement."* Measured on the live site:
+
+```
+title : "Parry — The Execution Layer for Enterprise Procurement"
+h1    : "The execution layer for enterprise procurement."   <- no product name
+h2    : "Parry is an AI procurement platform for finance and procurement teams."
+```
+
+So the 2026-08-09 resubmission went in with issue 2 unaddressed, which is the most likely reason
+17 days have produced nothing. The `h1` now leads with the name.
+
+**Before submitting again, check the `h1` — not the paragraph.** A `<strong>` inside body copy is
+not a heading, and that distinction has now cost two review cycles.
 
 **Turnaround is ~5 days.** Confirm a submission landed via the console **notification feed**
 ("Verify branding information"), *not* the Branding status banner — that banner stays stale and

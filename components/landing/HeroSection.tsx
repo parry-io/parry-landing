@@ -61,7 +61,30 @@ export default function HeroSection() {
             style={{ y: headlineY, opacity: headlineOpacity }}
             className="text-center mx-auto max-w-[1040px] text-[clamp(2.6rem,7vw,6rem)] leading-[1.02] tracking-tight font-medium text-[var(--fg)]"
           >
-            <span className="block">The execution layer for</span>
+            {/* SCRUM-297 — the product name leads the H1, and that is not a
+                style choice.
+
+                Google rejected this domain for OAuth branding verification
+                twice, on two issues:
+
+                  "Your homepage does not explain the purpose of your app."
+                  "The app name 'Parry' configured for your OAuth consent
+                   screen does not match the app name on your homepage."
+
+                PR #13 answered the first by adding the plain description
+                below. It did not answer the second: the H1 read "The
+                execution layer for enterprise procurement" — a positioning
+                line with the product's name nowhere in any heading. The name
+                lived in the <title>, the header wordmark and one <strong>
+                inside a paragraph, and a reviewer reading the top of the page
+                does not find it.
+
+                Until this passes, data-access verification cannot even be
+                REQUESTED (the console disables the button), which is what
+                leaves every customer connecting Gmail or Drive at the red
+                "Google hasn't verified this app — you shouldn't use it"
+                screen, and the project capped at 100 users for life. */}
+            <span className="block">Parry is the execution layer for</span>
             <span
               className="block italic-display text-[1.06em] text-transparent bg-clip-text"
               style={{
@@ -79,8 +102,13 @@ export default function HeroSection() {
             style={{ opacity: subheadOpacity }}
             className="mt-8 text-center max-w-[600px] mx-auto text-[1.15rem] md:text-[1.3rem] text-[var(--fg-2)] leading-[1.5]"
           >
-            <strong className="font-medium text-[var(--fg)]">Parry</strong> is an AI procurement
-            platform. It reads your contracts, invoices, and supplier email threads, extracts the
+            {/* "AI procurement platform" stays above the fold — it is the
+                plain-language purpose Google's first issue asked for, and the
+                H1 above is a positioning line, not a description. The name
+                moved up into the heading, so repeating "Parry is" here would
+                echo it. */}
+            An <strong className="font-medium text-[var(--fg)]">AI procurement platform</strong>{' '}
+            that reads your contracts, invoices, and supplier email threads, extracts the
             commercial terms, and catches overbilling and renewals before they cost you.
           </motion.p>
 
