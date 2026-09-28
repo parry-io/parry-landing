@@ -10,7 +10,7 @@ Parry is in private beta with a small group of enterprise procurement and financ
 Procurement and finance teams at companies managing large supplier portfolios.
 
 ## Google user data
-How Parry uses Gmail and Google Drive data, including the Limited Use disclosure: https://www.parry-io.com/#google-data
+How Parry uses Gmail and Google Drive data, including the Limited Use disclosure: https://www.parry-io.com/google-data
 Privacy policy: https://www.parry-io.com/privacy
 
 ## Company

@@ -130,7 +130,7 @@ export default function TermsPage() {
             <P>
               When you connect a Google account, Parry requests only the scopes needed to provide the
               features described on our{" "}
-              <a className="text-[var(--landing-accent-bright)] hover:underline" href="/#google-data">homepage</a>{" "}
+              <a className="text-[var(--landing-accent-bright)] hover:underline" href="/google-data">Google data page</a>{" "}
               and in <a className="text-[var(--landing-accent-bright)] hover:underline" href="/privacy#section-9">Privacy Policy section 9.5</a>.
               Parry&rsquo;s use of information received from Google APIs adheres to the{" "}
               <a
