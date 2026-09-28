@@ -27,7 +27,7 @@ export const metadata = {
   description:
     "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
   keywords:
-    "AI procurement, supplier intelligence, billing assurance, vendor management, procurement AI, contract intelligence, tail spend automation, autonomous deal execution, commercial control layer, procurement execution",
+    "AI procurement, procurement AI, contract intelligence, invoice auditing, overbilling detection, renewal tracking, supplier management",
   authors: [{ name: "Parry" }],
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.parry-io.com" },
