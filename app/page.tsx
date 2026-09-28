@@ -1,8 +1,9 @@
 import React from "react";
+import BrainBackground from "../components/landing/BrainBackground";
 
 /* ───────── Stealth homepage (SCRUM-1021) ─────────
  * The marketing site is being rebuilt; until it ships, the homepage is a
- * single "coming soon" screen, and the Google user-data disclosure lives at
+ * single private-beta screen over a quiet brain-network animation, and the Google user-data disclosure lives at
  * /google-data.
  *
  * ⚠️ BEFORE the SCRUM-297 data-access submission to Google, restore a plain
@@ -24,14 +25,26 @@ export default function LandingPage() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 45% 40% at 50% 45%, rgba(4,74,247,0.18) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 45% at 50% 48%, rgba(4,74,247,0.14) 0%, transparent 70%)",
+        }}
+      />
+      <BrainBackground />
+      {/* A soft scrim under the copy so the network never competes with it. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 26% 24% at 50% 50%, rgba(7,8,13,0.82) 0%, rgba(7,8,13,0.45) 55%, transparent 100%)",
         }}
       />
       <img src="/Parry_Logo.png" alt="" className="relative h-14 w-auto" />
       <h1 className="relative mt-7 text-[clamp(3rem,8vw,5.5rem)] leading-none tracking-tight font-medium">
         Parry
       </h1>
-      <p className="relative mt-5 text-[1.05rem] md:text-[1.15rem] text-[var(--fg-2)]">Coming soon.</p>
+      <p className="relative mt-5 text-[1.05rem] md:text-[1.15rem] text-[var(--fg-2)]">
+        In private beta. A new site is on its way.
+      </p>
       <a href={ACCESS_HREF} className="btn-primary relative mt-9">
         Request access
       </a>
