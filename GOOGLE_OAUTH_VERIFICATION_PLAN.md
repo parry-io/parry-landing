@@ -8,6 +8,13 @@ Google Drive.
 
 ---
 
+> ⚠️ **2026-09-28 — the homepage is in stealth (SCRUM-1021, parry-landing #21).** It shows only
+> the logo, "Parry" in the `h1`, "Coming soon." and a request-access link. The Google user-data
+> disclosure moved to **`/google-data`** (linked from the homepage). **Before submitting data-access
+> verification (SCRUM-297), restore a plain one-sentence product description under the homepage
+> `h1`** — the first-viewport description is what the 2026-08-04 and 2026-08-09 rejections cited.
+> The suggested line is in the comment at the top of `app/page.tsx`.
+
 ## 0. Read this first — the honest timeline
 
 There are **two separate Google gates**, and they are often confused. They fix different things:

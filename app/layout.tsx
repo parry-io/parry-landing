@@ -23,29 +23,29 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "Parry — The Execution Layer for Enterprise Procurement",
+  title: "Parry — AI procurement platform (private beta)",
   description:
-    "Parry is the AI execution and control layer above the procurement stack. We unify contracts, pricing, invoices, and supplier history into one coherent view — and turn every supplier interaction into protected commercial value.",
+    "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
   keywords:
-    "AI procurement, supplier intelligence, billing assurance, vendor management, procurement AI, contract intelligence, tail spend automation, autonomous deal execution, commercial control layer, procurement execution",
+    "AI procurement, procurement AI, contract intelligence, invoice auditing, overbilling detection, renewal tracking, supplier management",
   authors: [{ name: "Parry" }],
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.parry-io.com" },
   openGraph: {
     type: "website",
     url: "https://www.parry-io.com",
-    title: "Parry — The Execution Layer for Enterprise Procurement",
+    title: "Parry — AI procurement platform (private beta)",
     description:
-      "One layer connecting contracts, pricing, invoices, and supplier history. From tail spend to billing assurance — every supplier interaction, under control.",
+      "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
     siteName: "Parry",
     images: [{ url: "https://www.parry-io.com/Parry_Logo.png" }],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Parry — The Execution Layer for Enterprise Procurement",
+    title: "Parry — AI procurement platform (private beta)",
     description:
-      "Doing for spend what systems of record did for revenue.",
+      "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
     images: ["https://www.parry-io.com/Parry_Logo.png"],
   },
   icons: { icon: "/Parry_Logo.png", apple: "/Parry_Logo.png" },
@@ -60,7 +60,7 @@ const jsonLd = {
       url: "https://www.parry-io.com",
       logo: "https://www.parry-io.com/Parry_Logo.png",
       description:
-        "Parry is the AI execution and control layer above enterprise procurement. We unify contracts, pricing, invoices, and supplier history — turning every supplier interaction into protected commercial value.",
+        "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
       foundingDate: "2024",
       address: { "@type": "PostalAddress", addressLocality: "Tel Aviv", addressCountry: "IL" },
       contactPoint: { "@type": "ContactPoint", email: "yehonatan@parry-io.com", contactType: "sales" },
@@ -71,19 +71,16 @@ const jsonLd = {
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
       description:
-        "The AI execution layer for enterprise procurement — unified commercial intelligence across contracts, pricing, invoices, and supplier history. From tail spend through live negotiation to billing assurance.",
+        "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
       offers: {
         "@type": "Offer",
         category: "Enterprise",
         availability: "https://schema.org/LimitedAvailability",
       },
       featureList: [
-        "Unified commercial intelligence",
-        "Live supplier negotiation support",
-        "Billing assurance & drift detection",
-        "Tail spend automation",
-        "Renewal leverage timing",
-        "Autonomous deal execution",
+        "Contract and invoice term extraction",
+        "Overbilling detection against contract terms",
+        "Renewal and notice-window tracking",
       ],
     },
   ],

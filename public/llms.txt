@@ -1,22 +1,17 @@
-# Parry — AI Procurement Intelligence
+# Parry — AI procurement platform (private beta)
 
 ## What is Parry?
-Parry is the AI reasoning layer for enterprise procurement. Multiple autonomous AI agents manage the entire vendor value chain — from benchmarking and negotiation through billing verification and collections.
+Parry is an AI procurement platform. It reads a company's contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost money.
 
-## What does Parry do?
-- Manages the full vendor lifecycle with autonomous AI agents
-- Benchmarks vendor pricing against market data and internal precedents
-- Detects hidden risks and contradictions across vendor relationships
-- Handles back-office procurement operations at scale
-- Verifies billing accuracy — ensuring what was agreed is what gets charged
-- Provides real-time intelligence during vendor negotiations
-- Builds institutional procurement knowledge that compounds over time
+## Status
+Parry is in private beta with a small group of enterprise procurement and finance teams. A new public site is in progress.
 
 ## Who is Parry for?
-Enterprise procurement teams, CFOs, CPOs, and finance leaders at companies managing complex vendor portfolios. Parry is currently partnering with select Fortune 500 enterprises.
+Procurement and finance teams at companies managing large supplier portfolios.
 
-## How is Parry different?
-Every other procurement AI tool automates a single workflow — buying faster. Parry is the only platform that reasons across the entire value chain — from the first vendor conversation through the final invoice. Powered by a knowledge graph that gets smarter with every vendor interaction.
+## Google user data
+How Parry uses Gmail and Google Drive data, including the Limited Use disclosure: https://www.parry-io.com/google-data
+Privacy policy: https://www.parry-io.com/privacy
 
 ## Company
 - Based in Tel Aviv, Israel

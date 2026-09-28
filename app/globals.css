@@ -513,3 +513,15 @@ body {
 .diff-add { background: color-mix(in srgb, var(--pos) 18%, transparent); color: var(--pos); }
 .diff-sub { background: color-mix(in srgb, var(--neg) 18%, transparent); color: var(--neg); }
 .diff-mark { background: color-mix(in srgb, var(--warm) 18%, transparent); color: var(--warm-bright); }
+
+/* Stealth homepage: the brain network fades in once the canvas has drawn. */
+.brain-bg {
+  animation: brain-bg-in 1.6s ease-out both;
+}
+@keyframes brain-bg-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brain-bg { animation: none; }
+}
