@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import { DocPage, Section, P, Ul } from "@/components/DocPage";
 
 /* Terms of Service — published so the OAuth consent screen has a stable,
  * same-domain Terms URL alongside the Privacy Policy, and so the homepage
@@ -20,40 +21,16 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="landing-page landing-grid-bg min-h-screen antialiased selection:bg-blue-500/30 selection:text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--landing-bg)]/80 backdrop-blur-xl border-b border-[var(--landing-border)]/50">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 group">
-            <img
-              src="/Parry_Logo.png"
-              className="h-7 group-hover:rotate-12 transition-transform duration-300"
-              alt="Parry"
-            />
-            <span className="text-base font-black tracking-tight uppercase text-[var(--landing-text-primary)]">
-              Parry
-            </span>
-          </a>
-          <a
-            href="/"
-            className="text-sm font-semibold text-[var(--landing-text-secondary)] hover:text-[var(--landing-text-primary)] transition-colors"
-          >
-            ← Back to home
-          </a>
-        </div>
-      </nav>
-
-      <main className="pt-28 pb-20 px-6">
-        <article className="max-w-3xl mx-auto text-[var(--landing-text-secondary)] leading-relaxed">
-          <header className="mb-12 pb-8 border-b border-[var(--landing-border)]/50">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--landing-text-primary)] mb-4">
-              Terms of Service
-            </h1>
-            <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[var(--landing-text-tertiary)]">
-              <span><strong className="text-[var(--landing-text-secondary)]">Last Updated:</strong> August 3, 2026</span>
+    <DocPage
+      title="Terms of Service"
+      meta={
+        <>
+          <span><strong className="text-[var(--landing-text-secondary)]">Last Updated:</strong> August 3, 2026</span>
               <span><strong className="text-[var(--landing-text-secondary)]">Effective Date:</strong> August 3, 2026</span>
               <span><strong className="text-[var(--landing-text-secondary)]">Version:</strong> 1.0</span>
-            </div>
-          </header>
+        </>
+      }
+    >
 
           <Section n="1" title="Who These Terms Apply To">
             <P>
@@ -310,48 +287,7 @@ export default function TermsPage() {
           <p className="mt-16 pt-8 border-t border-[var(--landing-border)]/50 text-center text-xs text-[var(--landing-text-tertiary)] italic">
             Parry.io Ltd. — Terms of Service v1.0 — Last Updated August 3, 2026
           </p>
-        </article>
-      </main>
-
-      <footer className="border-t border-[var(--landing-border)]/50 py-6 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
-          <div className="flex items-center gap-2">
-            <img src="/Parry_Logo.png" className="h-4" alt="Parry" />
-            <span className="text-xs text-[var(--landing-text-tertiary)]">
-              &copy; {new Date().getFullYear()} Parry
-            </span>
-          </div>
-          <div className="flex items-center gap-5 text-xs text-[var(--landing-text-tertiary)]">
-            <span>Tel Aviv</span>
-            <a href="/privacy" className="hover:text-[var(--landing-text-secondary)] transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-[var(--landing-text-secondary)] transition-colors">Terms</a>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </DocPage>
   );
 }
 
-function Section({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
-  return (
-    <section id={`section-${n}`} className="mb-12 scroll-mt-24">
-      <h2 className="text-2xl md:text-3xl font-bold text-[var(--landing-text-primary)] mb-5 flex items-baseline gap-3">
-        <span className="text-[var(--landing-accent)] tabular-nums">{n}.</span>
-        <span>{title}</span>
-      </h2>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
-function P({ children }: { children: React.ReactNode }) {
-  return <p className="text-[15px]">{children}</p>;
-}
-
-function Ul({ children }: { children: React.ReactNode }) {
-  return (
-    <ul className="list-disc pl-6 space-y-2 text-[15px] marker:text-[var(--landing-accent)]">
-      {children}
-    </ul>
-  );
-}

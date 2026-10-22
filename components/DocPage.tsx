@@ -1,11 +1,11 @@
 import React from "react";
 
+import { SiteFooter, SiteNav } from "./SiteChrome";
+
 /**
- * Shared shell for the standing document pages (/trust, /sla, /status,
- * /changelog, /careers). The nav, footer and prose helpers were duplicated verbatim in
- * app/privacy/page.tsx and app/terms/page.tsx; four more copies would have made
- * five places to fix a footer link. Those two pages are left untouched here —
- * folding them in is a separate change with its own review surface.
+ * Shared shell for every standing page (/trust, /sla, /status, /changelog, /careers,
+ * /privacy, /terms, /google-data): the homepage's nav and footer around one readable
+ * column, in the same ivory / ink / green brand as the homepage.
  */
 
 export function DocPage({
@@ -13,73 +13,26 @@ export function DocPage({
   meta,
   children,
 }: {
-  title: string;
+  title?: string;
   meta?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <div className="landing-page landing-grid-bg min-h-screen antialiased selection:bg-blue-500/30 selection:text-white">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--landing-bg)]/80 backdrop-blur-xl border-b border-[var(--landing-border)]/50">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2 group">
-            <img
-              src="/Parry_Logo.png"
-              className="h-7 group-hover:rotate-12 transition-transform duration-300"
-              alt="Parry"
-            />
-            <span className="text-base font-black tracking-tight uppercase text-[var(--landing-text-primary)]">
-              Parry
-            </span>
-          </a>
-          <a
-            href="/"
-            className="text-sm font-semibold text-[var(--landing-text-secondary)] hover:text-[var(--landing-text-primary)] transition-colors"
-          >
-            ← Back to home
-          </a>
-        </div>
-      </nav>
-
-      <main className="pt-28 pb-20 px-6">
-        <article className="max-w-3xl mx-auto text-[var(--landing-text-secondary)] leading-relaxed">
-          <header className="mb-12 pb-8 border-b border-[var(--landing-border)]/50">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-[var(--landing-text-primary)] mb-4">
-              {title}
-            </h1>
-            {meta ? (
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-[var(--landing-text-tertiary)]">
-                {meta}
-              </div>
-            ) : null}
-          </header>
+    <div className="doc-page">
+      <SiteNav />
+      <main className="doc-main">
+        <article className="doc-article">
+          {title ? (
+            <header className="doc-head">
+              <h1>{title}</h1>
+              {meta ? <div className="doc-meta">{meta}</div> : null}
+            </header>
+          ) : null}
           {children}
         </article>
       </main>
-
-      <DocFooter />
+      <SiteFooter />
     </div>
-  );
-}
-
-export function DocFooter() {
-  return (
-    <footer className="border-t border-[var(--landing-border)]/50 py-8 px-6">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <span className="text-xs text-[var(--landing-text-tertiary)]">
-          &copy; {new Date().getFullYear()} Parry
-        </span>
-        <div className="flex flex-wrap items-center justify-center gap-5 text-xs text-[var(--landing-text-tertiary)]">
-          <span>Tel Aviv</span>
-          <a href="/status" className="hover:text-[var(--landing-text-secondary)] transition-colors">Status</a>
-          <a href="/trust" className="hover:text-[var(--landing-text-secondary)] transition-colors">Trust</a>
-          <a href="/sla" className="hover:text-[var(--landing-text-secondary)] transition-colors">SLA</a>
-          <a href="/changelog" className="hover:text-[var(--landing-text-secondary)] transition-colors">Changelog</a>
-          <a href="/careers" className="hover:text-[var(--landing-text-secondary)] transition-colors">Careers</a>
-          <a href="/privacy" className="hover:text-[var(--landing-text-secondary)] transition-colors">Privacy</a>
-          <a href="/terms" className="hover:text-[var(--landing-text-secondary)] transition-colors">Terms</a>
-        </div>
-      </div>
-    </footer>
   );
 }
 

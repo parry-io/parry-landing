@@ -6,40 +6,41 @@
  *  ──────────────────────────────────────────────────────────── */
 
 :root {
+  /* Brand: Ivory Ledger (matches public/home.html) */
   /* Surfaces */
-  --ink: #07080d;
-  --ink-2: #0b0d15;
-  --surface: #10131e;
-  --surface-2: #161a2a;
-  --surface-3: #1c2138;
+  --ink: #F4F1EA;
+  --ink-2: #EFEBE2;
+  --surface: #FBFAF6;
+  --surface-2: #F7F4EE;
+  --surface-3: #EFEBE2;
 
   /* Hairlines */
-  --line: rgba(255, 255, 255, 0.06);
-  --line-strong: rgba(255, 255, 255, 0.12);
-  --line-accent: rgba(91, 141, 239, 0.22);
+  --line: rgba(11, 31, 26, 0.07);
+  --line-strong: #E3DED2;
+  --line-accent: rgba(6, 122, 80, 0.22);
 
   /* Text */
-  --fg: #f5f5f7;
-  --fg-2: #b9bcc9;
-  --fg-3: #7d8197;
-  --fg-4: #4f5468;
+  --fg: #0B1F1A;
+  --fg-2: #34463F;
+  --fg-3: #64746D;
+  --fg-4: #8A958F;
 
-  /* Signature blue (refined, less generic) */
-  --blue: #5b8def;
-  --blue-bright: #88a8f8;
-  --blue-deep: #2a4cb8;
+  /* Signature green (kept under the old --blue names so every page picks it up) */
+  --blue: #067A50;
+  --blue-bright: #10B47A;
+  --blue-deep: #055C3C;
 
-  /* Warm signal — commercial value, copper / parchment */
-  --warm: #d4a373;
-  --warm-bright: #e9c39c;
+  /* Warm signal */
+  --warm: #B7791F;
+  --warm-bright: #E39A00;
 
   /* Semantic */
-  --pos: #5dc097;       /* protected value */
-  --neg: #ec6a72;       /* leakage */
-  --amber: #e9b659;     /* attention */
-  --violet: #8b7bf0;    /* reasoning */
+  --pos: #067A50;       /* protected value */
+  --neg: #D64532;       /* leakage */
+  --amber: #E39A00;     /* attention */
+  --violet: #7B5CFF;    /* reasoning */
 
-  /* Backwards-compat (legacy section refs) */
+/* Backwards-compat (legacy section refs) */
   --landing-bg: var(--ink);
   --landing-surface: var(--surface);
   --landing-surface-2: var(--surface-2);
@@ -49,7 +50,7 @@
   --landing-text-tertiary: var(--fg-3);
   --landing-accent: var(--blue);
   --landing-accent-bright: var(--blue-bright);
-  --landing-accent-glow: rgba(91, 141, 239, 0.18);
+  --landing-accent-glow: rgba(6, 122, 80, 0.14);
   --landing-emerald: var(--pos);
   --landing-red: var(--neg);
   --landing-amber: var(--amber);
@@ -64,7 +65,7 @@
 
 html {
   background: var(--ink);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* Editorial body baseline */
@@ -525,3 +526,28 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .brain-bg { animation: none; }
 }
+
+/* ── Standing pages: the homepage's nav, footer and type ───── */
+.doc-page { background: var(--ink); color: var(--fg); min-height: 100vh; display: flex; flex-direction: column; }
+.site-nav { position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 44px; font-size: 15px; background: color-mix(in srgb, var(--ink) 86%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.site-mark img { height: 40px; width: auto; display: block; }
+.site-links { display: flex; gap: 34px; color: var(--fg-2); white-space: nowrap; }
+.site-links a:hover { color: var(--fg); }
+.site-cta { background: var(--fg); color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+.site-cta:hover { background: #17352d; }
+@media (max-width: 1180px) { .site-links { gap: 20px; font-size: 14px; } }
+@media (max-width: 980px) { .site-links { gap: 14px; font-size: 13px; } }
+@media (max-width: 760px) { .site-nav { padding: 14px 20px; } .site-links { display: none; } .site-mark img { height: 30px; } }
+.site-footer { border-top: 1px solid var(--line-strong); padding: 30px 44px; display: flex; justify-content: space-between; gap: 16px 20px; flex-wrap: wrap; font-size: 13px; color: var(--fg-3); }
+.site-footer-links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.site-footer a:hover { color: var(--fg); }
+@media (max-width: 760px) { .site-footer { padding: 24px 20px; } }
+.doc-main { flex: 1; padding: 56px 24px 88px; }
+.doc-article { max-width: 760px; margin: 0 auto; color: var(--fg-2); line-height: 1.7; }
+.doc-head { margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid var(--line-strong); }
+.doc-head h1 { font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif; font-weight: 500; font-size: clamp(38px, 5vw, 60px); line-height: 1.05; letter-spacing: -0.03em; color: var(--fg); margin: 0 0 16px; }
+.doc-meta { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 14px; color: var(--fg-3); }
+.doc-article h2, .doc-article h3 { font-family: var(--font-display), "Space Grotesk", system-ui, sans-serif; letter-spacing: -0.02em; }
+.doc-article h2 { font-weight: 500 !important; }
+.doc-article a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.doc-article strong { color: var(--fg); }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./globals.css";
-import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -8,10 +8,9 @@ const sans = Inter({
   variable: "--font-sans",
 });
 
-const display = Instrument_Serif({
+const display = Space_Grotesk({
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-display",
 });
