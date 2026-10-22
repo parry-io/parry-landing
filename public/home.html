@@ -1562,7 +1562,8 @@ function frame(now) {
       const R = cp.length ? Math.max(...cp.map(r => r.right)) + 18 : -1, B = cp.length ? Math.max(...cp.map(r => r.bottom)) + 12 : -1, Tp = cp.length ? Math.min(...cp.map(r => r.top)) - 12 : 0;
       const GAP = 10, placed = [], meet = (a, b) => a.left < b.right + GAP && a.right + GAP > b.left && a.top < b.bottom + GAP && a.bottom + GAP > b.top;
       const onCopy = r => r.left < R && r.top < B && r.bottom > Tp;
-      STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; if (!st.el.classList.contains('on')) return;
+      STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini'); if (!st.el.classList.contains('on')) return;
+        // every decision is made on the full-size card; deciding on the compact one made it flip between the two each frame
         const box = () => c.getBoundingClientRect(), bad = r => onCopy(r) || r.left < 8 || r.right > innerWidth - 12 || placed.some(p => meet(r, p));
         if (bad(box())) { st.el.classList.toggle('flip'); if (bad(box())) st.el.classList.toggle('flip'); }
         let r = box(), dy = 0; for (const p of placed) if (meet(r, p)) { dy += p.bottom + GAP - r.top; c.style.marginTop = dy + 'px'; r = box(); }
