@@ -356,7 +356,11 @@ nav .mark img{height:40px;width:auto}
 @media (prefers-reduced-motion:reduce){.herosub .rot{display:block}.herosub .rot span{display:block;opacity:1;transform:none;filter:none;white-space:normal;font-size:.8em}.rticks{display:none}}
 /* Built ↔ Buy, flipping vertically */
 .vflip{display:inline-grid;vertical-align:bottom;height:1.02em;overflow:hidden;line-height:1.02}
-.vflip span{grid-area:1/1;justify-self:end;white-space:nowrap;animation:vflip 5.2s cubic-bezier(.7,0,.2,1) infinite}
+/* the slot follows the word on show, so "by" sits as close to "the" as "for" does */
+.vflip.sized{animation:vflipW 5.2s cubic-bezier(.7,0,.2,1) infinite}
+@keyframes vflipW{0%,40%{width:var(--w1)}48%,90%{width:var(--w2)}98%,100%{width:var(--w1)}}
+@media (prefers-reduced-motion:reduce){.vflip.sized{animation:none;width:auto}}
+.vflip span{grid-area:1/1;justify-self:start;white-space:nowrap;animation:vflip 5.2s cubic-bezier(.7,0,.2,1) infinite}
 .vflip span:nth-child(2){animation-delay:-2.6s}
 @keyframes vflip{0%,40%{transform:translateY(0);opacity:1}48%{transform:translateY(-105%);opacity:0}49%{transform:translateY(105%);opacity:0}50%,90%{transform:translateY(105%);opacity:0}98%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:1}}
 @media (prefers-reduced-motion:reduce){.vflip span{animation:none}.vflip span:nth-child(2){display:none}}
@@ -638,7 +642,7 @@ window.PARRY_ANALYTICS = { ga4: '', gtm: '', posthogKey: '', posthogHost: 'https
 
 
 <section class="scene center merge" id="merge" data-a=".27" data-b=".52">
-  <div class="mt"><h2 class="h t1"><span class="vflip" aria-label="Built for"><span>Built for</span><span aria-hidden="true">Bought by</span></span> the people <em>who run procurement</em></h2><h2 class="h t2"><em>More</em> efficiency. <em>More</em> visibility. <em>Less</em> spend</h2></div>
+  <div class="mt"><h2 class="h t1">Built <span class="vflip" aria-label="for"><span>for</span><span aria-hidden="true">by</span></span> the people <em>who run procurement</em></h2><h2 class="h t2"><em>More</em> efficiency. <em>More</em> visibility. <em>Less</em> spend</h2></div>
   <div class="mstage">
   <div class="pillars">
     <div><b>Action oriented</b><span>Proactive by design, Parry shows you exactly which tasks are open and recommends what to do. You make the call, Parry runs the rest.</span></div>
@@ -687,7 +691,6 @@ window.PARRY_ANALYTICS = { ga4: '', gtm: '', posthogKey: '', posthogHost: 'https
 </section>
 
 <section class="scene top center final-s" data-a="1.352" data-b="1.48">
-  <p class="layerno">Spend MRI</p>
   <h2 class="big" style="font-size:clamp(44px,6vw,100px)">An MRI of <em>your spend</em></h2>
   <p class="sub">Thirty minutes, on your own data. Every leak, every lever, every renewal at risk, mapped.</p>
   <p><a class="btn" href="#book" data-src="Spend MRI" data-book="mri">Book your spend MRI</a></p>
@@ -1698,6 +1701,8 @@ window.PARRY_FORM = window.PARRY_FORM || { endpoint: '/api/contact' };
   }, 500);
   // this module can finish after the window's load event, so check before waiting for it
   if (h) document.readyState === 'complete' ? go() : addEventListener('load', go); }
+// Built for / by: measure both words once the fonts are in, then let the slot's width follow the flip
+document.fonts.ready.then(() => document.querySelectorAll('.vflip').forEach(v => { const [a, b] = v.children; v.style.setProperty('--w1', a.offsetWidth + 'px'); v.style.setProperty('--w2', b.offsetWidth + 'px'); v.classList.add('sized'); }));
 // cookie notice
 { const C = document.getElementById('cookies'); let have = null; try { have = localStorage.getItem('parry_consent'); } catch (e) {}
   const show = () => { C.hidden = false; requestAnimationFrame(() => C.classList.add('in')); }, hide = () => { C.classList.remove('in'); setTimeout(() => { C.hidden = true; }, 400); };
