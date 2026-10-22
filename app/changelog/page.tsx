@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DocPage, Meta, P } from "@/components/DocPage";
 
 export const metadata: Metadata = {
-  title: "Changelog — Parry",
+  title: "Changelog · Parry",
   description:
     "What changed in the Parry platform, by date. Significant changes are also communicated to customers by email.",
   alternates: { canonical: "https://www.parry-io.com/changelog" },

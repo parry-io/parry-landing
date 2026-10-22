@@ -8,7 +8,7 @@ import GoogleDataSection from "../../components/landing/GoogleDataSection";
  * the note in app/page.tsx and GOOGLE_OAUTH_VERIFICATION_PLAN.md. */
 
 export const metadata: Metadata = {
-  title: "How Parry uses Google user data — Parry",
+  title: "How Parry uses Google user data · Parry",
   description:
     "What Parry does with Gmail and Google Drive data, the scopes it requests, and its Limited Use commitments.",
   alternates: { canonical: "https://www.parry-io.com/google-data" },

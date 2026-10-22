@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DocPage, Meta, Section, H3, P, Ul, Table, Td, TdKey } from "@/components/DocPage";
 
 export const metadata: Metadata = {
-  title: "Trust & Security — Parry",
+  title: "Trust & Security · Parry",
   description:
     "How the Parry platform works, what data it processes, where that data lives, and the security controls that protect it.",
   alternates: { canonical: "https://www.parry-io.com/trust" },

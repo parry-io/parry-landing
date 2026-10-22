@@ -1,0 +1,13 @@
+{
+  "name": "Parry",
+  "short_name": "Parry",
+  "description": "The commercial AI platform for enterprise procurement",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F4F1EA",
+  "theme_color": "#F4F1EA",
+  "icons": [
+    { "src": "/brand/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/parry-symbol.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
