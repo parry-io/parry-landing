@@ -1,19 +1,26 @@
-# Parry — AI procurement platform (private beta)
+# Parry
 
-## What is Parry?
-Parry is an AI procurement platform. It reads a company's contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost money.
+> Parry is the commercial AI intelligence, execution and autonomous platform for enterprise procurement. It connects in a few clicks to the ERP, P2P, contract and communication systems an enterprise already runs, builds one source of truth per vendor on a proprietary vertical procurement graph, and negotiates, renews and validates spend within the customer's rules.
 
-## Status
-Parry is in private beta with a small group of enterprise procurement and finance teams. A new public site is in progress.
+Parry is based in New York. Book a demo or a Spend MRI at https://www.parry-io.com/.
 
-## Who is Parry for?
-Procurement and finance teams at companies managing large supplier portfolios.
+## Key facts
+- Results: up to 35% less manual workload; up to 18% hard-dollar spend reduction.
+- Four pillars: AI supplier management; full-cycle saving plans; real-time negotiation; procure-to-pay validation.
+- The learning loop: Understand (commercial graph, supplier history, policy, market intelligence) → Decide (autonomous and hybrid reasoning within your rules) → Execute (negotiate, renew, alert, buy) → Validate (invoice matching, autonomous execution), learning on every lap.
+- Governance: you set the guardrails; Parry negotiates, contracts, renews and transacts within them.
+- Coverage: IT, SaaS, professional services, sales and marketing, R&D, maintenance and other OpEx.
+- Pricing: based on savings on spend ("we win when you save"); modular, pay only for the modules you choose.
+- Spend MRI: a 30-minute review of a company's own spend data mapping leaks, levers and renewals at risk.
 
-## Google user data
-How Parry uses Gmail and Google Drive data, including the Limited Use disclosure: https://www.parry-io.com/google-data
-Privacy policy: https://www.parry-io.com/privacy
-
-## Company
-- Based in Tel Aviv, Israel
-- Website: https://www.parry-io.com
-- Contact: yehonatan@parry-io.com
+## Pages
+- [Home](https://www.parry-io.com/): product overview, the learning loop, results, case studies, FAQ
+- [Full text for LLMs](https://www.parry-io.com/llms-full.txt): everything on the site in plain text
+- [Trust](https://www.parry-io.com/trust): security and compliance
+- [Status](https://www.parry-io.com/status)
+- [SLA](https://www.parry-io.com/sla)
+- [Careers](https://www.parry-io.com/careers)
+- [Changelog](https://www.parry-io.com/changelog)
+- [Privacy](https://www.parry-io.com/privacy)
+- [Terms](https://www.parry-io.com/terms)
+- [Google user data](https://www.parry-io.com/google-data): how Parry uses Gmail and Google Drive data, including the Limited Use disclosure

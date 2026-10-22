@@ -1,0 +1,49 @@
+# Parry — full site text
+
+## The commercial AI intelligence, execution, and autonomous platform for enterprises
+Using our proprietary, 100% accurate vertical procurement graph, Parry connects in a few clicks to the systems and repositories you define, consolidates one holistic source of truth for each of your vendors, provides intelligence, automatically executes approved activities and automates tedious processes.
+
+## Connect every system, leverage one brain
+Parry connects to the systems an enterprise already runs, including SAP, Oracle NetSuite, Microsoft Dynamics 365, Priority, Workday, Coupa, Zip, Omnea, Opstream, Gmail, Microsoft Outlook, Slack, Microsoft Teams, Zoom, Google Meet, Google Calendar, Jira, ServiceNow, Google Drive, SharePoint, Box, DocuSign, Okta, Microsoft Entra ID, American Express, Zylo and Snowflake, plus 50 more systems.
+
+## The learning loop: it never stops learning
+Understand, decide, execute, validate. Then again. Every lap adds new learnings and intelligence from the market, from your company and from every person who uses it.
+- Understand: commercial graph, supplier history, policy, market intelligence.
+- Decide: autonomous and hybrid reasoning within your rules and commercial context.
+- Execute: negotiate, renew, alert, buy.
+- Validate: invoice matching, autonomous execution.
+
+## The product: four pillars, one brain
+- AI supplier management: every vendor, one record you can trust. Unified supplier visibility, granular contract extraction, optimized renewal calendar, category benchmarks, savings sensitivity analysis, spend classification.
+- Full-cycle saving plans: every saving opportunity identified, planned, and executed. Market comparison, autonomous negotiation, supplier onboarding, spend thresholds.
+- Real-time negotiation: before, during and after the call, with the full picture. Personal AI negotiator, renewal preparation, seat right-sizing, market-indexed pricing, call follow-up.
+- Procure-to-pay validation: the saving agreed is the saving paid. Invoice versus contract, lowest-rate enforcement, anomaly detection, renewal gates, credit recovery.
+
+## Built for the people who run procurement
+- Action oriented: proactive by design, Parry shows you exactly which tasks are open and recommends what to do. You make the call, Parry runs the rest.
+- User friendly: every user gets their own Parry, shaped to their role and seniority.
+- Trusted: by leading software and financial services enterprises.
+- Built by experts: a team of procurement-oriented, tech-savvy professionals.
+
+## More efficiency. More visibility. Less spend.
+- Up to 35% less manual workload.
+- Up to 18% hard-dollar spend reduction.
+
+## Industries: customer case studies
+- High-growth SaaS, strategic negotiations: 15% cost reduction. Parry analyzed contract terms, usage and pricing benchmarks to build and execute a renewal negotiation strategy, reducing total contract value by 9% (Y1 reduction of 15%).
+- Global enterprise tech, autonomous purchasing: 6% net savings across hundreds of $100k–$500k transactions in IT, hardware and cloud.
+- Private equity, portfolio price consolidation: $8.5m in price reductions recommended on a $90m scope across portfolio companies.
+- Financial services, unmanaged spend: 13% less marketing and G&A leakage after checking 7k unmanaged purchases above $20k.
+- Telecom, spend leakage detection: over $6.3m in potential savings identified on $150m of OpEx.
+
+## Why Parry: what do we do differently for our customers?
+1. Action-based product: you set the guardrails. Parry takes it from there: it negotiates, contracts, renews and transacts on its own.
+2. End-to-end, modular: a holistic E2E solution for procurement professionals. You pay only for the modules you choose.
+3. Proficient across all OpEx: 100% accuracy across IT, SaaS, professional services, sales and marketing, R&D, maintenance, and other OpEx categories.
+4. Win-win pricing: a pricing structure based on savings on spend: we win when you save.
+5. FDE on the ground: forward deployed engineer/s in your location to escort the process.
+
+## Spend MRI: an MRI of your spend
+Thirty minutes, on your own data. Every leak, every lever, every renewal at risk, mapped. Typical findings include SLA credits never claimed, usage outside the commit, one product bought at four prices across business units, an FX clause ignored on EUR invoices, and a new discount threshold 3% away. (Examples are illustrative.)
+
+Book a demo or a Spend MRI: https://www.parry-io.com/ · Parry, New York

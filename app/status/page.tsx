@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DocPage, Meta, Section, P, Ul, Table, Td, TdKey } from "@/components/DocPage";
 
 export const metadata: Metadata = {
-  title: "System Status — Parry",
+  title: "System Status · Parry",
   description:
     "Current operational status of the Parry platform, measured availability, and the incident record.",
   alternates: { canonical: "https://www.parry-io.com/status" },

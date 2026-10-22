@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DocPage, Meta, Section, H3, P, Ul, Table, Td, TdKey } from "@/components/DocPage";
 
 export const metadata: Metadata = {
-  title: "Service Level Agreement — Parry",
+  title: "Service Level Agreement · Parry",
   description:
     "Parry's availability commitment, measurement method, support response targets, incident communication and service credits.",
   alternates: { canonical: "https://www.parry-io.com/sla" },

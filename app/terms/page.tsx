@@ -11,7 +11,7 @@ import type { Metadata } from "next";
  * NOTE: reviewed by counsel before being relied on contractually. */
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Parry",
+  title: "Terms of Service · Parry",
   description:
     "The terms governing access to and use of Parry.io Ltd.'s website, web application, and integrations.",
   alternates: { canonical: "https://www.parry-io.com/terms" },

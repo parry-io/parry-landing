@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { DocPage, Meta, P, Ul } from "@/components/DocPage";
 
 export const metadata: Metadata = {
-  title: "Careers — Parry",
+  title: "Careers · Parry",
   description:
     "Open positions at Parry.io Ltd., with full job descriptions. Small team, Tel Aviv, enterprise procurement AI.",
   alternates: { canonical: "https://www.parry-io.com/careers" },

@@ -14,6 +14,12 @@ const securityHeaders = [
 // service keeps its assets under /data-room/_next, which this rewrite covers.
 const DATA_ROOM_ORIGIN = "https://parry-dataroom-534595816078.europe-west1.run.app";
 
+// The homepage is a single self-contained page (public/home.html: three.js brain, scroll film).
+// Its booking form and first-party analytics post to a small Cloud Run service
+// (parry-site-contact, project rising-ocean-484208-i7, europe-west3) through these same-origin
+// rewrites, so the page needs no CORS and the service URL never appears in the browser.
+const SITE_API_ORIGIN = "https://parry-site-contact-534595816078.europe-west3.run.app";
+
 const nextConfig: NextConfig = {
   // NOTE: previously `output: "export"` (pure static). Dropped so rewrites work;
   // marketing pages still pre-render (SSG) and the security headers now apply.
@@ -22,6 +28,9 @@ const nextConfig: NextConfig = {
   },
   rewrites: async () => ({
     beforeFiles: [
+      { source: "/", destination: "/home.html" },
+      { source: "/api/contact", destination: `${SITE_API_ORIGIN}/api/contact` },
+      { source: "/api/e", destination: `${SITE_API_ORIGIN}/api/e` },
       { source: "/data-room", destination: `${DATA_ROOM_ORIGIN}/data-room` },
       { source: "/data-room/:path*", destination: `${DATA_ROOM_ORIGIN}/data-room/:path*` },
     ],
@@ -31,6 +40,11 @@ const nextConfig: NextConfig = {
       source: "/(.*)",
       headers: securityHeaders,
     },
+    // The brain model and logos are big and change rarely; a day of caching keeps repeat visits instant.
+    ...["/brain.glb", "/logos/:path*", "/logos-color/:path*", "/brand/:path*"].map((source) => ({
+      source,
+      headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+    })),
     // X-Frame-Options is set per-area, and the two sources below are mutually
     // exclusive so no path ever matches both.
     //

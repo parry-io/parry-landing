@@ -22,33 +22,42 @@ const mono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const TITLE = "Parry · Commercial AI for enterprise procurement";
+const DESCRIPTION =
+  "Parry is the commercial AI intelligence, execution and autonomous platform for enterprise procurement. It connects to your ERP, P2P and repositories in a few clicks, builds one source of truth per vendor, and negotiates, renews and validates spend within your rules.";
+
 export const metadata = {
-  title: "Parry — AI procurement platform (private beta)",
-  description:
-    "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
+  metadataBase: new URL("https://www.parry-io.com"),
+  title: TITLE,
+  description: DESCRIPTION,
   keywords:
-    "AI procurement, procurement AI, contract intelligence, invoice auditing, overbilling detection, renewal tracking, supplier management",
+    "AI procurement, procurement AI, commercial AI, autonomous procurement, supplier management, contract extraction, AI negotiation, procure-to-pay validation, spend analysis, renewal management",
   authors: [{ name: "Parry" }],
   robots: { index: true, follow: true },
   alternates: { canonical: "https://www.parry-io.com" },
   openGraph: {
     type: "website",
     url: "https://www.parry-io.com",
-    title: "Parry — AI procurement platform (private beta)",
-    description:
-      "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
+    title: TITLE,
+    description: DESCRIPTION,
     siteName: "Parry",
-    images: [{ url: "https://www.parry-io.com/Parry_Logo.png" }],
+    images: [{ url: "https://www.parry-io.com/og.jpg", width: 1200, height: 630, alt: "Parry" }],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Parry — AI procurement platform (private beta)",
-    description:
-      "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
-    images: ["https://www.parry-io.com/Parry_Logo.png"],
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["https://www.parry-io.com/og.jpg"],
   },
-  icons: { icon: "/Parry_Logo.png", apple: "/Parry_Logo.png" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/brand/favicon-transparent.svg", type: "image/svg+xml" },
+      { url: "/brand/favicon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/brand/apple-touch-icon.png",
+  },
 };
 
 const jsonLd = {
@@ -56,32 +65,20 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
+      "@id": "https://www.parry-io.com/#org",
       name: "Parry",
-      url: "https://www.parry-io.com",
-      logo: "https://www.parry-io.com/Parry_Logo.png",
-      description:
-        "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
-      foundingDate: "2024",
-      address: { "@type": "PostalAddress", addressLocality: "Tel Aviv", addressCountry: "IL" },
-      contactPoint: { "@type": "ContactPoint", email: "yehonatan@parry-io.com", contactType: "sales" },
+      alternateName: "Parry-io",
+      url: "https://www.parry-io.com/",
+      logo: "https://www.parry-io.com/brand/parry-symbol.png",
+      description: DESCRIPTION,
+      address: { "@type": "PostalAddress", addressLocality: "New York", addressCountry: "US" },
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "WebSite",
+      "@id": "https://www.parry-io.com/#site",
+      url: "https://www.parry-io.com/",
       name: "Parry",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      description:
-        "Parry is an AI procurement platform that reads your contracts, invoices, and supplier email threads, extracts the commercial terms, and catches overbilling and renewals before they cost you. Now in private beta.",
-      offers: {
-        "@type": "Offer",
-        category: "Enterprise",
-        availability: "https://schema.org/LimitedAvailability",
-      },
-      featureList: [
-        "Contract and invoice term extraction",
-        "Overbilling detection against contract terms",
-        "Renewal and notice-window tracking",
-      ],
+      publisher: { "@id": "https://www.parry-io.com/#org" },
     },
   ],
 };

@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Parry",
+  title: "Privacy Policy · Parry",
   description:
     "How Parry.io Ltd. collects, uses, shares, and protects personal data across parry-core, parry-realtime, parry-io.com, and the Parry Chrome extension.",
   alternates: { canonical: "https://www.parry-io.com/privacy" },
