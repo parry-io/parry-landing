@@ -355,7 +355,8 @@ nav .mark img{height:40px;width:auto}
 @media (max-width:760px){.herosub .rot{font-size:21px;min-height:3.8em}.herosub .rot span{white-space:normal}}
 @media (prefers-reduced-motion:reduce){.herosub .rot{display:block}.herosub .rot span{display:block;opacity:1;transform:none;filter:none;white-space:normal;font-size:.8em}.rticks{display:none}}
 /* Built ↔ Buy, flipping vertically */
-.vflip{display:inline-grid;vertical-align:bottom;height:1.02em;overflow:hidden;line-height:1.02}
+/* the clip reaches below the slot so descenders (the y of "by") are not cut; the words still enter and leave out of sight */
+.vflip{display:inline-grid;vertical-align:bottom;height:1.02em;clip-path:inset(-.06em 0 -.3em 0);line-height:1.02}
 /* the slot follows the word on show, so "by" sits as close to "the" as "for" does */
 .vflip.sized{animation:vflipW 5.2s cubic-bezier(.7,0,.2,1) infinite}
 @keyframes vflipW{0%,40%{width:var(--w1)}48%,90%{width:var(--w2)}98%,100%{width:var(--w1)}}
