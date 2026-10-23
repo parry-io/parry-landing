@@ -1593,16 +1593,21 @@ function frame(now) {
     STAGES.forEach((s, i) => { place(s.el, s.local.clone().applyMatrix4(ring.matrixWorld), lw > .6 && zw < .25 && cw < .25, -1.1, 1.1, innerWidth * .45, 1.02); s.el.classList.toggle('lit', i === cur); s.el.classList.toggle('flip', i > 0); });
     // cards always show their full text and sit right at their point on the brain: each takes the first free spot of
     // right / left / just above / just below the point (never on the copy, another card or off screen), and keeps its spot
-    // for as long as it stays free, so cards do not hop as the brain turns.
+    // for as long as it stays free, so cards do not hop as the brain turns. When a card must change spot it glides there.
     { const cp = [...document.querySelectorAll('.loopx .h, .loopx .sub')].map(e => e.getBoundingClientRect()).filter(r => r.width);
       const GAP = 10, placed = [], meet = (a, b) => a.left < b.right + GAP && a.right + GAP > b.left && a.top < b.bottom + GAP && a.bottom + GAP > b.top;
       const clash = r => (r.left < 8 || r.right > innerWidth - 8 || r.top < 70 || r.bottom > innerHeight - 8 ? 1 : 0) + cp.filter(c => meet(r, c)).length + placed.filter(p => meet(r, p)).length;
-      STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini'); if (!st.el.classList.contains('on')) return;
+      const k = 1 - Math.pow(.004, dt);
+      STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini'); if (!st.el.classList.contains('on')) { st.ox = null; return; }
         const h = c.offsetHeight + GAP, spots = [[0, 0], [1, 0], [0, -h], [1, -h], [0, h], [1, h], [0, -2 * h], [1, -2 * h], [0, 2 * h], [1, 2 * h]];
         const at = ([f, dy]) => { st.el.classList.toggle('flip', !!f); c.style.marginTop = dy + 'px'; return c.getBoundingClientRect(); };
         let best = null, bestN = 1e9;
         for (const sp of st.spot ? [st.spot, ...spots] : spots) { const n = clash(at(sp)); if (n < bestN) { best = sp; bestN = n; } if (!n) break; }
-        st.spot = best; placed.push(at(best)); }); }
+        st.spot = best; const goal = at(best); placed.push(goal);
+        // decisions use the spot's final box; what is drawn eases from the card's last offset to it
+        const base = at([0, 0]), dx = goal.left - base.left, dy = goal.top - base.top;
+        if (st.ox == null) { st.ox = dx; st.oy = dy; } else { st.ox += (dx - st.ox) * k; st.oy += (dy - st.oy) * k; }
+        c.style.marginTop = ''; c.style.translate = `${st.ox.toFixed(1)}px ${st.oy.toFixed(1)}px`; }); }
     GOV.forEach(g => { V.copy(g.local).applyMatrix4(ring.matrixWorld).project(camera); const on = false;
       g.el.classList.toggle('on', on); if (on) g.el.style.transform = `translate3d(${(V.x * .5 + .5) * innerWidth}px, ${(-V.y * .5 + .5) * innerHeight}px, 0)`; }); }
   STG_CARDS.forEach((cards, i) => cards.forEach((c, j) => place(c.el, c.v.clone().applyMatrix4(brainGroup.matrixWorld), i > 0 && i === si && pn > SS[i] + .004 + j * .005 && ls - si < .4 && zw > .9, innerWidth > 760 ? -.1 : -1.1, innerWidth > 760 ? .8 : -.05)));
