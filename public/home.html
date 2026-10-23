@@ -435,7 +435,9 @@ body.pscroll .pclose{display:none}
 .book .done p{color:var(--ink-2);margin-top:8px}
 @media (max-width:760px){.book form{padding:24px 20px 22px}.book .row{grid-template-columns:1fr}.book h3{font-size:25px}}
 /* FAQ */
-.faq{background:var(--bg)}
+/* the FAQ is not a sheet sliding over the film: the film dissolves to ivory (#cut) while the questions come up through it */
+.fsec.faq{background:linear-gradient(to bottom,transparent,var(--bg) 45vh);border-top:none;padding-top:max(22vh,140px)}
+.faq>*{opacity:var(--ff,1);transform:translateY(calc((1 - var(--ff,1)) * 26px))}
 .faqs{margin-top:40px;max-width:900px;border-top:1px solid var(--line)}
 .faqs details{border-bottom:1px solid var(--line);padding:4px 0}
 .fsec h2 em{font-style:normal!important}
@@ -1226,16 +1228,15 @@ const ACTIONS = [
   document.getElementById('log').prepend(el); return { el, s };
 });
 const V = new THREE.Vector3();
-function place(el, world, on, minX = -1.1, maxY = 1.1, flipW = 330) {
+function place(el, world, on, minX = -1.1, maxY = 1.1, flipW = 330, edge = innerWidth > 760 ? 1.1 : .78) {
   V.copy(world).project(camera);
-  const edge = innerWidth > 760 ? 1.1 : .78;
   const vis = on && V.z < 1 && V.x > minX && V.y < maxY && Math.abs(V.x) < edge && Math.abs(V.y) < 1.1;
   el.classList.toggle('on', vis);
   if (vis) { const x = (V.x * .5 + .5) * innerWidth; el.classList.toggle('flip', x > innerWidth - flipW); el.style.transform = `translate3d(${x}px, ${(-V.y * .5 + .5) * innerHeight}px, 0)`; }
 }
 
 /* ---------------- the loop (connect → understand → decide → execute → validate → again) ---------------- */
-const LOOPU = { value: 0 }, HEADU = { value: 0 }, LAPU = { value: 0 };
+const LOOPU = { value: 0 }, HEADU = { value: 0 }, LAPU = { value: 0 }, NETU = { value: 0 }, TWU = { value: 0 };
 const RING_R = 1.55, ring = new THREE.Group(); scene.add(ring);
 // the four regions the dives visit, joined by one closed nerve fibre that runs over the cortex
 brainGroup.updateMatrixWorld(true);
@@ -1316,11 +1317,14 @@ const NET = (() => {
   ng.setAttribute('isStep', new THREE.Float32BufferAttribute(nodes.map((_, i) => i >= NN ? 1 : 0), 1));
   const WAVE = { value: -5 }, SRC = { value: 0 }, COL = { value: new THREE.Color('#067A50') }, REV = { value: .3 }, BOOST = { value: 0 };
   const pick = `float h = src < .5 ? h0 : src < 1.5 ? h1 : src < 2.5 ? h2 : h3; float a = exp(-pow(wave - h, 2.) / 1.6); float after = smoothstep(0., 1., wave - h) * exp(-(wave - h) * .22);`;
-  ring.add(new THREE.LineSegments(eg, new THREE.ShaderMaterial({ uniforms: { loop: LOOPU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
+  ring.add(new THREE.LineSegments(eg, new THREE.ShaderMaterial({ uniforms: { loop: NETU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
     vertexShader: `attribute float h0, h1, h2, h3, rk; uniform float wave, src, rev; varying float vA, vB, vV; void main(){ ${pick} vA = a; vB = after; vV = smoothstep(rk - .06, rk, rev); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
     fragmentShader: `uniform float loop, boost; uniform vec3 col; varying float vA, vB, vV; void main(){ if (vV < .01) discard; gl_FragColor = vec4(mix(mix(vec3(.043,.122,.102), vec3(.02,.4,.26), boost), mix(col, vec3(.65,.95,.8), vA * .5), clamp(vA + vB, 0., 1.)), loop * vV * (.14 + .5 * boost + vA * .95 + vB * (.35 + .4 * boost))); }` })));
-  ring.add(new THREE.Points(ng, new THREE.ShaderMaterial({ uniforms: { loop: LOOPU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
-    vertexShader: `attribute float h0, h1, h2, h3, isStep, rk; uniform float wave, src, rev, boost; varying float vA, vB, vS, vV; void main(){ ${pick} vA = a; vB = after; vS = isStep; vV = smoothstep(rk - .06, rk, rev);
+  ring.add(new THREE.Points(ng, new THREE.ShaderMaterial({ uniforms: { loop: NETU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST, tw: TWU, time: U.time }, transparent: true, depthWrite: false,
+    vertexShader: `attribute float h0, h1, h2, h3, isStep, rk; uniform float wave, src, rev, boost, tw, time; varying float vA, vB, vS, vV; void main(){ ${pick}
+      // twinkle: each node lights up now and then, on its own slow clock
+      a = max(a, tw * smoothstep(.82, 1., sin(time * (.35 + .5 * fract(rk * 7.3)) + rk * 91.)));
+      vA = a; vB = after; vS = isStep; vV = smoothstep(rk - .06, rk, rev);
       gl_PointSize = (4. + 3. * boost + 13. * a + 3. * after + isStep * 8.) * ${DPR.toFixed(2)}; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
     fragmentShader: `uniform float loop, boost; uniform vec3 col; varying float vA, vB, vS, vV; void main(){ float d = length(gl_PointCoord - .5); if (d > .5 || vV < .01) discard;
       float core = smoothstep(.5, .1, d); gl_FragColor = vec4(mix(col, vec3(1.), vA * .55 * smoothstep(.25, 0., d)), loop * vV * core * (.38 + .45 * boost + vA * .9 + vB * .35 + vS * .4)); }` })));
@@ -1381,7 +1385,7 @@ const START = .14, PN = .595, END = 1.66;
 // The page plays the film's scenes in this order: [name, scroll budget (vh), film from, film to].
 // Neighbours in the page that are far apart in the film meet at a short fade through ivory (#cut).
 // Each jump sits right at the edge of its scenes' copy, so no stretch of the page is left without words.
-const VH = [['hero', 110, .14, .214], ['platform', 120, .601, .665], ['loop', 150, .665, .99], ['product', 170, 1.523, 1.648], ['built', 200, .272, .528], ['cta', 80, .528, .583],
+const VH = [['hero', 110, .14, .214], ['platform', 120, .601, .665], ['loop', 150, .665, .958], ['product', 170, 1.523, 1.648], ['built', 200, .272, .528], ['cta', 80, .528, .583],
   ['industries', 130, 1.008, 1.18], ['why', 110, 1.18, 1.345], ['mri', 120, 1.345, 1.47]];
 const VH_TOT = VH.reduce((a, v) => a + v[1], 0);
 const SEG = (() => { let acc = 0; return VH.map(([n, v, a, b]) => { const x0 = acc / VH_TOT; acc += v; return { n, x0, x1: acc / VH_TOT, a, b }; }); })();
@@ -1393,8 +1397,6 @@ const toFilm = x => { x = clamp01(x); const g = SEG.find(g => x <= g.x1) || SEG[
 const toPage = q => { const g = SEG.find(g => q >= Math.min(g.a, g.b) && q <= Math.max(g.a, g.b)) || SEG[0]; return g.x0 + (g.x1 - g.x0) * (q - g.a) / (g.b - g.a); };
 let ux = 0, ut = 0;
 let pw = 0, productOn = false, pSel = 0, pHover = false, pT = 0;
-// the product scene frames the brain exactly as the learning loop leaves it, so the cut between them is only a change of content
-const prodCam = { pos: new THREE.Vector3(1.094, .85, 5.233), look: new THREE.Vector3(-.914, .009, 0) }, prodCamM = { pos: new THREE.Vector3(3.912, 2.533, 8.94), look: new THREE.Vector3(-.089, 1.117, 0) };
 let pn = START, p = 0, target = START, last = performance.now(), T = 0;
 // the page timeline (pn) maps onto the film's original beats (p); the loop scene holds the film still
 const KN = [[0,.155],[.14,.2],[.225,.24],[.29,.84],[.52,.89],[.53,.905],[.565,.93],[.628,.818],[1,.82],[1.4,.82]];
@@ -1454,20 +1456,45 @@ function camAt(x) { for (let i = 1; i < KN.length; i++) if (x <= KN[i][0]) { con
   return camAtOld(.82); }
 const maxScroll = () => document.getElementById('scroller').offsetHeight - innerHeight;
 addEventListener('scroll', () => { ut = clamp01(scrollY / maxScroll()); }, { passive: true });
-const cutEl = document.getElementById('cut');
+const cutEl = document.getElementById('cut'), FAQ_ = document.getElementById('faq');
+// screen box of the brain for a camera, from the 8 corners of its bounding box
+const BB = (() => { brainGeo.computeBoundingBox(); const b = brainGeo.boundingBox, c = []; for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) c.push(new THREE.Vector3(x, y, z)); return c; })();
+const _fv = new THREE.Vector3(), _fr = new THREE.Vector3(), _fu = new THREE.Vector3(), _fd = new THREE.Vector3();
+function brainRect(cam) { let l = 1e9, r = -1e9, t = 1e9, b = -1e9; for (const p of BB) { _fv.copy(p).applyMatrix4(brainGroup.matrixWorld).project(cam); const x = (_fv.x * .5 + .5) * innerWidth, y = (-_fv.y * .5 + .5) * innerHeight; l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y); } return { l, r, t, b }; }
+const rectsOf = sel => [...document.querySelectorAll(sel)].map(e => e.getBoundingClientRect()).filter(r => r.width && r.height);
+// the free screen area a scene leaves for the brain: right of its copy on a wide window, below it on a narrow one, above any bottom bar
+function freeBox(copySel, barSel) { const cp = rectsOf(copySel), bar = barSel ? rectsOf(barSel) : [], wide = innerWidth > 760;
+  const b = bar.length ? Math.min(...bar.map(r => r.top)) - (wide ? 30 : 14) : innerHeight - (wide ? 50 : 20);
+  if (wide) return { l: (cp.length ? Math.max(...cp.map(r => r.right)) : innerWidth * .4) + 40, r: innerWidth - 40, t: 100, b };
+  return { l: 10, r: innerWidth - 10, t: (cp.length ? Math.max(...cp.map(r => r.bottom)) : innerHeight * .3) + 14, b }; }
+// move the camera back or in, and sideways, so the brain sits centred in the box, as large as fits
+function fitBrain(cam, look, fov, w, fill, box) {
+  if (w < .01 || box.r - box.l < 200 || box.b - box.t < 160) return;
+  const { l: xL, r: xR, t: yT, b: yB } = box;
+  cam.fov = fov; cam.updateProjectionMatrix(); cam.lookAt(look); cam.updateMatrixWorld();
+  const r0 = brainRect(cam), sc = Math.min(2.4, Math.max(.45, Math.max((r0.r - r0.l) / (xR - xL), (r0.b - r0.t) / (yB - yT)) / fill));
+  _fd.copy(cam.position).sub(look); const dist = _fd.length() * sc;
+  // after moving back by sc the brain's offset from the screen centre shrinks by sc; then slide sideways to the target centre
+  const cx = innerWidth / 2 + ((r0.l + r0.r) / 2 - innerWidth / 2) / sc, cy = innerHeight / 2 + ((r0.t + r0.b) / 2 - innerHeight / 2) / sc;
+  const px = 2 * dist * Math.tan(THREE.MathUtils.degToRad(fov) / 2) / innerHeight;
+  _fr.setFromMatrixColumn(cam.matrixWorld, 0); _fu.setFromMatrixColumn(cam.matrixWorld, 1);
+  const tx = (cx - (xL + xR) / 2) * px, ty = (cy - (yT + yB) / 2) * px;
+  const np = look.clone().addScaledVector(_fd.normalize(), dist).addScaledVector(_fr, tx).addScaledVector(_fu, -ty), nl = look.clone().addScaledVector(_fr, tx).addScaledVector(_fu, -ty);
+  cam.position.lerp(np, w); look.lerp(nl, w); }
 const xf = document.getElementById('xf'), xctx = xf.getContext('2d'); let xfA = 0, segPrev = -1;
 const camS = { pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 30, on: 0, sph: new THREE.Spherical() };
-let glide = 0, spin = 0, dimS = -1, navKey = '';
+let glide = 0, glideT = 1.6, turn = false, spin = 0, dimS = -1, navKey = '';
 const NAV_A = [...document.querySelectorAll('nav .links a')]; const _off = new THREE.Vector3(), _sph = new THREE.Spherical();
 
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now; T += dt;
   if (!RENDER_MODE) { ux += (ut - ux) * (1 - Math.pow(.006, dt)); pn = toFilm(ux);
     // crossing a jump (other than hero → platform, which glides): dissolve the last frame into the new scene
-    const si = segOf(ux); if (segPrev >= 0 && si !== segPrev && JUMPS.slice(1).some(c => Math.abs(ux - c) < .05)) { if (xf.width > 1) xfA = 1; glide = 1; spin = JUMPS[1] === SEG[Math.max(si, segPrev)].x0 ? 0 : (si > segPrev ? 1 : -1) * .75; } segPrev = si;
+    const si = segOf(ux); if (segPrev >= 0 && si !== segPrev && JUMPS.slice(1).some(c => Math.abs(ux - c) < .05)) { if (xf.width > 1) xfA = 1; glide = 1; spin = JUMPS[1] === SEG[Math.max(si, segPrev)].x0 ? 0 : (si > segPrev ? 1 : -1) * .75;
+      turn = SEG[segPrev].n === 'product' && si > segPrev; glideT = turn ? 2.6 : 1.6; if (turn) spin = 2.4; } segPrev = si;
     // the menu marks the section on screen
     { const nm = SEG[si].n, key = nm === 'loop' ? 'platform' : nm; if (key !== navKey) { navKey = key; NAV_A.forEach(a => { const on = a.getAttribute('href') === '#' + key; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); }); } }
-    xfA = Math.max(0, xfA - dt / .45); glide = Math.max(0, glide - dt / 1.6); xf.style.opacity = ease(xfA).toFixed(3); }
+    xfA = Math.max(0, xfA - dt / .45); glide = Math.max(0, glide - dt / glideT); xf.style.opacity = ease(xfA).toFixed(3); }
   p = M(pn);
   const lpz = ease(seg(pn, SE[0] + .02, .97));
   const lw = ease(bell(pn, SE[0] - .004, 1.0, .04)), cw = ease(bell(pn, SS[0] - .012, SE[0] + .022, .042));
@@ -1500,7 +1527,12 @@ function frame(now) {
   document.body.classList.toggle('pscroll', !productOn && pw > .3); const pwe = ease(pw);
   const csw = ease(bell(pn, .99, 1.185, .03)), wyw = ease(bell(pn, 1.17, 1.36, .035)), fnw = ease(bell(pn, 1.33, 1.49, .035));
   camera.position.lerp(casesCam.pos, csw).lerp(whyCam.pos, wyw).lerp((camera.aspect < .9 ? finalCamM : finalCam).pos, fnw); look.lerp(casesCam.look, csw).lerp(whyCam.look, wyw).lerp((camera.aspect < .9 ? finalCamM : finalCam).look, fnw);
-  if (pwe > .001) { const pc = camera.aspect < .9 ? prodCamM : prodCam; camera.position.lerp(pc.pos, pwe); look.lerp(pc.look, pwe); k.fov += (31.43 - k.fov) * pwe; k.ap += (.06 - k.ap) * pwe; U.crisp.value = Math.max(U.crisp.value, .8 * pwe); }
+  if (pwe > .001) { camera.position.lerp(loopNear.pos, pwe); look.lerp(loopNear.look, pwe); k.fov += (34 - k.fov) * pwe; k.ap += (.06 - k.ap) * pwe; U.crisp.value = Math.max(U.crisp.value, .8 * pwe); }
+  // whatever the window, the brain fills the free area its scene leaves: beside the copy on a wide window, under it on a phone
+  const LOOP_COPY = '#lsteps .lstep:nth-child(2) .h, #lsteps .lstep:nth-child(2) .sub';
+  if (innerWidth <= 760) fitBrain(camera, look, k.fov, cw, 1.12, { l: 62, r: innerWidth - 62, t: Math.max(innerHeight * .3, ...rectsOf('.connect-s .h').map(r => r.bottom + 16)), b: innerHeight * .9 - 26 });
+  fitBrain(camera, look, k.fov, lw, innerWidth > 760 ? .9 + .3 * lpz : 1.15, freeBox(LOOP_COPY));
+  fitBrain(camera, look, k.fov, pwe, innerWidth > 760 ? 1.1 : 1.15, freeBox('.pp.on .h, .pp.on i, .pp.on .pchips', '.ptabs'));
   // hero → platform is a cut in the film: no veil there, the camera glides across it instead
   // the other jumps orbit there: the camera swings round the brain to the new view, so the brain turns rather than cuts
   { const near = RENDER_MODE ? 0 : Math.max(ease(glide), 1 - Math.min(1, Math.max(0, (Math.abs(ux - CUTS[0]) - .012) / .05))), a = 1 - Math.pow(.05, dt) * near;
@@ -1509,7 +1541,7 @@ function frame(now) {
     let dth = _sph.theta - camS.sph.theta; dth = Math.atan2(Math.sin(dth), Math.cos(dth));
     camS.sph.theta += dth * a; camS.sph.phi += (_sph.phi - camS.sph.phi) * a; camS.sph.radius += (_sph.radius - camS.sph.radius) * a;
     camS.look.lerp(look, a); camS.fov += (k.fov - camS.fov) * a;
-    _sph.copy(camS.sph); if (glide > 0) _sph.theta += spin * Math.sin(Math.PI * (1 - glide));
+    _sph.copy(camS.sph); if (glide > 0) _sph.theta += turn ? spin * ease(glide) : spin * Math.sin(Math.PI * (1 - glide));
     camera.position.copy(camS.look).add(_off.setFromSpherical(_sph)); look.copy(camS.look); k.fov = camS.fov; }
   camera.lookAt(look); camera.fov = k.fov; camera.updateProjectionMatrix();
   camera.updateMatrixWorld(); ring.updateMatrixWorld(true);
@@ -1554,21 +1586,23 @@ function frame(now) {
     lastHead = head; flash *= Math.exp(-dt * 1.8);
     U.energy.value += (.5 + flash * 1.4) * lw; U.heat.value += flash * .8 * lw;
     ring.getObjectByName('gov').material.opacity = 0; LOOPU.value = lw * (1 - .8 * Math.max(zw, cw)) * (1 - pw); ring.rotation.y = 0;
+    // the product holds the brain still; only the network lives: the loop's green waves plus nodes that come and go
+    NETU.value = Math.max(LOOPU.value, pwe); TWU.value = pwe;
     let cur = 3; { let best = -1; LOOP_U.forEach((u, i) => { const ago = (head - u + 1) % 1; if (best < 0 || ago < best) { best = ago; cur = i; } }); } ORBS.value.forEach((v, i) => { ORBS.value[i] += ((i === cur ? 1 : 0) - v) * .12; });
     { const lap = Math.min(3, Math.floor(seg(pn, SE[0] + .01, .955) * 4)); NET.SRC.value = lap; NET.WAVE.value = head * (NET.maxHop + 6) - 1; NET.REV.value = .28 + .74 * lpz; NET.BOOST.value = lpz; NET.COL.value.set(ORBC[lap]); cur = lap; }
-    STAGES.forEach((s, i) => { place(s.el, s.local.clone().applyMatrix4(ring.matrixWorld), lw > .6 && zw < .25 && cw < .25, -1.1, 1.1, innerWidth * .45); s.el.classList.toggle('lit', i === cur); s.el.classList.toggle('flip', i > 0); });
-    // cards never sit on the copy, off the screen or on each other: try the other side of the point, then slide below the card in the way
+    STAGES.forEach((s, i) => { place(s.el, s.local.clone().applyMatrix4(ring.matrixWorld), lw > .6 && zw < .25 && cw < .25, -1.1, 1.1, innerWidth * .45, 1.02); s.el.classList.toggle('lit', i === cur); s.el.classList.toggle('flip', i > 0); });
+    // cards always show their full text and sit right at their point on the brain: each takes the first free spot of
+    // right / left / just above / just below the point (never on the copy, another card or off screen), and keeps its spot
+    // for as long as it stays free, so cards do not hop as the brain turns.
     { const cp = [...document.querySelectorAll('.loopx .h, .loopx .sub')].map(e => e.getBoundingClientRect()).filter(r => r.width);
-      const R = cp.length ? Math.max(...cp.map(r => r.right)) + 18 : -1, B = cp.length ? Math.max(...cp.map(r => r.bottom)) + 12 : -1, Tp = cp.length ? Math.min(...cp.map(r => r.top)) - 12 : 0;
       const GAP = 10, placed = [], meet = (a, b) => a.left < b.right + GAP && a.right + GAP > b.left && a.top < b.bottom + GAP && a.bottom + GAP > b.top;
-      const onCopy = r => r.left < R && r.top < B && r.bottom > Tp;
+      const clash = r => (r.left < 8 || r.right > innerWidth - 8 || r.top < 70 || r.bottom > innerHeight - 8 ? 1 : 0) + cp.filter(c => meet(r, c)).length + placed.filter(p => meet(r, p)).length;
       STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini'); if (!st.el.classList.contains('on')) return;
-        // every decision is made on the full-size card; deciding on the compact one made it flip between the two each frame
-        const box = () => c.getBoundingClientRect(), bad = r => onCopy(r) || r.left < 8 || r.right > innerWidth - 12 || placed.some(p => meet(r, p));
-        if (bad(box())) { st.el.classList.toggle('flip'); if (bad(box())) st.el.classList.toggle('flip'); }
-        let r = box(), dy = 0; for (const p of placed) if (meet(r, p)) { dy += p.bottom + GAP - r.top; c.style.marginTop = dy + 'px'; r = box(); }
-        const dx = r.right > innerWidth - 12 ? innerWidth - 12 - r.right : r.left < 8 ? 8 - r.left : 0; if (dx) { c.style.translate = dx + 'px 0'; r = box(); }
-        st.el.classList.toggle('mini', onCopy(r)); placed.push(box()); }); }
+        const h = c.offsetHeight + GAP, spots = [[0, 0], [1, 0], [0, -h], [1, -h], [0, h], [1, h], [0, -2 * h], [1, -2 * h], [0, 2 * h], [1, 2 * h]];
+        const at = ([f, dy]) => { st.el.classList.toggle('flip', !!f); c.style.marginTop = dy + 'px'; return c.getBoundingClientRect(); };
+        let best = null, bestN = 1e9;
+        for (const sp of st.spot ? [st.spot, ...spots] : spots) { const n = clash(at(sp)); if (n < bestN) { best = sp; bestN = n; } if (!n) break; }
+        st.spot = best; placed.push(at(best)); }); }
     GOV.forEach(g => { V.copy(g.local).applyMatrix4(ring.matrixWorld).project(camera); const on = false;
       g.el.classList.toggle('on', on); if (on) g.el.style.transform = `translate3d(${(V.x * .5 + .5) * innerWidth}px, ${(-V.y * .5 + .5) * innerHeight}px, 0)`; }); }
   STG_CARDS.forEach((cards, i) => cards.forEach((c, j) => place(c.el, c.v.clone().applyMatrix4(brainGroup.matrixWorld), i > 0 && i === si && pn > SS[i] + .004 + j * .005 && ls - si < .4 && zw > .9, innerWidth > 760 ? -.1 : -1.1, innerWidth > 760 ? .8 : -.05)));
@@ -1605,6 +1639,8 @@ function frame(now) {
       const tx = innerWidth > 760 ? innerWidth * .07 : 22, ty = innerWidth > 760 ? innerHeight * .72 : innerHeight * .3;
       L.style.transform = `translate3d(${sx + (tx - sx) * t}px, ${sy + (ty - sy) * t}px, 0) scale(${.5 + .5 * t})`; L.style.setProperty('--q', seg(p, .676, .686)); } }
   document.body.classList.toggle('flowing', scrollY > maxScroll() + innerHeight * .55);
+  // into the FAQ: the last scene fades through ivory as the questions rise into place
+  { const f = clamp01((scrollY - maxScroll() + innerHeight * .05) / (innerHeight * .55)); cutEl.style.opacity = ease(f).toFixed(3); FAQ_.style.setProperty('--ff', ease(clamp01(f * 1.25 - .15)).toFixed(3)); }
   document.getElementById('hint').style.opacity = pn < START + .01 ? 1 : 0;
   if (!RENDER_MODE) requestAnimationFrame(frame);
 }
@@ -1641,26 +1677,17 @@ const WHY = [['Action-based product', 'You define when Parry negotiates, contrac
   ['Proficient across all OpEx', 'IT, SaaS, services, marketing, R&D, maintenance and more.'], ['Win-win pricing', 'Priced on the savings on your spend. We win when you save.'], ['FDE on the ground', 'Forward deployed engineers at your site, alongside your team.']];
 const VR = [...document.querySelectorAll('.vr')];
 function whyFrame() { VR.forEach((r, k) => r.classList.toggle('on', pn > 1.195 + k * .02 && pn < 1.345)); }
-// product view: each product owns a lobe; picking one flies the camera to it
+// product view: each product owns a lobe, tinted while it is picked; the brain holds still, framed as the learning loop leaves it
 const PCOL = [0, 2, 1, 3]; // product → region colour slot (cobalt, mint, coral, amber)
 const PLOBE = [pick(v => v.y > .45), pick(v => v.x < -.5 && v.y < .1), pick(v => v.x > .45 && v.y > 0), pick(v => v.y < -.3 && v.x > -.1)];
 PLOBE.forEach((n, k) => U.rc.value[PCOL[k]].copy(neu[n]));
 const ppEls = [...document.querySelectorAll('.pp')], ptBtns = [...document.querySelectorAll('.ptabs button')];
-const pCamNow = { pos: new THREE.Vector3(), look: new THREE.Vector3() };
-function lobeCam(k) { const W = brainGroup.matrixWorld, h = neu[PLOBE[k]].clone().applyMatrix4(W), hn = h.clone().normalize(), up = new THREE.Vector3(0, 1, 0), rt = new THREE.Vector3().crossVectors(up, hn).normalize();
-  const mob = camera.aspect < .9;
-  return { pos: h.clone().addScaledVector(hn, mob ? 3.6 : 2.7).addScaledVector(up, .2), look: mob ? h.clone().addScaledVector(up, .55) : h.clone().addScaledVector(rt, -.95) }; }
-let pInit = false;
 function productFrame(w) {
-  if (w < .01) { pInit = false; return; }
+  if (w < .01) return;
   let frac;
   if (productOn) { if (!pHover) pT += 1 / 60; if (pT > 5.5) { pT = 0; pSel = (pSel + 1) % 4; } frac = pT / 5.5; }
   else { const q = seg(pn, 1.523, 1.648) * 4; pSel = Math.min(3, Math.floor(q)); frac = Math.min(1, q - pSel); }
-  ppEls.forEach((e, k) => e.classList.toggle('on', k === pSel)); ptBtns.forEach((b, k) => { b.classList.toggle('on', k === pSel); if (k === pSel) b.style.setProperty('--t', frac.toFixed(3)); });
-  // entering the product, the camera starts where the last scene left it and flies into the pillar's region
-  const tgt = lobeCam(pSel); if (!pInit) { pCamNow.pos.copy(camera.position); pCamNow.look.copy(camS.on ? camS.look : tgt.look); pInit = true; }
-  pCamNow.pos.lerp(tgt.pos, .045); pCamNow.look.lerp(tgt.look, .045);
-  prodCam.pos.copy(pCamNow.pos); prodCam.look.copy(pCamNow.look); prodCamM.pos.copy(pCamNow.pos); prodCamM.look.copy(pCamNow.look); }
+  ppEls.forEach((e, k) => e.classList.toggle('on', k === pSel)); ptBtns.forEach((b, k) => { b.classList.toggle('on', k === pSel); if (k === pSel) b.style.setProperty('--t', frac.toFixed(3)); }); }
 const openProduct = on => { productOn = on; document.body.classList.toggle('product', on); document.getElementById('product').setAttribute('aria-hidden', !on); pT = 0; };
 document.querySelectorAll('[data-product]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openProduct(true); }));
 document.querySelector('.pclose').addEventListener('click', () => openProduct(false));
