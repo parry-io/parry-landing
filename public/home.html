@@ -355,7 +355,8 @@ nav .mark img{height:40px;width:auto}
 @media (max-width:760px){.herosub .rot{font-size:21px;min-height:3.8em}.herosub .rot span{white-space:normal}}
 @media (prefers-reduced-motion:reduce){.herosub .rot{display:block}.herosub .rot span{display:block;opacity:1;transform:none;filter:none;white-space:normal;font-size:.8em}.rticks{display:none}}
 /* Built ↔ Buy, flipping vertically */
-.vflip{display:inline-grid;vertical-align:bottom;height:1.02em;overflow:hidden;line-height:1.02}
+/* the clip reaches below the slot so descenders (the y of "by") are not cut; the words still enter and leave out of sight */
+.vflip{display:inline-grid;vertical-align:bottom;height:1.02em;clip-path:inset(-.06em 0 -.3em 0);line-height:1.02}
 /* the slot follows the word on show, so "by" sits as close to "the" as "for" does */
 .vflip.sized{animation:vflipW 5.2s cubic-bezier(.7,0,.2,1) infinite}
 @keyframes vflipW{0%,40%{width:var(--w1)}48%,90%{width:var(--w2)}98%,100%{width:var(--w1)}}
@@ -435,7 +436,9 @@ body.pscroll .pclose{display:none}
 .book .done p{color:var(--ink-2);margin-top:8px}
 @media (max-width:760px){.book form{padding:24px 20px 22px}.book .row{grid-template-columns:1fr}.book h3{font-size:25px}}
 /* FAQ */
-.faq{background:var(--bg)}
+/* the FAQ is not a sheet sliding over the film: the film dissolves to ivory (#cut) while the questions come up through it */
+.fsec.faq{background:linear-gradient(to bottom,transparent,var(--bg) 45vh);border-top:none;padding-top:max(22vh,140px)}
+.faq>*{opacity:var(--ff,1);transform:translateY(calc((1 - var(--ff,1)) * 26px))}
 .faqs{margin-top:40px;max-width:900px;border-top:1px solid var(--line)}
 .faqs details{border-bottom:1px solid var(--line);padding:4px 0}
 .fsec h2 em{font-style:normal!important}
@@ -628,7 +631,7 @@ window.PARRY_ANALYTICS = { ga4: '', gtm: '', posthogKey: '', posthogHost: 'https
 
 <nav>
   <a class="mark" href="#" data-home aria-label="Parry, back to the top"><svg class="parry-logo pl-once" viewBox="92 92 1516 416" role="img" aria-label="Parry"><defs><linearGradient id="plg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#067A50"/><stop offset="1" stop-color="#10B47A"/></linearGradient><clipPath id="plu"><polygon points="0,0 200,0 200,42.7 0,158.1"/></clipPath><clipPath id="pll"><polygon points="0,165 200,49.6 200,200 0,200"/></clipPath></defs><g transform="translate(-7.96,22.49) scale(2.7682) translate(-4,-2)"><path class="pl-whole" fill-rule="evenodd" fill="#0B1F1A" d="M50 30 H112 A50 50 0 0 1 112 130 H82 V152 L50 170.5 Z M82 62 H112 A14 14 0 0 1 112 90 H82 Z"/><g class="pl-half"><path clip-path="url(#plu)" fill-rule="evenodd" fill="#0B1F1A" d="M50 30 H112 A50 50 0 0 1 112 130 H82 V152 L50 170.5 Z M82 62 H112 A14 14 0 0 1 112 90 H82 Z"/><g transform="translate(-7,4)"><g class="pl-slide"><path clip-path="url(#pll)" fill-rule="evenodd" fill="url(#plg)" d="M50 30 H112 A50 50 0 0 1 112 130 H82 V152 L50 170.5 Z M82 62 H112 A14 14 0 0 1 112 90 H82 Z"/></g></g></g><line class="pl-line" x1="44" y1="136.2" x2="168" y2="64.6" stroke="url(#plg)" stroke-width="2.4" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1"/></g><path fill="#0B1F1A" d="M543.8754325259515 482.30452674897117V195.88477366255142H594.9042391103137V220.5761316872428H602.3116465177211Q609.3075312913836 208.64197530864197 624.1223461061984 199.3827160493827Q638.9371609210133 190.12345679012344 666.5091773819186 190.12345679012344Q691.20053540661 190.12345679012344 712.1881897275977 202.2633744855967Q733.1758440485853 214.40329218106996 745.9330456946758 237.86008230452674Q758.6902473407663 261.3168724279835 758.6902473407663 294.6502057613169V301.2345679012346Q758.6902473407663 334.5679012345679 745.9330456946758 358.0246913580247Q733.1758440485853 381.48148148148147 712.1881897275977 393.6213991769547Q691.20053540661 405.761316872428 666.5091773819186 405.761316872428Q647.9906588634001 405.761316872428 635.4392185341819 401.44032921810697Q622.8877782049639 397.119341563786 615.274609480684 390.3292181069959Q607.6614407564042 383.53909465020575 603.1346917852107 376.5432098765432H595.7272843778034V482.30452674897117ZM650.871317299614 360.4938271604938Q675.1511526905606 360.4938271604938 690.9947740897376 345.0617283950617Q706.8383954889144 329.6296296296296 706.8383954889144 300.0V295.8847736625514Q706.8383954889144 266.2551440329218 690.7890127728651 250.8230452674897Q674.7396300568157 235.3909465020576 650.871317299614 235.3909465020576Q627.0030045424124 235.3909465020576 610.9536218263631 250.8230452674897Q594.9042391103137 266.2551440329218 594.9042391103137 295.8847736625514V300.0Q594.9042391103137 329.6296296296296 610.9536218263631 345.0617283950617Q627.0030045424124 360.4938271604938 650.871317299614 360.4938271604938Z M855.3980662708075 405.761316872428Q833.5873666823301 405.761316872428 816.3034160650461 398.14814814814815Q799.0194654477622 390.5349794238683 788.9371609210132 375.9259259259259Q778.8548563942643 361.3168724279835 778.8548563942643 340.3292181069959Q778.8548563942643 319.34156378600824 788.9371609210132 305.14403292181066Q799.0194654477622 290.94650205761315 816.9207000156634 283.74485596707814Q834.8219345835647 276.5432098765432 857.8672020732766 276.5432098765432H913.8342802625771V265.0205761316872Q913.8342802625771 250.6172839506173 904.7807823201902 241.35802469135803Q895.7272843778034 232.09876543209876 875.9741979580502 232.09876543209876Q856.6326341720421 232.09876543209876 847.1676135959103 240.94650205761315Q837.7025930197786 249.79423868312756 834.8219345835647 263.7860082304527L787.0853090691614 247.7366255144033Q792.0235806740997 232.09876543209876 802.9289304683384 219.1358024691358Q813.8342802625771 206.17283950617283 832.1470374642231 198.14814814814815Q850.4597946658693 190.12345679012344 876.79724322554 190.12345679012344Q917.1264613325359 190.12345679012344 940.5832514559927 210.28806584362138Q964.0400415794495 230.45267489711932 964.0400415794495 268.7242798353909V344.8559670781893Q964.0400415794495 357.20164609053495 975.5626753243055 357.20164609053495H992.0235806740997V400.0H957.4556794395318Q942.2293419909721 400.0 932.3527987810955 392.5925925925926Q922.476255571219 385.18518518518516 922.476255571219 372.8395061728395V372.42798353909467H914.6573255300667Q913.0112349950873 377.36625514403295 907.2499181226593 385.39094650205766Q901.4886012502313 393.4156378600823 889.1429222378856 399.5884773662551Q876.79724322554 405.761316872428 855.3980662708075 405.761316872428ZM864.4515642131943 363.7860082304527Q886.2622638016717 363.7860082304527 900.0482720321244 351.6460905349794Q913.8342802625771 339.5061728395062 913.8342802625771 319.34156378600824V315.22633744855966H861.5709057769803Q847.1676135959103 315.22633744855966 838.9371609210132 321.3991769547325Q830.7067082461161 327.57201646090533 830.7067082461161 338.6831275720165Q830.7067082461161 349.79423868312756 839.348683554758 356.7901234567901Q847.9906588634001 363.7860082304527 864.4515642131943 363.7860082304527Z M1015.4803707975565 400.0V195.88477366255142H1066.5091773819186V218.93004115226336H1073.916584789326Q1078.4433337605194 206.5843621399177 1088.9371609210134 200.8230452674897Q1099.4309880815072 195.06172839506172 1113.4227576288322 195.06172839506172H1138.1141156535236V241.15226337448559H1112.5997123613424Q1092.8466259415893 241.15226337448559 1080.0894242954987 251.64609053497944Q1067.3322226494083 262.1399176954733 1067.3322226494083 283.9506172839506V400.0Z M1164.0400415794495 400.0V195.88477366255142H1215.0688481638115V218.93004115226336H1222.4762555712189Q1227.0030045424123 206.5843621399177 1237.496831702906 200.8230452674897Q1247.9906588634 195.06172839506172 1261.982428410725 195.06172839506172H1286.6737864354166V241.15226337448559H1261.1593831432353Q1241.4062967234822 241.15226337448559 1228.6490950773918 251.64609053497944Q1215.8918934313012 262.1399176954733 1215.8918934313012 283.9506172839506V400.0Z M1334.8219345835648 482.30452674897117V437.03703703703707H1445.933045694676Q1457.4556794395319 437.03703703703707 1457.4556794395319 424.69135802469134V373.2510288065844H1450.0482720321245Q1446.7560909621657 380.2469135802469 1439.7602061885032 387.24279835390945Q1432.7643214148404 394.238683127572 1420.8301650362396 398.7654320987655Q1408.896008657639 403.2921810699589 1390.3774901391203 403.2921810699589Q1366.5091773819186 403.2921810699589 1348.6079428140174 392.38683127572017Q1330.7067082461162 381.48148148148147 1320.8301650362396 362.1399176954733Q1310.9536218263631 342.79835390946505 1310.9536218263631 317.69547325102883V195.88477366255142H1362.805473678215V313.58024691358025Q1362.805473678215 336.6255144032922 1374.1223461061986 348.14814814814815Q1385.4392185341821 359.6707818930041 1406.4268728551697 359.6707818930041Q1430.2951856123714 359.6707818930041 1443.4639098922066 343.82716049382714Q1456.6326341720421 327.9835390946502 1456.6326341720421 299.5884773662551V195.88477366255142H1508.484486023894V436.2139917695473Q1508.484486023894 457.20164609053495 1496.1388070115484 469.75308641975306Q1483.7931279992026 482.30452674897117 1463.2169963119597 482.30452674897117Z"/></svg></a>
-  <div class="links"><a href="#platform" data-go=".622">The platform</a><a href="#product" data-go="1.527">The product</a><a href="#industries" data-go="1.07">Industries</a><a href="#why" data-go="1.29">Why Parry</a><a href="#mri" data-go="1.42">Spend MRI</a></div>
+  <div class="links"><a href="#platform" data-go=".622">The platform</a><a href="#product" data-go="1.527">The product</a><a href="#industries" data-go="1.07">Industries</a><a href="#why" data-go="1.29">Why Parry</a><a href="#mri" data-go="1.42">Spend MRI</a><a href="#faq" data-faq>FAQ</a></div>
   <a class="cta" href="#book" data-src="Header" data-book="demo">Book a demo</a>
 </nav>
 
@@ -1226,21 +1229,20 @@ const ACTIONS = [
   document.getElementById('log').prepend(el); return { el, s };
 });
 const V = new THREE.Vector3();
-function place(el, world, on, minX = -1.1, maxY = 1.1, flipW = 330) {
+function place(el, world, on, minX = -1.1, maxY = 1.1, flipW = 330, edge = innerWidth > 760 ? 1.1 : .78) {
   V.copy(world).project(camera);
-  const edge = innerWidth > 760 ? 1.1 : .78;
   const vis = on && V.z < 1 && V.x > minX && V.y < maxY && Math.abs(V.x) < edge && Math.abs(V.y) < 1.1;
   el.classList.toggle('on', vis);
   if (vis) { const x = (V.x * .5 + .5) * innerWidth; el.classList.toggle('flip', x > innerWidth - flipW); el.style.transform = `translate3d(${x}px, ${(-V.y * .5 + .5) * innerHeight}px, 0)`; }
 }
 
 /* ---------------- the loop (connect → understand → decide → execute → validate → again) ---------------- */
-const LOOPU = { value: 0 }, HEADU = { value: 0 }, LAPU = { value: 0 };
+const LOOPU = { value: 0 }, HEADU = { value: 0 }, LAPU = { value: 0 }, NETU = { value: 0 }, TWU = { value: 0 };
 const RING_R = 1.55, ring = new THREE.Group(); scene.add(ring);
 // the four regions the dives visit, joined by one closed nerve fibre that runs over the cortex
 brainGroup.updateMatrixWorld(true);
-// four nodes spread over the face the camera sees: top, front-right, bottom, back-left
-const LOOP_I = [[0, .7, .75], [.7, .1, .75], [.1, -.65, .75], [-.7, 0, .75]].map(d => { const D = new THREE.Vector3(...d).normalize(), w = new THREE.Vector3(); let best = 0, bs = -1e9;
+// four nodes spread over the face the camera sees: top, front-right, bottom, lower-left (below the row Decide's card takes, so Validate's card fits on the brain too)
+const LOOP_I = [[0, .7, .75], [.7, .1, .75], [.1, -.65, .75], [-.62, -.38, .75]].map(d => { const D = new THREE.Vector3(...d).normalize(), w = new THREE.Vector3(); let best = 0, bs = -1e9;
   neu.forEach((v, j) => { w.copy(v).applyMatrix4(brainGroup.matrixWorld); const sc = w.clone().normalize().dot(D) * w.length(); if (sc > bs) { bs = sc; best = j; } }); return best; });
 const LOOP_P = LOOP_I.map(i => neu[i].clone().applyMatrix4(brainGroup.matrixWorld).multiplyScalar(1.06));
 const LOOP_C = new THREE.CatmullRomCurve3(LOOP_P, true, 'centripetal');
@@ -1316,11 +1318,14 @@ const NET = (() => {
   ng.setAttribute('isStep', new THREE.Float32BufferAttribute(nodes.map((_, i) => i >= NN ? 1 : 0), 1));
   const WAVE = { value: -5 }, SRC = { value: 0 }, COL = { value: new THREE.Color('#067A50') }, REV = { value: .3 }, BOOST = { value: 0 };
   const pick = `float h = src < .5 ? h0 : src < 1.5 ? h1 : src < 2.5 ? h2 : h3; float a = exp(-pow(wave - h, 2.) / 1.6); float after = smoothstep(0., 1., wave - h) * exp(-(wave - h) * .22);`;
-  ring.add(new THREE.LineSegments(eg, new THREE.ShaderMaterial({ uniforms: { loop: LOOPU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
+  ring.add(new THREE.LineSegments(eg, new THREE.ShaderMaterial({ uniforms: { loop: NETU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
     vertexShader: `attribute float h0, h1, h2, h3, rk; uniform float wave, src, rev; varying float vA, vB, vV; void main(){ ${pick} vA = a; vB = after; vV = smoothstep(rk - .06, rk, rev); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
     fragmentShader: `uniform float loop, boost; uniform vec3 col; varying float vA, vB, vV; void main(){ if (vV < .01) discard; gl_FragColor = vec4(mix(mix(vec3(.043,.122,.102), vec3(.02,.4,.26), boost), mix(col, vec3(.65,.95,.8), vA * .5), clamp(vA + vB, 0., 1.)), loop * vV * (.14 + .5 * boost + vA * .95 + vB * (.35 + .4 * boost))); }` })));
-  ring.add(new THREE.Points(ng, new THREE.ShaderMaterial({ uniforms: { loop: LOOPU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST }, transparent: true, depthWrite: false,
-    vertexShader: `attribute float h0, h1, h2, h3, isStep, rk; uniform float wave, src, rev, boost; varying float vA, vB, vS, vV; void main(){ ${pick} vA = a; vB = after; vS = isStep; vV = smoothstep(rk - .06, rk, rev);
+  ring.add(new THREE.Points(ng, new THREE.ShaderMaterial({ uniforms: { loop: NETU, wave: WAVE, src: SRC, col: COL, rev: REV, boost: BOOST, tw: TWU, time: U.time }, transparent: true, depthWrite: false,
+    vertexShader: `attribute float h0, h1, h2, h3, isStep, rk; uniform float wave, src, rev, boost, tw, time; varying float vA, vB, vS, vV; void main(){ ${pick}
+      // twinkle: each node lights up now and then, on its own slow clock
+      a = max(a, tw * smoothstep(.82, 1., sin(time * (.35 + .5 * fract(rk * 7.3)) + rk * 91.)));
+      vA = a; vB = after; vS = isStep; vV = smoothstep(rk - .06, rk, rev);
       gl_PointSize = (4. + 3. * boost + 13. * a + 3. * after + isStep * 8.) * ${DPR.toFixed(2)}; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
     fragmentShader: `uniform float loop, boost; uniform vec3 col; varying float vA, vB, vS, vV; void main(){ float d = length(gl_PointCoord - .5); if (d > .5 || vV < .01) discard;
       float core = smoothstep(.5, .1, d); gl_FragColor = vec4(mix(col, vec3(1.), vA * .55 * smoothstep(.25, 0., d)), loop * vV * core * (.38 + .45 * boost + vA * .9 + vB * .35 + vS * .4)); }` })));
@@ -1381,7 +1386,7 @@ const START = .14, PN = .595, END = 1.66;
 // The page plays the film's scenes in this order: [name, scroll budget (vh), film from, film to].
 // Neighbours in the page that are far apart in the film meet at a short fade through ivory (#cut).
 // Each jump sits right at the edge of its scenes' copy, so no stretch of the page is left without words.
-const VH = [['hero', 110, .14, .214], ['platform', 120, .601, .665], ['loop', 150, .665, .99], ['product', 170, 1.523, 1.648], ['built', 200, .272, .528], ['cta', 80, .528, .583],
+const VH = [['hero', 110, .14, .214], ['platform', 120, .601, .665], ['loop', 150, .665, .958], ['product', 170, 1.523, 1.648], ['built', 200, .272, .528], ['cta', 80, .528, .583],
   ['industries', 130, 1.008, 1.18], ['why', 110, 1.18, 1.345], ['mri', 120, 1.345, 1.47]];
 const VH_TOT = VH.reduce((a, v) => a + v[1], 0);
 const SEG = (() => { let acc = 0; return VH.map(([n, v, a, b]) => { const x0 = acc / VH_TOT; acc += v; return { n, x0, x1: acc / VH_TOT, a, b }; }); })();
@@ -1393,8 +1398,6 @@ const toFilm = x => { x = clamp01(x); const g = SEG.find(g => x <= g.x1) || SEG[
 const toPage = q => { const g = SEG.find(g => q >= Math.min(g.a, g.b) && q <= Math.max(g.a, g.b)) || SEG[0]; return g.x0 + (g.x1 - g.x0) * (q - g.a) / (g.b - g.a); };
 let ux = 0, ut = 0;
 let pw = 0, productOn = false, pSel = 0, pHover = false, pT = 0;
-// the product scene frames the brain exactly as the learning loop leaves it, so the cut between them is only a change of content
-const prodCam = { pos: new THREE.Vector3(1.094, .85, 5.233), look: new THREE.Vector3(-.914, .009, 0) }, prodCamM = { pos: new THREE.Vector3(3.912, 2.533, 8.94), look: new THREE.Vector3(-.089, 1.117, 0) };
 let pn = START, p = 0, target = START, last = performance.now(), T = 0;
 // the page timeline (pn) maps onto the film's original beats (p); the loop scene holds the film still
 const KN = [[0,.155],[.14,.2],[.225,.24],[.29,.84],[.52,.89],[.53,.905],[.565,.93],[.628,.818],[1,.82],[1.4,.82]];
@@ -1454,20 +1457,45 @@ function camAt(x) { for (let i = 1; i < KN.length; i++) if (x <= KN[i][0]) { con
   return camAtOld(.82); }
 const maxScroll = () => document.getElementById('scroller').offsetHeight - innerHeight;
 addEventListener('scroll', () => { ut = clamp01(scrollY / maxScroll()); }, { passive: true });
-const cutEl = document.getElementById('cut');
+const cutEl = document.getElementById('cut'), FAQ_ = document.getElementById('faq');
+// screen box of the brain for a camera, from the 8 corners of its bounding box
+const BB = (() => { brainGeo.computeBoundingBox(); const b = brainGeo.boundingBox, c = []; for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) c.push(new THREE.Vector3(x, y, z)); return c; })();
+const _fv = new THREE.Vector3(), _fr = new THREE.Vector3(), _fu = new THREE.Vector3(), _fd = new THREE.Vector3();
+function brainRect(cam) { let l = 1e9, r = -1e9, t = 1e9, b = -1e9; for (const p of BB) { _fv.copy(p).applyMatrix4(brainGroup.matrixWorld).project(cam); const x = (_fv.x * .5 + .5) * innerWidth, y = (-_fv.y * .5 + .5) * innerHeight; l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y); } return { l, r, t, b }; }
+const rectsOf = sel => [...document.querySelectorAll(sel)].map(e => e.getBoundingClientRect()).filter(r => r.width && r.height);
+// the free screen area a scene leaves for the brain: right of its copy on a wide window, below it on a narrow one, above any bottom bar
+function freeBox(copySel, barSel) { const cp = rectsOf(copySel), bar = barSel ? rectsOf(barSel) : [], wide = innerWidth > 760;
+  const b = bar.length ? Math.min(...bar.map(r => r.top)) - (wide ? 30 : 14) : innerHeight - (wide ? 50 : 20);
+  if (wide) return { l: (cp.length ? Math.max(...cp.map(r => r.right)) : innerWidth * .4) + 40, r: innerWidth - 40, t: 100, b };
+  return { l: 10, r: innerWidth - 10, t: (cp.length ? Math.max(...cp.map(r => r.bottom)) : innerHeight * .3) + 14, b }; }
+// move the camera back or in, and sideways, so the brain sits centred in the box, as large as fits
+function fitBrain(cam, look, fov, w, fill, box) {
+  if (w < .01 || box.r - box.l < 200 || box.b - box.t < 160) return;
+  const { l: xL, r: xR, t: yT, b: yB } = box;
+  cam.fov = fov; cam.updateProjectionMatrix(); cam.lookAt(look); cam.updateMatrixWorld();
+  const r0 = brainRect(cam), sc = Math.min(2.4, Math.max(.45, Math.max((r0.r - r0.l) / (xR - xL), (r0.b - r0.t) / (yB - yT)) / fill));
+  _fd.copy(cam.position).sub(look); const dist = _fd.length() * sc;
+  // after moving back by sc the brain's offset from the screen centre shrinks by sc; then slide sideways to the target centre
+  const cx = innerWidth / 2 + ((r0.l + r0.r) / 2 - innerWidth / 2) / sc, cy = innerHeight / 2 + ((r0.t + r0.b) / 2 - innerHeight / 2) / sc;
+  const px = 2 * dist * Math.tan(THREE.MathUtils.degToRad(fov) / 2) / innerHeight;
+  _fr.setFromMatrixColumn(cam.matrixWorld, 0); _fu.setFromMatrixColumn(cam.matrixWorld, 1);
+  const tx = (cx - (xL + xR) / 2) * px, ty = (cy - (yT + yB) / 2) * px;
+  const np = look.clone().addScaledVector(_fd.normalize(), dist).addScaledVector(_fr, tx).addScaledVector(_fu, -ty), nl = look.clone().addScaledVector(_fr, tx).addScaledVector(_fu, -ty);
+  cam.position.lerp(np, w); look.lerp(nl, w); }
 const xf = document.getElementById('xf'), xctx = xf.getContext('2d'); let xfA = 0, segPrev = -1;
 const camS = { pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 30, on: 0, sph: new THREE.Spherical() };
-let glide = 0, spin = 0, dimS = -1, navKey = '';
+let glide = 0, glideT = 1.6, turn = false, spin = 0, dimS = -1, navKey = '';
 const NAV_A = [...document.querySelectorAll('nav .links a')]; const _off = new THREE.Vector3(), _sph = new THREE.Spherical();
 
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000); last = now; T += dt;
   if (!RENDER_MODE) { ux += (ut - ux) * (1 - Math.pow(.006, dt)); pn = toFilm(ux);
     // crossing a jump (other than hero → platform, which glides): dissolve the last frame into the new scene
-    const si = segOf(ux); if (segPrev >= 0 && si !== segPrev && JUMPS.slice(1).some(c => Math.abs(ux - c) < .05)) { if (xf.width > 1) xfA = 1; glide = 1; spin = JUMPS[1] === SEG[Math.max(si, segPrev)].x0 ? 0 : (si > segPrev ? 1 : -1) * .75; } segPrev = si;
+    const si = segOf(ux); if (segPrev >= 0 && si !== segPrev && JUMPS.slice(1).some(c => Math.abs(ux - c) < .05)) { if (xf.width > 1) xfA = 1; glide = 1; spin = JUMPS[1] === SEG[Math.max(si, segPrev)].x0 ? 0 : (si > segPrev ? 1 : -1) * .75;
+      turn = SEG[segPrev].n === 'product' && si > segPrev; glideT = turn ? 2.6 : 1.6; if (turn) spin = 2.4; } segPrev = si;
     // the menu marks the section on screen
-    { const nm = SEG[si].n, key = nm === 'loop' ? 'platform' : nm; if (key !== navKey) { navKey = key; NAV_A.forEach(a => { const on = a.getAttribute('href') === '#' + key; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); }); } }
-    xfA = Math.max(0, xfA - dt / .45); glide = Math.max(0, glide - dt / 1.6); xf.style.opacity = ease(xfA).toFixed(3); }
+    { const nm = SEG[si].n, key = scrollY > maxScroll() + innerHeight * .3 ? 'faq' : nm === 'loop' ? 'platform' : nm; if (key !== navKey) { navKey = key; NAV_A.forEach(a => { const on = a.getAttribute('href') === '#' + key; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); }); } }
+    xfA = Math.max(0, xfA - dt / .45); glide = Math.max(0, glide - dt / glideT); xf.style.opacity = ease(xfA).toFixed(3); }
   p = M(pn);
   const lpz = ease(seg(pn, SE[0] + .02, .97));
   const lw = ease(bell(pn, SE[0] - .004, 1.0, .04)), cw = ease(bell(pn, SS[0] - .012, SE[0] + .022, .042));
@@ -1500,7 +1528,12 @@ function frame(now) {
   document.body.classList.toggle('pscroll', !productOn && pw > .3); const pwe = ease(pw);
   const csw = ease(bell(pn, .99, 1.185, .03)), wyw = ease(bell(pn, 1.17, 1.36, .035)), fnw = ease(bell(pn, 1.33, 1.49, .035));
   camera.position.lerp(casesCam.pos, csw).lerp(whyCam.pos, wyw).lerp((camera.aspect < .9 ? finalCamM : finalCam).pos, fnw); look.lerp(casesCam.look, csw).lerp(whyCam.look, wyw).lerp((camera.aspect < .9 ? finalCamM : finalCam).look, fnw);
-  if (pwe > .001) { const pc = camera.aspect < .9 ? prodCamM : prodCam; camera.position.lerp(pc.pos, pwe); look.lerp(pc.look, pwe); k.fov += (31.43 - k.fov) * pwe; k.ap += (.06 - k.ap) * pwe; U.crisp.value = Math.max(U.crisp.value, .8 * pwe); }
+  if (pwe > .001) { camera.position.lerp(loopNear.pos, pwe); look.lerp(loopNear.look, pwe); k.fov += (34 - k.fov) * pwe; k.ap += (.06 - k.ap) * pwe; U.crisp.value = Math.max(U.crisp.value, .8 * pwe); }
+  // whatever the window, the brain fills the free area its scene leaves: beside the copy on a wide window, under it on a phone
+  const LOOP_COPY = '#lsteps .lstep:nth-child(2) .h, #lsteps .lstep:nth-child(2) .sub';
+  if (innerWidth <= 760) fitBrain(camera, look, k.fov, cw, 1.12, { l: 62, r: innerWidth - 62, t: Math.max(innerHeight * .3, ...rectsOf('.connect-s .h').map(r => r.bottom + 16)), b: innerHeight * .9 - 26 });
+  fitBrain(camera, look, k.fov, lw, innerWidth > 760 ? .9 + .3 * lpz : 1.15, freeBox(LOOP_COPY));
+  fitBrain(camera, look, k.fov, pwe, innerWidth > 760 ? 1.1 : 1.15, freeBox('.pp.on .h, .pp.on i, .pp.on .pchips', '.ptabs'));
   // hero → platform is a cut in the film: no veil there, the camera glides across it instead
   // the other jumps orbit there: the camera swings round the brain to the new view, so the brain turns rather than cuts
   { const near = RENDER_MODE ? 0 : Math.max(ease(glide), 1 - Math.min(1, Math.max(0, (Math.abs(ux - CUTS[0]) - .012) / .05))), a = 1 - Math.pow(.05, dt) * near;
@@ -1509,7 +1542,7 @@ function frame(now) {
     let dth = _sph.theta - camS.sph.theta; dth = Math.atan2(Math.sin(dth), Math.cos(dth));
     camS.sph.theta += dth * a; camS.sph.phi += (_sph.phi - camS.sph.phi) * a; camS.sph.radius += (_sph.radius - camS.sph.radius) * a;
     camS.look.lerp(look, a); camS.fov += (k.fov - camS.fov) * a;
-    _sph.copy(camS.sph); if (glide > 0) _sph.theta += spin * Math.sin(Math.PI * (1 - glide));
+    _sph.copy(camS.sph); if (glide > 0) _sph.theta += turn ? spin * ease(glide) : spin * Math.sin(Math.PI * (1 - glide));
     camera.position.copy(camS.look).add(_off.setFromSpherical(_sph)); look.copy(camS.look); k.fov = camS.fov; }
   camera.lookAt(look); camera.fov = k.fov; camera.updateProjectionMatrix();
   camera.updateMatrixWorld(); ring.updateMatrixWorld(true);
@@ -1554,21 +1587,22 @@ function frame(now) {
     lastHead = head; flash *= Math.exp(-dt * 1.8);
     U.energy.value += (.5 + flash * 1.4) * lw; U.heat.value += flash * .8 * lw;
     ring.getObjectByName('gov').material.opacity = 0; LOOPU.value = lw * (1 - .8 * Math.max(zw, cw)) * (1 - pw); ring.rotation.y = 0;
+    // the product holds the brain still; only the network lives: the loop's green waves plus nodes that come and go
+    NETU.value = Math.max(LOOPU.value, pwe); TWU.value = pwe;
     let cur = 3; { let best = -1; LOOP_U.forEach((u, i) => { const ago = (head - u + 1) % 1; if (best < 0 || ago < best) { best = ago; cur = i; } }); } ORBS.value.forEach((v, i) => { ORBS.value[i] += ((i === cur ? 1 : 0) - v) * .12; });
     { const lap = Math.min(3, Math.floor(seg(pn, SE[0] + .01, .955) * 4)); NET.SRC.value = lap; NET.WAVE.value = head * (NET.maxHop + 6) - 1; NET.REV.value = .28 + .74 * lpz; NET.BOOST.value = lpz; NET.COL.value.set(ORBC[lap]); cur = lap; }
-    STAGES.forEach((s, i) => { place(s.el, s.local.clone().applyMatrix4(ring.matrixWorld), lw > .6 && zw < .25 && cw < .25, -1.1, 1.1, innerWidth * .45); s.el.classList.toggle('lit', i === cur); s.el.classList.toggle('flip', i > 0); });
-    // cards never sit on the copy, off the screen or on each other: try the other side of the point, then slide below the card in the way
-    { const cp = [...document.querySelectorAll('.loopx .h, .loopx .sub')].map(e => e.getBoundingClientRect()).filter(r => r.width);
-      const R = cp.length ? Math.max(...cp.map(r => r.right)) + 18 : -1, B = cp.length ? Math.max(...cp.map(r => r.bottom)) + 12 : -1, Tp = cp.length ? Math.min(...cp.map(r => r.top)) - 12 : 0;
-      const GAP = 10, placed = [], meet = (a, b) => a.left < b.right + GAP && a.right + GAP > b.left && a.top < b.bottom + GAP && a.bottom + GAP > b.top;
-      const onCopy = r => r.left < R && r.top < B && r.bottom > Tp;
-      STAGES.forEach(st => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini'); if (!st.el.classList.contains('on')) return;
-        // every decision is made on the full-size card; deciding on the compact one made it flip between the two each frame
-        const box = () => c.getBoundingClientRect(), bad = r => onCopy(r) || r.left < 8 || r.right > innerWidth - 12 || placed.some(p => meet(r, p));
-        if (bad(box())) { st.el.classList.toggle('flip'); if (bad(box())) st.el.classList.toggle('flip'); }
-        let r = box(), dy = 0; for (const p of placed) if (meet(r, p)) { dy += p.bottom + GAP - r.top; c.style.marginTop = dy + 'px'; r = box(); }
-        const dx = r.right > innerWidth - 12 ? innerWidth - 12 - r.right : r.left < 8 ? 8 - r.left : 0; if (dx) { c.style.translate = dx + 'px 0'; r = box(); }
-        st.el.classList.toggle('mini', onCopy(r)); placed.push(box()); }); }
+    STAGES.forEach((s, i) => { place(s.el, s.local.clone().applyMatrix4(ring.matrixWorld), lw > .6 && zw < .25 && cw < .25, -1.1, 1.1, innerWidth * .45, 1.02); s.el.classList.toggle('lit', i === cur); s.el.classList.toggle('flip', i > 0); });
+    // the four cards hold fixed places around the brain (top right, right, bottom, left), measured from its outline on
+    // screen, so they move only with the brain and never hunt for room.
+    { const br = brainRect(camera), bw = br.r - br.l, bh = br.b - br.t;
+      const SPOT = [[.5, .02, 0, 0], [1, .3, 1, 0], [.42, 1, 0, 1], [0, .58, 0, 0]]; // Understand, Decide, Execute, Validate: [x, y of brain, align right, align bottom]
+      STAGES.forEach((st, i) => { const c = st.el.querySelector('.stg'); c.style.marginTop = ''; c.style.translate = ''; st.el.classList.remove('mini', 'flip');
+        st.el.classList.toggle('on', lw > .6 && cw < .25);
+        if (!st.el.classList.contains('on')) return;
+        const [fx, fy, ar, ab] = SPOT[i], r = c.getBoundingClientRect();
+        let x = br.l + fx * bw - (ar ? r.width : 0), y = br.t + fy * bh - (ab ? r.height : 0);
+        x = Math.min(innerWidth - 8 - r.width, Math.max(8, x)); y = Math.min(innerHeight - 8 - r.height, Math.max(72, y));
+        c.style.translate = `${(x - r.left).toFixed(1)}px ${(y - r.top).toFixed(1)}px`; }); }
     GOV.forEach(g => { V.copy(g.local).applyMatrix4(ring.matrixWorld).project(camera); const on = false;
       g.el.classList.toggle('on', on); if (on) g.el.style.transform = `translate3d(${(V.x * .5 + .5) * innerWidth}px, ${(-V.y * .5 + .5) * innerHeight}px, 0)`; }); }
   STG_CARDS.forEach((cards, i) => cards.forEach((c, j) => place(c.el, c.v.clone().applyMatrix4(brainGroup.matrixWorld), i > 0 && i === si && pn > SS[i] + .004 + j * .005 && ls - si < .4 && zw > .9, innerWidth > 760 ? -.1 : -1.1, innerWidth > 760 ? .8 : -.05)));
@@ -1605,6 +1639,8 @@ function frame(now) {
       const tx = innerWidth > 760 ? innerWidth * .07 : 22, ty = innerWidth > 760 ? innerHeight * .72 : innerHeight * .3;
       L.style.transform = `translate3d(${sx + (tx - sx) * t}px, ${sy + (ty - sy) * t}px, 0) scale(${.5 + .5 * t})`; L.style.setProperty('--q', seg(p, .676, .686)); } }
   document.body.classList.toggle('flowing', scrollY > maxScroll() + innerHeight * .55);
+  // into the FAQ: the last scene fades through ivory as the questions rise into place
+  { const f = clamp01((scrollY - maxScroll() + innerHeight * .05) / (innerHeight * .55)); cutEl.style.opacity = ease(f).toFixed(3); FAQ_.style.setProperty('--ff', ease(clamp01(f * 1.25 - .15)).toFixed(3)); }
   document.getElementById('hint').style.opacity = pn < START + .01 ? 1 : 0;
   if (!RENDER_MODE) requestAnimationFrame(frame);
 }
@@ -1616,6 +1652,8 @@ function goTo(y) { const id = ++goAnim; veil.classList.add('on');
     setTimeout(() => veil.classList.remove('on'), 120); }, 420); }
 addEventListener('wheel', () => { goAnim++; }, { passive: true }); addEventListener('touchstart', () => { goAnim++; }, { passive: true });
 document.querySelectorAll('[data-home]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); if (productOn) openProduct(false); goTo(0); }));
+// the FAQ sits below the film: the same veiled jump, to the top of its section
+document.querySelectorAll('[data-faq]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); if (productOn) openProduct(false); goTo(FAQ_.getBoundingClientRect().top + scrollY - 40); }));
 document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); if (productOn) openProduct(false); goTo(toPage(+b.dataset.go) * maxScroll()); }));
 // learning waves: every lap, a ring of light leaves the brain, labelled with what kind of learning it carried
 const WAVE_SVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); WAVE_SVG.id = 'lwaves'; document.body.appendChild(WAVE_SVG);
@@ -1641,26 +1679,17 @@ const WHY = [['Action-based product', 'You define when Parry negotiates, contrac
   ['Proficient across all OpEx', 'IT, SaaS, services, marketing, R&D, maintenance and more.'], ['Win-win pricing', 'Priced on the savings on your spend. We win when you save.'], ['FDE on the ground', 'Forward deployed engineers at your site, alongside your team.']];
 const VR = [...document.querySelectorAll('.vr')];
 function whyFrame() { VR.forEach((r, k) => r.classList.toggle('on', pn > 1.195 + k * .02 && pn < 1.345)); }
-// product view: each product owns a lobe; picking one flies the camera to it
+// product view: each product owns a lobe, tinted while it is picked; the brain holds still, framed as the learning loop leaves it
 const PCOL = [0, 2, 1, 3]; // product → region colour slot (cobalt, mint, coral, amber)
 const PLOBE = [pick(v => v.y > .45), pick(v => v.x < -.5 && v.y < .1), pick(v => v.x > .45 && v.y > 0), pick(v => v.y < -.3 && v.x > -.1)];
 PLOBE.forEach((n, k) => U.rc.value[PCOL[k]].copy(neu[n]));
 const ppEls = [...document.querySelectorAll('.pp')], ptBtns = [...document.querySelectorAll('.ptabs button')];
-const pCamNow = { pos: new THREE.Vector3(), look: new THREE.Vector3() };
-function lobeCam(k) { const W = brainGroup.matrixWorld, h = neu[PLOBE[k]].clone().applyMatrix4(W), hn = h.clone().normalize(), up = new THREE.Vector3(0, 1, 0), rt = new THREE.Vector3().crossVectors(up, hn).normalize();
-  const mob = camera.aspect < .9;
-  return { pos: h.clone().addScaledVector(hn, mob ? 3.6 : 2.7).addScaledVector(up, .2), look: mob ? h.clone().addScaledVector(up, .55) : h.clone().addScaledVector(rt, -.95) }; }
-let pInit = false;
 function productFrame(w) {
-  if (w < .01) { pInit = false; return; }
+  if (w < .01) return;
   let frac;
   if (productOn) { if (!pHover) pT += 1 / 60; if (pT > 5.5) { pT = 0; pSel = (pSel + 1) % 4; } frac = pT / 5.5; }
   else { const q = seg(pn, 1.523, 1.648) * 4; pSel = Math.min(3, Math.floor(q)); frac = Math.min(1, q - pSel); }
-  ppEls.forEach((e, k) => e.classList.toggle('on', k === pSel)); ptBtns.forEach((b, k) => { b.classList.toggle('on', k === pSel); if (k === pSel) b.style.setProperty('--t', frac.toFixed(3)); });
-  // entering the product, the camera starts where the last scene left it and flies into the pillar's region
-  const tgt = lobeCam(pSel); if (!pInit) { pCamNow.pos.copy(camera.position); pCamNow.look.copy(camS.on ? camS.look : tgt.look); pInit = true; }
-  pCamNow.pos.lerp(tgt.pos, .045); pCamNow.look.lerp(tgt.look, .045);
-  prodCam.pos.copy(pCamNow.pos); prodCam.look.copy(pCamNow.look); prodCamM.pos.copy(pCamNow.pos); prodCamM.look.copy(pCamNow.look); }
+  ppEls.forEach((e, k) => e.classList.toggle('on', k === pSel)); ptBtns.forEach((b, k) => { b.classList.toggle('on', k === pSel); if (k === pSel) b.style.setProperty('--t', frac.toFixed(3)); }); }
 const openProduct = on => { productOn = on; document.body.classList.toggle('product', on); document.getElementById('product').setAttribute('aria-hidden', !on); pT = 0; };
 document.querySelectorAll('[data-product]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openProduct(true); }));
 document.querySelector('.pclose').addEventListener('click', () => openProduct(false));
@@ -1729,6 +1758,7 @@ document.addEventListener('click', e => { const el = e.target.closest('a,button,
   const label = (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80), href = el.getAttribute('href') || '';
   if (el.matches('[data-book]')) track('cta_click', { label, scene: sceneNow, kind: el.dataset.book });
   else if (el.matches('[data-go]')) track('nav_click', { label, target: el.dataset.go });
+  else if (el.matches('[data-faq]')) track('nav_click', { label, target: 'faq' });
   else if (el.matches('[data-home]')) track('logo_click', {});
   else if (el.matches('[data-product]')) track('product_open', {});
   else if (el.matches('summary')) track('faq_toggle', { question: label });
