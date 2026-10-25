@@ -638,7 +638,7 @@ window.PARRY_ANALYTICS = { ga4: '', gtm: '', posthogKey: '', posthogHost: 'https
 <!-- ================= SCENES ================= -->
 <section class="scene left" data-a=".13" data-b=".215">
   <h1 class="hero">The <em>commercial</em> AI intelligence, execution, and autonomous platform <em>for enterprises</em></h1>
-  <div class="sub wide herosub"><p>Using our proprietary, 100% accurate vertical procurement graph, we</p><p class="rot" id="heroRot"><span class="on">connect in a few clicks to the systems and repositories you define</span><span>consolidate one holistic source of truth for each of your vendors</span><span>provide intelligence</span><span>automatically execute approved activities</span><span>automate tedious processes</span></p><div class="rticks" id="heroTicks"><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="sub wide herosub"><p>Using our proprietary, 100% accurate vertical procurement graph, we</p><p class="rot" id="heroRot"><span class="on">connect in a few clicks to the systems and repositories you define</span><span>consolidate one holistic source of truth for each of your vendors</span><span>outsmart every vendor through priceless real-time intelligence</span><span>out-execute every negotiation - from strategic to renewals</span><span>outpace every bottleneck and static legacy workflow</span></p><div class="rticks" id="heroTicks"><i></i><i></i><i></i><i></i><i></i></div></div>
   <p><a class="btn" href="#book" data-src="Hero" data-book="demo">Book a demo</a></p>
 </section>
 
@@ -1484,7 +1484,7 @@ function fitBrain(cam, look, fov, w, fill, box) {
   cam.position.lerp(np, w); look.lerp(nl, w); }
 const xf = document.getElementById('xf'), xctx = xf.getContext('2d'); let xfA = 0, segPrev = -1;
 const camS = { pos: new THREE.Vector3(), look: new THREE.Vector3(), fov: 30, on: 0, sph: new THREE.Spherical() };
-let glide = 0, glideT = 1.6, turn = false, spin = 0, dimS = -1, navKey = '';
+let glide = 0, glideT = 1.6, xfT = .45, spin = 0, dimS = -1, navKey = '';
 const NAV_A = [...document.querySelectorAll('nav .links a')]; const _off = new THREE.Vector3(), _sph = new THREE.Spherical();
 
 function frame(now) {
@@ -1492,10 +1492,11 @@ function frame(now) {
   if (!RENDER_MODE) { ux += (ut - ux) * (1 - Math.pow(.006, dt)); pn = toFilm(ux);
     // crossing a jump (other than hero → platform, which glides): dissolve the last frame into the new scene
     const si = segOf(ux); if (segPrev >= 0 && si !== segPrev && JUMPS.slice(1).some(c => Math.abs(ux - c) < .05)) { if (xf.width > 1) xfA = 1; glide = 1; spin = JUMPS[1] === SEG[Math.max(si, segPrev)].x0 ? 0 : (si > segPrev ? 1 : -1) * .75;
-      turn = SEG[segPrev].n === 'product' && si > segPrev; glideT = turn ? 2.6 : 1.6; if (turn) spin = 2.4; } segPrev = si;
+      // product ↔ built, either way: no orbit, the camera cuts under a longer dissolve
+      xfT = .45; if ([SEG[segPrev].n, SEG[si].n].sort().join() === 'built,product') { glide = 0; spin = 0; xfT = .8; } } segPrev = si;
     // the menu marks the section on screen
     { const nm = SEG[si].n, key = scrollY > maxScroll() + innerHeight * .3 ? 'faq' : nm === 'loop' ? 'platform' : nm; if (key !== navKey) { navKey = key; NAV_A.forEach(a => { const on = a.getAttribute('href') === '#' + key; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); }); } }
-    xfA = Math.max(0, xfA - dt / .45); glide = Math.max(0, glide - dt / glideT); xf.style.opacity = ease(xfA).toFixed(3); }
+    xfA = Math.max(0, xfA - dt / xfT); glide = Math.max(0, glide - dt / glideT); xf.style.opacity = ease(xfA).toFixed(3); }
   p = M(pn);
   const lpz = ease(seg(pn, SE[0] + .02, .97));
   const lw = ease(bell(pn, SE[0] - .004, 1.0, .04)), cw = ease(bell(pn, SS[0] - .012, SE[0] + .022, .042));
@@ -1542,7 +1543,7 @@ function frame(now) {
     let dth = _sph.theta - camS.sph.theta; dth = Math.atan2(Math.sin(dth), Math.cos(dth));
     camS.sph.theta += dth * a; camS.sph.phi += (_sph.phi - camS.sph.phi) * a; camS.sph.radius += (_sph.radius - camS.sph.radius) * a;
     camS.look.lerp(look, a); camS.fov += (k.fov - camS.fov) * a;
-    _sph.copy(camS.sph); if (glide > 0) _sph.theta += turn ? spin * ease(glide) : spin * Math.sin(Math.PI * (1 - glide));
+    _sph.copy(camS.sph); if (glide > 0) _sph.theta += spin * Math.sin(Math.PI * (1 - glide));
     camera.position.copy(camS.look).add(_off.setFromSpherical(_sph)); look.copy(camS.look); k.fov = camS.fov; }
   camera.lookAt(look); camera.fov = k.fov; camera.updateProjectionMatrix();
   camera.updateMatrixWorld(); ring.updateMatrixWorld(true);
