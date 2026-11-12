@@ -232,7 +232,7 @@ export default function PrivacyPage() {
           <Section n="10" title="Security">
             <P>We implement administrative, technical, and physical safeguards designed to protect personal data against unauthorized access, alteration, disclosure, or destruction. These include:</P>
             <Ul>
-              <li><strong>Encryption at rest</strong> with managed keys (Google Cloud CMEK, AWS KMS) for all customer-scoped data stores; OAuth and integration tokens encrypted at rest with application-managed keys stored in Google Secret Manager.</li>
+              <li><strong>Encryption at rest</strong> for all customer-scoped data stores using provider-managed encryption keys (Google Cloud default encryption at rest); OAuth and integration tokens encrypted at rest with application-managed keys stored in Google Secret Manager.</li>
               <li><strong>Encryption in transit</strong> using TLS 1.2 or above on all external and internal endpoints.</li>
               <li><strong>Multi-tenant logical isolation</strong> at every layer — client_id scoping at every query, per-tenant event channels, per-client storage partitioning, RBAC enforcement, end-to-end tenant context propagation.</li>
               <li><strong>Identity and access</strong> — single sign-on (WorkOS) with mandatory multi-factor authentication for all production access via Identity-Aware Proxy.</li>
